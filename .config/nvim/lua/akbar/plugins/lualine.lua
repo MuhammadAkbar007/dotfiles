@@ -143,7 +143,7 @@ return {
 				lualine_x = {
 					{
 						"swenv",
-						icon = "",
+						icon = " |",
 						color = { bg = "#4B8BBE", fg = "#000000", gui = "bold" },
 						cond = function()
 							return vim.bo.filetype == "python" and is_wide_enough(100)

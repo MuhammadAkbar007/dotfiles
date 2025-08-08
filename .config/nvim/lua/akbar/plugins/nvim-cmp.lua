@@ -42,6 +42,8 @@ return {
 				end,
 			},
 			mapping = cmp.mapping.preset.insert({
+				["<Tab>"] = cmp.mapping.select_next_item(),
+				["<S-Tab>"] = cmp.mapping.select_prev_item(),
 				["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
 				["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
 				["<C-b>"] = cmp.mapping.scroll_docs(-4),
@@ -77,6 +79,14 @@ return {
 			sources = {
 				{ name = "vim-dadbod-completion" },
 				{ name = "buffer" },
+			},
+		})
+
+		-- for python
+		cmp.setup.filetype("python", {
+			mapping = {
+				["<Tab>"] = cmp.mapping.select_next_item(),
+				["<S-Tab>"] = cmp.mapping.select_prev_item(),
 			},
 		})
 	end,
