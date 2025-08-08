@@ -1,0 +1,85 @@
+"" ~/.ideavimrc - Akbar Ahmad ibn Akrom
+
+"" Base Settings
+"" ========================================================
+let mapleader = " " "" leader key is space
+
+set relativenumber "" show relativenumbers
+set showmode "" vim mode & commands are shown at the bottom
+set showcmd "" vim mode & commands are shown at the bottom
+set ideajoin "" smart join
+set visualbell "" mute bell sound when error keypress
+set clipboard=unnamed "" use system clipboard
+
+"" Search Settings
+"" ========================================================
+set ignorecase "" case-insensitive search by default
+set smartcase "" if any of the search characters are uppercase, treat the search as case-sensitive
+set incsearch "" start searching while typing
+set hlsearch "" highlight searching
+
+"" Plugin Settings
+"" ========================================================
+set surround "" surround objects
+set highlightedyank "" highlight yanked objects
+set sneak "" s & S (n & N) -> replacement for f & F (; & ,)
+set nerdtree "" filetree
+set easymotion "" moving with letters
+set notimeout "" easymotion dependency
+set which-key "" show which key is can be pressed
+
+"" Key mappings
+"" ========================================================
+inoremap jk <Esc> "" escape from insert mode
+
+" Pane navigation
+nnoremap <A-h> <C-w>h
+nnoremap <A-l> <C-w>l
+nnoremap <A-k> <C-w>k
+nnoremap <A-j> <C-w>j
+
+" Jump between methods
+nnoremap [[ <Action>(MethodUp)
+nnoremap ]] <Action>(MethodDown)
+
+" Popup navigation
+inoremap <C-j> <Action>(PopupMenu-selectNext)
+inoremap <C-k> <Action>(PopupMenu-selectPrev)
+
+"" Leader commands
+"" ========================================================
+" Comment lines
+map <leader>gcc <action>(CommentByLineComment)
+
+" Jump around with easymotion
+map <leader><leader> <Plug>(easymotion-s)
+
+" Open NERDTree (use q to exit)
+map <leader>e :NERDTreeToggle<CR>
+
+" File navigation
+map <leader>ff <action>(GotoFile)
+map <leader>fr <action>(RecentFiles)
+map <leader>fc <action>(FindInPath)
+map <leader>fl <action>(RecentLocations)
+map <leader>fs <action>(NewScratchFile)
+
+" Close active tab
+map <leader>q <action>(CloseContent)
+
+" Refactoring
+map <leader>rn <Action>(RenameElement)
+map <leader>rm <Action>(ExtractMethod)
+map <leader>rv <Action>(IntroduceVariable)
+map <leader>rf <Action>(IntroduceField)
+map <leader>rs <Action>(ChangeSignature)
+map <leader>rr <Action>(Refactorings.QuickListPopupAction)
+
+" Go to code
+nmap <leader>gd <Action>(GotoDeclaration)
+nmap <leader>gy <Action>(GotoTypeDeclaration)
+nmap <leader>gi <Action>(GotoImplementation)
+nmap <leader>gu <Action>(ShowUsages)
+nmap <leader>gt <Action>(GotoTest)
+nmap <leader>gf <Action>(Back)
+nmap <leader>gb <Action>(Forward)
