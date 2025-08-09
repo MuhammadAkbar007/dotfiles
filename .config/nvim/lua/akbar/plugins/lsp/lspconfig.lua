@@ -156,6 +156,7 @@ return {
 					opts = opts,
 					filetypes = {
 						"html",
+						"htmldjango",
 						"typescriptreact",
 						"javascriptreact",
 						"css",
@@ -208,7 +209,7 @@ return {
 				lspconfig["html"].setup({
 					capabilities = capabilities,
 					opts = opts,
-					filetypes = { "html, htmldjango, jinja" },
+					filetypes = { "html", "htmldjango" },
 				})
 			end,
 
@@ -254,14 +255,6 @@ return {
 							},
 						},
 					},
-				})
-			end,
-
-			["jinja_lsp"] = function()
-				lspconfig["jinja_lsp"].setup({
-					capabilities = capabilities,
-					opts = opts,
-					filetypes = { "htmldjango", "jinja" },
 				})
 			end,
 		})

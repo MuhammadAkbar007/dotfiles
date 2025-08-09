@@ -12,6 +12,7 @@ return {
 				typescriptreact = { "prettier" },
 				css = { "prettier" },
 				html = { "prettier" },
+				htmldjango = { "djlint" },
 				json = { "prettier" },
 				yaml = { "prettier" },
 				lua = { "stylua" },
@@ -24,8 +25,6 @@ return {
 				bash = { "shfmt" }, -- beautysh
 				-- sql = { "sql_formatter" },
 				python = { "ruff_format" },
-				htmldjango = { "djlint" },
-				jinja = { "djlint" },
 			},
 
 			formatters = {
