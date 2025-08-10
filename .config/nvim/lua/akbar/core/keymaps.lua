@@ -52,7 +52,14 @@ map("n", "<leader>d$", '"_d$', { desc = "Delete to end of line to void register"
 -- Text replacement
 map(
 	"n",
-	"<leader>rp",
+	"<leader>rpa",
 	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
 	{ desc = "Replace all occurrences of current word" }
+)
+
+map(
+	"n",
+	"<leader>rp",
+	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gcI<Left><Left><Left><Left>]],
+	{ desc = "Replace all occurrences of current word with confirmation" }
 )

@@ -55,6 +55,7 @@ return {
 				"google-java-format",
 				"curlylint",
 				"htmlhint",
+				"djlint",
 			},
 		})
 	end,

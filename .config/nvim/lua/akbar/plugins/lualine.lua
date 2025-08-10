@@ -106,7 +106,7 @@ return {
 							return " "
 						end,
 						cond = function()
-							return #vim.lsp.get_clients({ bufnr = 0 }) > 0
+							return #vim.lsp.get_clients({ bufnr = 0 }) > 0 and is_wide_enough(100)
 						end,
 					},
 					{
@@ -160,6 +160,9 @@ return {
 						function()
 							return " "
 						end,
+						cond = function()
+							return is_wide_enough(100)
+						end,
 					},
 
 					-- git branch and diff
@@ -205,6 +208,9 @@ return {
 					{
 						function()
 							return " "
+						end,
+						cond = function()
+							return is_wide_enough(100)
 						end,
 					},
 				},

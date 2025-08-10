@@ -18,7 +18,7 @@ return {
 			zsh = { "shellcheck" },
 			shell = { "shellcheck" },
 			html = { "htmlhint" },
-			htmldjango = { "djlint" },
+			htmldjango = { "djlint", "curlylint" },
 		}
 
 		lint.linters.cpplint.args = { "--filter=-whitespace/braces" }
