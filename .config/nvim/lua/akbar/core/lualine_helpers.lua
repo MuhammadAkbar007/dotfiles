@@ -2,6 +2,23 @@ local M = {}
 
 local devicons = require("nvim-web-devicons")
 
+devicons.setup({
+	override_by_filename = {
+		["application.properties"] = {
+			icon = "", -- or use "", "󰟜", "⚙", "🔧"
+			color = "#6DB33F",
+			name = "Properties",
+		},
+	},
+	override_by_extension = {
+		["properties"] = {
+			icon = "", -- or use "", "󰟜", "⚙", "🔧"
+			color = "#6DB33F",
+			name = "Properties",
+		},
+	},
+})
+
 M.my_current_buffer = function()
 	local current_buf = vim.api.nvim_get_current_buf()
 
@@ -125,17 +142,27 @@ M.formatter_info = function()
 	return ""
 end
 
+M.is_wide_enough = function(min_width)
+	min_width = min_width or 120 -- default minimum width
+	return vim.fn.winwidth(0) > min_width
+end
+
 M.restore_session = function()
 	local session_name = require("auto-session.lib").current_session_name(true)
 	if session_name and session_name ~= "" and session_name ~= nil then
 		local max_length = 17
-		if #session_name > max_length then
+		local is_wide = M.is_wide_enough(100)
+		if #session_name > max_length and not is_wide then
 			session_name = "..." .. string.sub(session_name, -(max_length - 3))
 		end
 		return " | " .. session_name
 	else
 		return "  | session"
 	end
+end
+
+M.blank = function()
+	return " "
 end
 
 return M

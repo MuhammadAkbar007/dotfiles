@@ -7,7 +7,7 @@ vim.g.mapleader = " "
 map("n", "<Tab>", ":bn<CR>", { desc = "Next buffer" })
 map("n", "<S-Tab>", ":bp<CR>", { desc = "Previous buffer" })
 map("i", "jk", "<ESC>", { desc = "Exit insert mode" })
-map("i", "kj", "<ESC>", { desc = "Exit insert mode" })
+-- map("i", "kj", "<ESC>", { desc = "Exit insert mode" })
 map("n", "vv", "gg0vG$", { desc = "Select whole file" })
 
 -- File operations
