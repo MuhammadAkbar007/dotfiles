@@ -146,7 +146,8 @@ return {
 						icon = " |",
 						color = { bg = "#4B8BBE", fg = "#000000", gui = "bold" },
 						cond = function()
-							return vim.bo.filetype == "python" and is_wide_enough(100)
+							return is_wide_enough(100)
+							-- return vim.bo.filetype == "python" and is_wide_enough(100)
 						end,
 						fmt = function(str)
 							if str == "" then
