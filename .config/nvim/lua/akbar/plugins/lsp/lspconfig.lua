@@ -244,7 +244,7 @@ return {
 				lspconfig["pyright"].setup({
 					capabilities = capabilities,
 					opts = opts,
-					filetypes = { "python" },
+					filetypes = { "python", "ipynb" },
 					root_dir = require("lspconfig.util").root_pattern("manage.py", ".git", "pyrightconfig.json"),
 					settings = {
 						python = {

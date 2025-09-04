@@ -15,7 +15,7 @@ return {
 		"onsails/lspkind.nvim", -- vs-code like pictograms
 		"roobert/tailwindcss-colorizer-cmp.nvim", -- tailwindcss
 		"hrsh7th/cmp-cmdline",
-		"rambhosale/cmp-bootstrap.nvim", -- bootstrap
+		-- "rambhosale/cmp-bootstrap.nvim", -- bootstrap
 	},
 	config = function()
 		local cmp = require("cmp")
@@ -70,19 +70,6 @@ return {
 			},
 		})
 
-		-- for bootstrap
-		cmp.setup.filetype({ "html", "jsx" }, {
-			sources = cmp.config.sources({
-				{ name = "nvim_lsp_signature_help" },
-				{ name = "nvim_lsp" },
-				{ name = "cmp_bootstrap" }, -- bootstrap completions
-				{ name = "luasnip" },
-				{ name = "buffer" },
-				{ name = "path" },
-			}),
-		})
-
-		-- Set up vim-dadbod
 		cmp.setup.filetype({ "sql" }, {
 			sources = {
 				{ name = "vim-dadbod-completion" },

@@ -63,9 +63,9 @@ bindkey "^[[1;5C" forward-word     # Ctrl + Right
 bindkey "^[[3~" delete-char  # Map Delete key
 
 # My aliases
-alias eap="cd; ./install_me/idea-IU/bin/idea"
-alias tg="cd; prime-run ./install_me/Telegram/Telegram"
-alias fx="cd; prime-run ./install_me/firefox/firefox"
+alias eap="cd /install_me/idea-IU/bin/; prime-run ./idea"
+alias tg="cd /install_me/Telegram/; prime-run ./Telegram"
+alias fx="cd /install_me/firefox/; prime-run ./firefox"
 alias py="python3"
 alias ex="exit"
 alias ls="lsd"
@@ -79,7 +79,7 @@ alias tma="tmux a"
 alias vi="nvim"
 alias v="nvim ./"
 alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
-alias fuzzy-open='xdg-open "$(fzf --preview="bat --color=always {} || file {}")"'
+alias fzf-open='xdg-open "$(fzf --preview="bat --color=always {} || file {}")"'
 alias fzf='fzf --preview="bat --color=always {}"'
 alias cl="clear"
 alias gp="git push origin main"
@@ -88,6 +88,7 @@ alias gadc="git add ~/.tmux.conf ~/.wezterm.lua ~/.ideavimrc ~/.p10k.zsh ~/.zshr
 # alias up="sudo dnf update -y; flatpak update -y"
 alias up="sudo nala upgrade -y"
 alias open="xdg-open"
+alias september="xdg-open /home/akbar/infinity/septemberPrayerTimes.pdf"
 alias shut="shutdown now"
 alias reb="reboot"
 alias sdcv="sdcv -c"

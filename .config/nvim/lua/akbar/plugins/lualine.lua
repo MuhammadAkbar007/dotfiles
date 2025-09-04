@@ -176,14 +176,14 @@ return {
 						cond = lazy_status.has_updates,
 						color = { fg = "#ffd700" },
 					},
-					{
-						function()
-							return " "
-						end,
-						cond = function()
-							return is_wide_enough(100) and lazy_status.has_updates()
-						end,
-					},
+					-- {
+					-- 	function()
+					-- 		return " "
+					-- 	end,
+					-- 	cond = function()
+					-- 		return is_wide_enough(100) and lazy_status.has_updates()
+					-- 	end,
+					-- },
 				},
 
 				lualine_z = {

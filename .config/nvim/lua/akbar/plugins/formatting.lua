@@ -25,6 +25,7 @@ return {
 				bash = { "shfmt" }, -- beautysh
 				-- sql = { "sql_formatter" },
 				python = { "ruff_format" },
+				ipynb = { "ruff_format" },
 			},
 
 			formatters = {

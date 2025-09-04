@@ -12,6 +12,7 @@ return {
 			typescriptreact = { "eslint_d" },
 			svelte = { "eslint_d" },
 			python = { "ruff" },
+			ipynb = { "ruff" },
 			c = { "cpplint" },
 			cpp = { "cpplint" },
 			bash = { "shellcheck" },
