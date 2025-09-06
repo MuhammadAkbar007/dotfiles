@@ -22,8 +22,13 @@ return {
 		bottom = 0,
 	},
 
-	font = wezterm.font("JetBrainsMono Nerd Font"),
-	font_size = 14,
+	font = wezterm.font_with_fallback({
+		{ family = "JetBrainsMono Nerd Font", weight = "Regular", italic = false }, -- normal
+		{ family = "JetBrainsMono Nerd Font", weight = "Bold", italic = false }, -- bold
+		{ family = "JetBrainsMono Nerd Font", weight = "Regular", italic = true }, -- italic
+		{ family = "JetBrainsMono Nerd Font", weight = "Bold", italic = true }, -- bold+italic
+	}),
+	font_size = 15,
 
 	colors = {
 		foreground = "#D0CFCC",
@@ -72,10 +77,10 @@ return {
 	},
 
 	-- Auto-Attach to Tmux or Start Zsh
-	default_prog = {
-		"/bin/zsh",
-		"--login",
-		"-c",
-		"if command -v tmux >/dev/null 2>&1; then tmux attach || tmux new-session -s akbar; else exec zsh; fi",
-	},
+	-- default_prog = {
+	-- 	"/bin/zsh",
+	-- 	"--login",
+	-- 	"-c",
+	-- 	"if command -v tmux >/dev/null 2>&1; then tmux attach || tmux new-session -s akbar; else exec zsh; fi",
+	-- },
 }
