@@ -64,8 +64,8 @@ bindkey "^[[3~" delete-char  # Map Delete key
 
 # My aliases
 alias eap="cd /install_me/idea-IU/bin/; prime-run ./idea"
-alias tg="cd /install_me/Telegram/; prime-run ./Telegram"
-alias fx="cd /install_me/firefox/; prime-run ./firefox"
+alias tg="cd ~/install_me/Telegram/; prime-run ./Telegram"
+alias fx="cd ~/install_me/firefox/; prime-run ./firefox"
 alias py="python3"
 alias ex="exit"
 alias ls="lsd"

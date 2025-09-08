@@ -1,14 +1,15 @@
 local wezterm = require("wezterm")
-local mux = wezterm.mux
+-- local mux = wezterm.mux
 
-wezterm.on("gui-startup", function(cmd)
-	local _, _, window = mux.spawn_window(cmd or {})
-	window:gui_window():maximize()
-end)
+-- wezterm.on("gui-startup", function(cmd)
+-- 	local _, _, window = mux.spawn_window(cmd or {})
+-- 	window:gui_window():maximize()
+-- end)
 
 return {
+	initial_cols = 175,
 	-- initial_cols = 138,
-	-- initial_rows = 45,
+	initial_rows = 45,
 	term = "xterm-256color",
 	window_decorations = "NONE",
 	enable_tab_bar = false,
@@ -77,10 +78,10 @@ return {
 	},
 
 	-- Auto-Attach to Tmux or Start Zsh
-	-- default_prog = {
-	-- 	"/bin/zsh",
-	-- 	"--login",
-	-- 	"-c",
-	-- 	"if command -v tmux >/dev/null 2>&1; then tmux attach || tmux new-session -s akbar; else exec zsh; fi",
-	-- },
+	default_prog = {
+		"/bin/zsh",
+		"--login",
+		"-c",
+		"if command -v tmux >/dev/null 2>&1; then tmux attach || tmux new-session -s akbar; else exec zsh; fi",
+	},
 }
