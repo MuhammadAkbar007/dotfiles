@@ -29,6 +29,8 @@ return {
 				"sql",
 				"markdown",
 				"markdown_inline",
+				"latex",
+				"yaml",
 			},
 
 			-- Required fields

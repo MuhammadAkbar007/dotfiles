@@ -88,7 +88,7 @@ alias gadc="git add ~/.tmux.conf ~/.wezterm.lua ~/.ideavimrc ~/.p10k.zsh ~/.zshr
 # alias up="sudo dnf update -y; flatpak update -y"
 alias up="sudo nala upgrade -y"
 alias open="xdg-open"
-alias september="xdg-open /home/akbar/infinity/septemberPrayerTimes.pdf"
+alias prayer="xdg-open /home/akbar/infinity/septemberPrayerTimes.pdf"
 alias shut="shutdown now"
 alias reb="reboot"
 alias sdcv="sdcv -c"
@@ -116,3 +116,11 @@ export PATH="$HOME/.cargo/bin:$PATH"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export PATH="$HOME/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/home/akbar/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
