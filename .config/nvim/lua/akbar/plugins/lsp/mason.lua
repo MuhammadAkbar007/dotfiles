@@ -56,6 +56,7 @@ return {
 				"curlylint",
 				"htmlhint",
 				"djlint",
+				"yamlfmt",
 			},
 		})
 	end,

@@ -392,6 +392,14 @@ return {
 					},
 				})
 			end,
+
+			["yamlls"] = function()
+				lspconfig["yamlls"].setup({
+					capabilities = capabilities,
+					opts = opts,
+					filetypes = { "yaml", "yml" },
+				})
+			end,
 		})
 	end,
 }
