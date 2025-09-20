@@ -4,7 +4,7 @@ return {
 	priority = 1000,
 	lazy = false,
 	opts = {
-		-- bufdelete = { enabled = true },
+		bufdelete = { enabled = true },
 
 		scratch = { enabled = true, ft = "markdown", cwd = true, root = vim.fn.getcwd() .. "/scratch" },
 
@@ -95,13 +95,13 @@ return {
 			end,
 			desc = "Select Scratch Buffer",
 		},
-		-- {
-		-- 	"<leader>ww",
-		-- 	function()
-		-- 		Snacks.bufdelete.delete()
-		-- 	end,
-		-- 	desc = "Delete current buffer",
-		-- },
+		{
+			"<leader>ww",
+			function()
+				Snacks.bufdelete.delete()
+			end,
+			desc = "Delete current buffer",
+		},
 		{
 			"<leader>wa",
 			function()
