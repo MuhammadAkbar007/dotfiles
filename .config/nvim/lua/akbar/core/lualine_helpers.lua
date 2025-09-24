@@ -73,14 +73,6 @@ M.my_current_buffer = function()
 		icon_color = "#B88339"
 	end
 
-	-- Set highlight groups for current buffer
-	-- vim.api.nvim_set_hl(0, hl_group, { fg = "#000000", bg = icon_color })
-	-- vim.api.nvim_set_hl(0, hl_group_bold, {
-	-- 	fg = "#000000",
-	-- 	bg = icon_color,
-	-- 	bold = true,
-	-- })
-
 	-- Define highlights (transparent bg, fg = filetype color)
 	local hl_group_icon = "LualineBufIcon"
 	local hl_group_name = "LualineBufName"
@@ -101,7 +93,6 @@ M.my_current_buffer = function()
 	end
 
 	-- Return formatted string
-	-- return string.format("%%#%s# %s |%%*%%#%s# %s%s %%*", hl_group, icon, hl_group_bold, truncated_filename, modified)
 	return string.format(
 		"%%#%s#%s %%*%%#%s# %s%s %%*",
 		hl_group_icon,

@@ -34,15 +34,10 @@ return {
 				disabled_filetypes = { statusline = { "snacks_dashboard" } },
 			},
 			sections = {
-				-- MODE (single letter like N/I/V)
 				lualine_a = {
 					{
 						"mode",
-						-- fmt = function(str)
-						-- 	return str:sub(1, 1)
-						-- end,
 						color = function()
-							-- pick fg based on current mode
 							local mode = vim.fn.mode()
 							local cls = require("catppuccin.palettes").get_palette("mocha")
 
@@ -64,7 +59,6 @@ return {
 					separator(),
 				},
 
-				-- Linter / Formatter / LSP / Diagnostics
 				lualine_b = {
 					{
 						my_current_buffer,
@@ -74,7 +68,6 @@ return {
 					separator(),
 				},
 
-				-- Current buffer
 				lualine_c = {
 					-- Linter
 					{
@@ -141,12 +134,11 @@ return {
 					},
 				},
 
-				-- Env / Git
 				lualine_x = {
 					{
 						"swenv",
 						icon = " ",
-						color = { fg = colors.green, bg = "none", gui = "bold" },
+						color = { fg = colors.blue, bg = "none", gui = "bold" },
 						cond = function()
 							return is_wide_enough(100)
 						end,
@@ -181,7 +173,6 @@ return {
 					},
 				},
 
-				-- Lazy updates
 				lualine_y = {
 					{
 						lazy_status.updates,
@@ -191,7 +182,6 @@ return {
 					},
 				},
 
-				-- Session restore
 				lualine_z = {
 					separator(),
 					{
