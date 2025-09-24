@@ -3,125 +3,150 @@ return {
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
 		local lualine = require("lualine")
-		local lazy_status = require("lazy.status") -- to configure lazy pending updates count
+		local lazy_status = require("lazy.status")
 
 		local helpers = require("akbar.core.lualine_helpers")
-		local blank = helpers.blank
 		local linter_info = helpers.linter_info
 		local is_wide_enough = helpers.is_wide_enough
 		local formatter_info = helpers.formatter_info
 		local my_current_buffer = helpers.my_current_buffer
 		local restore_session = helpers.restore_session
 
-		local left_separator = ""
-		local right_separator = ""
+		local colors = require("catppuccin.palettes").get_palette("mocha")
 
-		vim.api.nvim_set_hl(0, "LualineBufferActive", { fg = "#000000", bg = "#B88339" })
-		vim.api.nvim_set_hl(0, "LualineBufferInactive", { fg = "#B88339", bg = "#303030" })
+		local function separator()
+			return {
+				function()
+					return "│ "
+				end,
+				color = { fg = colors.surface0, bg = "NONE", gui = "bold" },
+				padding = { left = 0, right = 0 },
+			}
+		end
 
 		lualine.setup({
 			options = {
 				icons_enabled = true,
-				theme = "powerline_dark", -- "catppuccin" or "auto"
+				theme = "auto",
 				globalstatus = true,
-				section_separators = { left = "", right = "" },
-				component_separators = "", -- "|"
+				section_separators = "",
+				component_separators = "",
+				disabled_filetypes = { statusline = { "snacks_dashboard" } },
 			},
 			sections = {
-				lualine_a = { { "mode", icon = " |", separator = { left = left_separator }, right_padding = 2 } },
+				-- MODE (single letter like N/I/V)
+				lualine_a = {
+					{
+						"mode",
+						-- fmt = function(str)
+						-- 	return str:sub(1, 1)
+						-- end,
+						color = function()
+							-- pick fg based on current mode
+							local mode = vim.fn.mode()
+							local cls = require("catppuccin.palettes").get_palette("mocha")
 
+							local mode_colors = {
+								n = cls.blue,
+								i = cls.green,
+								v = cls.mauve,
+								V = cls.mauve,
+								[""] = cls.mauve, -- Visual block
+								c = cls.peach,
+								R = cls.red,
+								t = cls.flamingo,
+							}
+
+							return { fg = mode_colors[mode] or colors.text, bg = "none", gui = "bold" }
+						end,
+						padding = { left = 1, right = 1 },
+					},
+					separator(),
+				},
+
+				-- Linter / Formatter / LSP / Diagnostics
 				lualine_b = {
-					-- linter
 					{
-						blank,
-						cond = function()
-							return linter_info() ~= "" and is_wide_enough(100)
-						end,
+						my_current_buffer,
+						color = { fg = colors.blue, bg = "none" },
+						padding = { left = 1, right = 1 },
 					},
-					{
-						function()
-							return "󰁨"
-						end,
-						color = { bg = "#fe640b", fg = "#000000", gui = "bold" },
-						cond = function()
-							return linter_info() ~= "" and is_wide_enough(100)
-						end,
-					},
+					separator(),
+				},
+
+				-- Current buffer
+				lualine_c = {
+					-- Linter
 					{
 						linter_info,
-						color = { bg = "#df8e1d", fg = "#000000", gui = "bold" },
+						icon = "󰁨 ",
+						color = { fg = colors.peach, bg = "none", gui = "bold" },
 						cond = function()
-							return is_wide_enough(100)
+							return linter_info() ~= "" and is_wide_enough(100)
 						end,
-					}, -- #8839ef
+						padding = { left = 1, right = 1 },
+					},
+					vim.tbl_extend("force", separator(), {
+						cond = function()
+							return linter_info() ~= "" and is_wide_enough(100)
+						end,
+					}),
+					-- Formatter
+					{
+						formatter_info,
+						icon = "󱠓 ",
+						color = { fg = colors.yellow, bg = "none", gui = "bold" },
+						cond = function()
+							return formatter_info() ~= "" and is_wide_enough(100)
+						end,
+						padding = { left = 0, right = 1 },
+					},
+					vim.tbl_extend("force", separator(), {
+						cond = function()
+							return formatter_info() ~= "" and is_wide_enough(100)
+						end,
+					}),
 
-					-- formatter
+					-- LSP
 					{
-						blank,
-						cond = function()
-							return formatter_info() ~= "" and is_wide_enough(100)
-						end,
-					},
-					{
-						function()
-							return "󱠓"
-						end,
-						color = { bg = "#fe640b", fg = "#000000", gui = "bold" },
-						cond = function()
-							return formatter_info() ~= "" and is_wide_enough(100)
-						end,
-					},
-					{
-						helpers.formatter_info,
-						color = { bg = "#df8e1d", fg = "#000000", gui = "bold" },
-						cond = function()
-							return formatter_info() ~= "" and is_wide_enough(100)
-						end,
-					}, -- #1e66f5
-
-					-- lsp
-					{
-						blank,
-						cond = function()
-							return #vim.lsp.get_clients({ bufnr = 0 }) > 0 and is_wide_enough(100)
-						end,
-					},
-					{
-						function()
-							return "" -- 󰒍  
-						end,
-						color = { bg = "#fe640b", fg = "#000000", gui = "bold" },
+						"lsp_status",
+						icon = " ",
+						color = { fg = colors.green, bg = "none", gui = "bold" },
 						cond = function()
 							return #vim.lsp.get_clients({ bufnr = 0 }) > 0
 						end,
+						padding = { left = 1, right = 1 },
 					},
-					{
-						"lsp_status",
-						icon = "",
-						color = { bg = "#df8e1d", fg = "#000000", gui = "bold" },
-					},
+
 					{
 						"diagnostics",
 						sources = { "nvim_diagnostic" },
-						separator = { right = "" },
-						sections = { "error", "warn", "hint", "info" },
-						symbols = { error = " ", warn = " ", hint = "󰠠 ", info = " " },
+						sections = { "error", "warn", "info", "hint" },
+						symbols = {
+							error = " ",
+							warn = " ",
+							hint = "󰠠 ",
+							info = " ",
+						},
+						diagnostics_color = {
+							error = { fg = colors.red, bg = "none", gui = "bold" },
+							warn = { fg = colors.yellow, bg = "none", gui = "bold" },
+							info = { fg = colors.blue, bg = "none", gui = "bold" },
+							hint = { fg = colors.teal, bg = "none", gui = "bold" },
+						},
 						colored = true,
 						update_in_insert = false,
 						always_visible = false,
+						padding = { left = 0, right = 1 },
 					},
 				},
 
-				lualine_c = {
-					"%=",
-					{ my_current_buffer },
-				},
-
+				-- Env / Git
 				lualine_x = {
 					{
 						"swenv",
-						icon = " |",
-						color = { bg = "#4B8BBE", fg = "#000000", gui = "bold" },
+						icon = " ",
+						color = { fg = colors.green, bg = "none", gui = "bold" },
 						cond = function()
 							return is_wide_enough(100)
 						end,
@@ -129,69 +154,50 @@ return {
 							if str == "" then
 								return ""
 							end
-							local env_name = str:match("([^/]+)$") or str
-							return env_name
+							return str:match("([^/]+)$") or str
 						end,
+						padding = { left = 1, right = 1 },
 					},
-					{
-						function()
-							return " "
-						end,
-						cond = function()
-							return is_wide_enough(100)
-						end,
-					},
-
-					-- git branch and diff
+					separator(),
 					{
 						"branch",
-						icon = " |",
-						color = { bg = "#7287fd", fg = "black", gui = "bold" },
+						icon = "",
+						color = { fg = colors.lavender, bg = "none", gui = "bold" },
 						cond = function()
 							return is_wide_enough(100)
 						end,
+						padding = { left = 1, right = 1 },
 					},
 					{
 						"diff",
-						separator = { right = "" },
 						sections = { "added", "modified", "removed" },
 						symbols = { added = " ", modified = "󰌇 ", removed = "󱛘 " },
-						colored = true,
-						update_in_insert = false,
-						always_visible = false,
-					},
-					{
-						function()
-							return " "
-						end,
-						cond = function()
-							return is_wide_enough(100)
-						end,
+						diff_color = {
+							added = { fg = colors.teal, bg = "none", gui = "bold" },
+							modified = { fg = colors.yellow, bg = "none", gui = "bold" },
+							removed = { fg = colors.red, bg = "none", gui = "bold" },
+						},
+						padding = { left = 0, right = 1 },
 					},
 				},
 
+				-- Lazy updates
 				lualine_y = {
 					{
 						lazy_status.updates,
 						cond = lazy_status.has_updates,
-						color = { fg = "#ffd700" },
+						color = { fg = colors.peach },
+						padding = { left = 1, right = 1 },
 					},
-					-- {
-					-- 	function()
-					-- 		return " "
-					-- 	end,
-					-- 	cond = function()
-					-- 		return is_wide_enough(100) and lazy_status.has_updates()
-					-- 	end,
-					-- },
 				},
 
+				-- Session restore
 				lualine_z = {
+					separator(),
 					{
 						restore_session,
-						separator = { right = right_separator },
-						left_padding = 2,
-						color = { bg = "#40a02b", fg = "#000000", gui = "bold" },
+						color = { fg = colors.green, bg = "none", gui = "bold" },
+						padding = { left = 1, right = 1 },
 					},
 				},
 			},

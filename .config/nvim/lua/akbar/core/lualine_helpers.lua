@@ -49,7 +49,6 @@ M.my_current_buffer = function()
 
 	-- Get icon and color with fallback for properties files
 	local icon, icon_color = devicons.get_icon_color(filename)
-
 	if not icon or not icon_color then
 		if filetype and filetype ~= "" then
 			icon, icon_color = devicons.get_icon_color_by_filetype(filetype)
@@ -75,15 +74,18 @@ M.my_current_buffer = function()
 	end
 
 	-- Set highlight groups for current buffer
-	local hl_group = "LualineBufCurrent"
-	local hl_group_bold = hl_group .. "Bold"
+	-- vim.api.nvim_set_hl(0, hl_group, { fg = "#000000", bg = icon_color })
+	-- vim.api.nvim_set_hl(0, hl_group_bold, {
+	-- 	fg = "#000000",
+	-- 	bg = icon_color,
+	-- 	bold = true,
+	-- })
 
-	vim.api.nvim_set_hl(0, hl_group, { fg = "#000000", bg = icon_color })
-	vim.api.nvim_set_hl(0, hl_group_bold, {
-		fg = "#000000",
-		bg = icon_color,
-		bold = true,
-	})
+	-- Define highlights (transparent bg, fg = filetype color)
+	local hl_group_icon = "LualineBufIcon"
+	local hl_group_name = "LualineBufName"
+	vim.api.nvim_set_hl(0, hl_group_icon, { fg = icon_color, bg = "NONE" })
+	vim.api.nvim_set_hl(0, hl_group_name, { fg = icon_color, bg = "NONE", bold = true })
 
 	-- Check if buffer is modified
 	local modified = vim.bo[current_buf].modified and " ●" or ""
@@ -99,7 +101,15 @@ M.my_current_buffer = function()
 	end
 
 	-- Return formatted string
-	return string.format("%%#%s# %s |%%*%%#%s# %s%s %%*", hl_group, icon, hl_group_bold, truncated_filename, modified)
+	-- return string.format("%%#%s# %s |%%*%%#%s# %s%s %%*", hl_group, icon, hl_group_bold, truncated_filename, modified)
+	return string.format(
+		"%%#%s#%s %%*%%#%s# %s%s %%*",
+		hl_group_icon,
+		icon,
+		hl_group_name,
+		truncated_filename,
+		modified
+	)
 end
 
 M.linter_info = function()
@@ -155,9 +165,9 @@ M.restore_session = function()
 		if #session_name > max_length and not is_wide then
 			session_name = "..." .. string.sub(session_name, -(max_length - 3))
 		end
-		return " | " .. session_name
+		return " " .. session_name
 	else
-		return "  | session"
+		return "  session"
 	end
 end
 

@@ -78,10 +78,36 @@ return {
 	},
 
 	-- Auto-Attach to Tmux or Start Zsh
+	-- default_prog = {
+	-- 	"/bin/zsh",
+	-- 	"--login",
+	-- 	"-c",
+	-- 	"if command -v tmux >/dev/null 2>&1; then tmux attach || tmux new-session -s akbar; else exec zsh; fi",
+	-- },
 	default_prog = {
 		"/bin/zsh",
 		"--login",
 		"-c",
-		"if command -v tmux >/dev/null 2>&1; then tmux attach || tmux new-session -s akbar; else exec zsh; fi",
+		[[
+        if command -v tmux >/dev/null 2>&1; then
+            if tmux list-sessions 2>/dev/null | grep -q .; then
+                echo "Found existing tmux sessions. Attaching..."
+                tmux attach
+            else
+                echo "No existing sessions found."
+                if [ -d ~/.tmux/resurrect ] && [ "$(ls -A ~/.tmux/resurrect 2>/dev/null)" ]; then
+                    echo "Found saved sessions. Restoring..."
+                    tmux new-session -d -s akbar
+                    tmux run-shell '~/.tmux/plugins/tmux-resurrect/scripts/restore.sh'
+                    tmux attach-session -t akbar
+                else
+                    echo "No saved sessions. Creating new session..."
+                    tmux new-session -s akbar
+                fi
+            fi
+        else
+            exec zsh
+        fi
+    ]],
 	},
 }
