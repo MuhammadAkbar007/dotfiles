@@ -17,7 +17,7 @@ return {
 		local function separator()
 			return {
 				function()
-					return "│ "
+					return "│"
 				end,
 				color = { fg = colors.surface0, bg = "NONE", gui = "bold" },
 				padding = { left = 0, right = 0 },
@@ -60,15 +60,6 @@ return {
 				},
 
 				lualine_b = {
-					{
-						my_current_buffer,
-						color = { fg = colors.blue, bg = "none" },
-						padding = { left = 1, right = 1 },
-					},
-					separator(),
-				},
-
-				lualine_c = {
 					-- Linter
 					{
 						linter_info,
@@ -87,7 +78,7 @@ return {
 					-- Formatter
 					{
 						formatter_info,
-						icon = "󱠓 ",
+						icon = " 󱠓",
 						color = { fg = colors.yellow, bg = "none", gui = "bold" },
 						cond = function()
 							return formatter_info() ~= "" and is_wide_enough(100)
@@ -103,7 +94,7 @@ return {
 					-- LSP
 					{
 						"lsp_status",
-						icon = " ",
+						icon = "",
 						color = { fg = colors.green, bg = "none", gui = "bold" },
 						cond = function()
 							return #vim.lsp.get_clients({ bufnr = 0 }) > 0
@@ -132,12 +123,26 @@ return {
 						always_visible = false,
 						padding = { left = 0, right = 1 },
 					},
+					vim.tbl_extend("force", separator(), {
+						cond = function()
+							return #vim.lsp.get_clients({ bufnr = 0 }) > 0 and is_wide_enough(100)
+						end,
+					}),
+				},
+
+				lualine_c = {
+					{
+						my_current_buffer,
+						color = { fg = colors.blue, bg = "none" },
+						padding = { left = 1, right = 1 },
+					},
+					separator(),
 				},
 
 				lualine_x = {
 					{
 						"swenv",
-						icon = " ",
+						icon = "",
 						color = { fg = colors.blue, bg = "none", gui = "bold" },
 						cond = function()
 							return is_wide_enough(100)
@@ -154,7 +159,7 @@ return {
 					{
 						"branch",
 						icon = "",
-						color = { fg = colors.lavender, bg = "none", gui = "bold" },
+						color = { fg = colors.sapphire, bg = "none", gui = "bold" },
 						cond = function()
 							return is_wide_enough(100)
 						end,

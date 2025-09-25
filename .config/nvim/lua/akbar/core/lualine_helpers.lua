@@ -92,9 +92,9 @@ M.my_current_buffer = function()
 		truncated_filename = string.sub(filename, 1, start_chars) .. "..." .. string.sub(filename, -end_chars)
 	end
 
-	-- Return formatted string
+	-- Return formatted string 		"%%#%s#%s %%*%%#%s# %s%s %%*"
 	return string.format(
-		"%%#%s#%s %%*%%#%s# %s%s %%*",
+		"%%#%s#%s%%*%%#%s#  %s%s %%*",
 		hl_group_icon,
 		icon,
 		hl_group_name,
