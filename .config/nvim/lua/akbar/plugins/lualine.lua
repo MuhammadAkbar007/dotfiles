@@ -136,7 +136,6 @@ return {
 						color = { fg = colors.blue, bg = "none" },
 						padding = { left = 1, right = 1 },
 					},
-					separator(),
 				},
 
 				lualine_x = {
@@ -155,7 +154,11 @@ return {
 						end,
 						padding = { left = 1, right = 1 },
 					},
-					separator(),
+					vim.tbl_extend("force", separator(), {
+						cond = function()
+							return is_wide_enough(100)
+						end,
+					}),
 					{
 						"branch",
 						icon = "",
