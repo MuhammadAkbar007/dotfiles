@@ -37,6 +37,9 @@ return {
 				lualine_a = {
 					{
 						"mode",
+						fmt = function(str)
+							return " " .. str -- Add the nerd font icon before mode
+						end,
 						color = function()
 							local mode = vim.fn.mode()
 							local cls = require("catppuccin.palettes").get_palette("mocha")

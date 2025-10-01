@@ -6,32 +6,9 @@ local wezterm = require("wezterm")
 -- 	window:gui_window():maximize()
 -- end)
 
-return {
-	initial_cols = 175,
-	-- initial_cols = 138,
-	initial_rows = 45,
-	term = "xterm-256color",
-	window_decorations = "NONE",
-	enable_tab_bar = false,
-	adjust_window_size_when_changing_font_size = false,
-	window_background_opacity = 0.8,
-
-	window_padding = {
-		left = 10,
-		right = 10,
-		top = 15,
-		bottom = 0,
-	},
-
-	font = wezterm.font_with_fallback({
-		{ family = "JetBrainsMono Nerd Font", weight = "Regular", italic = false }, -- normal
-		{ family = "JetBrainsMono Nerd Font", weight = "Bold", italic = false }, -- bold
-		{ family = "JetBrainsMono Nerd Font", weight = "Regular", italic = true }, -- italic
-		{ family = "JetBrainsMono Nerd Font", weight = "Bold", italic = true }, -- bold+italic
-	}),
-	font_size = 15,
-
-	colors = {
+-- Define your color schemes
+local color_schemes = {
+	dark = {
 		foreground = "#D0CFCC",
 		background = "#000000",
 		cursor_bg = "#FFFFFF",
@@ -61,6 +38,100 @@ return {
 			"#FFFFFF", -- bright white
 		},
 	},
+	light = {
+		foreground = "#2E3436",
+		background = "#E8E8E8",
+		-- background = "#d1cfcf",
+		cursor_border = "#2E3436",
+		cursor_fg = "#FFFFFF",
+		selection_bg = "#C5E3F6",
+		selection_fg = "#2E3436",
+
+		ansi = {
+			"#2E3436", -- color0 (black)
+			"#CC0000", -- color1 (red)
+			"#4E9A06", -- color2 (green)
+			"#C4A000", -- color3 (yellow)
+			"#3465A4", -- color4 (blue)
+			"#75507B", -- color5 (magenta)
+			"#06989A", -- color6 (cyan)
+			"#D3D7CF", -- color7 (white)
+		},
+		brights = {
+			"#555753", -- bright black
+			"#EF2929", -- bright red
+			"#8AE234", -- bright green
+			"#FCE94F", -- bright yellow
+			"#729FCF", -- bright blue
+			"#AD7FA8", -- bright magenta
+			"#34E2E2", -- bright cyan
+			"#EEEEEC", -- bright white
+		},
+	},
+}
+
+-- Get current scheme
+-- local current_scheme = "light"
+local current_scheme = "dark"
+
+return {
+	initial_cols = 175,
+	-- initial_cols = 138,
+	initial_rows = 45,
+	term = "xterm-256color",
+	window_decorations = "NONE",
+	enable_tab_bar = false,
+	adjust_window_size_when_changing_font_size = false,
+	window_background_opacity = 0.8,
+
+	window_padding = {
+		left = 10,
+		right = 10,
+		top = 15,
+		bottom = 0,
+	},
+
+	font = wezterm.font_with_fallback({
+		{ family = "JetBrainsMono Nerd Font", weight = "Regular", italic = false }, -- normal
+		{ family = "JetBrainsMono Nerd Font", weight = "Bold", italic = false }, -- bold
+		{ family = "JetBrainsMono Nerd Font", weight = "Regular", italic = true }, -- italic
+		{ family = "JetBrainsMono Nerd Font", weight = "Bold", italic = true }, -- bold+italic
+	}),
+	font_size = 15,
+
+	-- colors = {
+	-- 	foreground = "#D0CFCC",
+	-- 	background = "#000000",
+	-- 	cursor_bg = "#FFFFFF",
+	-- 	cursor_border = "#FFFFFF",
+	-- 	cursor_fg = "#171421",
+	-- 	selection_bg = "#A2734C",
+	-- 	selection_fg = "#171421",
+	--
+	-- 	ansi = {
+	-- 		"#171421", -- color0 (black)
+	-- 		"#C01C28", -- color1 (red)
+	-- 		"#26A270", -- color2 (green)
+	-- 		"#A2734C", -- color3 (yellow)
+	-- 		"#ffd701", -- color4 (blue)
+	-- 		"#A347BA", -- color5 (magenta)
+	-- 		"#2AA1B3", -- color6 (cyan)
+	-- 		"#D0CFCC", -- color7 (white)
+	-- 	},
+	-- 	brights = {
+	-- 		"#5E5C64", -- bright black
+	-- 		"#ED1515", -- bright red
+	-- 		"#11D116", -- bright green
+	-- 		"#F67400", -- bright yellow
+	-- 		"#ffd700", -- bright blue
+	-- 		"#9B59B6", -- bright magenta
+	-- 		"#1ABC9C", -- bright cyan
+	-- 		"#FFFFFF", -- bright white
+	-- 	},
+	-- },
+
+	-- Use the appropriate color scheme
+	colors = color_schemes[current_scheme],
 
 	keys = {
 		{

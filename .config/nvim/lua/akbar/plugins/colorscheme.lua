@@ -25,14 +25,37 @@ return {
 					maroon = "#f1fa8c",
 					yellow = "#ffb86c",
 				},
+				latte = {
+					green = "#50fa7b",
+					blue = "#57bdd4",
+				},
 			},
 			integrations = {
 				cmp = true,
 				gitsigns = true,
-				nvimtree = false,
+				nvimtree = true,
 				treesitter = true,
-				notify = false,
-				mini = false, -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+				notify = true,
+				mason = true,
+				notifier = true,
+				dap = true,
+				dap_ui = true,
+				navic = true,
+				treesitter_context = true,
+				render_markdown = true,
+				dadbod_ui = true,
+				which_key = true,
+				snacks = {
+					enabled = true,
+				},
+				telescope = {
+					enabled = true,
+				},
+				illuminate = {
+					enabled = true,
+					lsp = true,
+				},
+				mini = true, -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
 			},
 			custom_highlights = function(colors)
 				return {
