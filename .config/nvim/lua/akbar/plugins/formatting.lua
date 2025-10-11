@@ -18,7 +18,7 @@ return {
 				yml = { "yamlfmt" },
 				lua = { "stylua" },
 				txt = { "prettier" },
-				xml = { "lemminx" },
+				xml = { "xmlformat" },
 				java = { "google-java-format" },
 				c = { "clang-format" },
 				cpp = { "clang-format" },
@@ -46,6 +46,9 @@ return {
 					args = { "format", "--stdin-filename", "$FILENAME", "-" },
 					extra_args = { "--extend-select", "I" },
 					stdin = true,
+				},
+				xmlformat = {
+					prepend_args = { "--blanks", "--selfclose", "--indent", "4" },
 				},
 			},
 

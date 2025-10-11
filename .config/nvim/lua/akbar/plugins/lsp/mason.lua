@@ -57,6 +57,7 @@ return {
 				"htmlhint",
 				"djlint",
 				"yamlfmt",
+				"xmlformatter",
 			},
 		})
 	end,

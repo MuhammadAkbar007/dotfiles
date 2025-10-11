@@ -27,7 +27,7 @@ return {
 				},
 				latte = {
 					green = "#50fa7b",
-					blue = "#57bdd4",
+					-- blue = "#57bdd4",
 				},
 			},
 			integrations = {

@@ -400,6 +400,14 @@ return {
 					filetypes = { "yaml", "yml" },
 				})
 			end,
+
+			["lemminx"] = function()
+				lspconfig["lemminx"].setup({
+					capabilities = capabilities,
+					opts = opts,
+					filetypes = { "xml" },
+				})
+			end,
 		})
 	end,
 }

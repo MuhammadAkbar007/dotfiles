@@ -6,7 +6,6 @@ local wezterm = require("wezterm")
 -- 	window:gui_window():maximize()
 -- end)
 
--- Define your color schemes
 local color_schemes = {
 	dark = {
 		foreground = "#D0CFCC",
@@ -41,7 +40,6 @@ local color_schemes = {
 	light = {
 		foreground = "#2E3436",
 		background = "#E8E8E8",
-		-- background = "#d1cfcf",
 		cursor_border = "#2E3436",
 		cursor_fg = "#FFFFFF",
 		selection_bg = "#C5E3F6",
@@ -70,7 +68,6 @@ local color_schemes = {
 	},
 }
 
--- Get current scheme
 -- local current_scheme = "light"
 local current_scheme = "dark"
 
@@ -130,9 +127,6 @@ return {
 	-- 	},
 	-- },
 
-	-- Use the appropriate color scheme
-	colors = color_schemes[current_scheme],
-
 	keys = {
 		{
 			key = "Enter",
@@ -181,4 +175,6 @@ return {
         fi
     ]],
 	},
+
+	colors = color_schemes[current_scheme],
 }
