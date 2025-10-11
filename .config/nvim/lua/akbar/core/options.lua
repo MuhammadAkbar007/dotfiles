@@ -21,7 +21,7 @@ opt.smartcase = true -- ignore lowercase for the whole pattern
 opt.termguicolors = true -- enable 24-bit RGB colors
 opt.hlsearch = false -- no hlsearch
 opt.incsearch = true -- incremental search
-opt.scrolloff = 7 -- show at least 7 lines while scrolling
+-- opt.scrolloff = 7 -- show at least 7 lines while scrolling
 opt.signcolumn = "yes" -- always show signcolumn
 opt.updatetime = 50 -- nvim updatetime in ms
 

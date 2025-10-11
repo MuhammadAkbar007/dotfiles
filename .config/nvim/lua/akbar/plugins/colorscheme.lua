@@ -52,8 +52,8 @@ return {
 					enabled = true,
 				},
 				illuminate = {
-					enabled = true,
-					lsp = true,
+					enabled = false,
+					lsp = false,
 				},
 				mini = true, -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
 			},
