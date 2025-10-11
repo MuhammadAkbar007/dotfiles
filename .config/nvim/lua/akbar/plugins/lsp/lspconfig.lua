@@ -408,6 +408,14 @@ return {
 					filetypes = { "xml" },
 				})
 			end,
+
+			["markdown_oxide"] = function()
+				lspconfig["markdown_oxide"].setup({
+					capabilities = capabilities,
+					opts = opts,
+					filetypes = { "md", "markdown" },
+				})
+			end,
 		})
 	end,
 }
