@@ -156,6 +156,110 @@ return {
 			vim.notify("Spring Boot project stopped", vim.log.levels.INFO)
 		end
 
+		------------------------------------------------------
+		-- Maven Compile & Log Management for Neovim
+		------------------------------------------------------
+
+		-- Helper to write timestamp header
+		local function write_compile_header(log_file)
+			local header = string.format("\n\n----- [COMPILE STARTED AT %s] -----\n", os.date("%Y-%m-%d %H:%M:%S"))
+			local f = io.open(log_file, "a")
+			if f then
+				f:write(header)
+				f:close()
+			end
+		end
+
+		-- Compile the Maven project intelligently
+		local function compile_maven_project()
+			local project_root = vim.fn.getcwd()
+			local cmd = { "mvn", "-f", project_root .. "/pom.xml", "compile" }
+			local log_file = project_root .. "/.nvim_maven_compile.log"
+
+			-- Stop previous compile job if running
+			if vim.g.maven_compile_job_id then
+				vim.fn.jobstop(vim.g.maven_compile_job_id)
+				vim.notify("🛑 Previous compile job stopped.", vim.log.levels.WARN)
+				vim.g.maven_compile_job_id = nil
+			end
+
+			-- Add a timestamped header to log file
+			write_compile_header(log_file)
+
+			-- Notify user
+			vim.notify("🔨 Compiling project in " .. project_root, vim.log.levels.INFO)
+
+			-- If Spring Boot is running, compile silently (no terminal)
+			if vim.g.spring_boot_job_id then
+				vim.g.maven_compile_job_id = vim.fn.jobstart(cmd, {
+					cwd = project_root,
+					stdout_buffered = true,
+					stderr_buffered = true,
+					on_stdout = function(_, data)
+						if data then
+							local f = io.open(log_file, "a")
+							if f then
+								f:write(table.concat(data, "\n") .. "\n")
+								f:close()
+							end
+						end
+					end,
+					on_stderr = function(_, data)
+						if data then
+							local f = io.open(log_file, "a")
+							if f then
+								f:write(table.concat(data, "\n") .. "\n")
+								f:close()
+							end
+						end
+					end,
+					on_exit = function(_, code)
+						vim.g.maven_compile_job_id = nil
+						local msg = code == 0 and "✅ Compile successful." or "❌ Compile failed. Check logs."
+						local level = code == 0 and vim.log.levels.INFO or vim.log.levels.ERROR
+						vim.notify(msg, level)
+					end,
+				})
+			else
+				-- If Spring Boot not running — show terminal with logs
+				vim.cmd(
+					"botright split | resize 10 | terminal mvn -f "
+						.. project_root
+						.. "/pom.xml compile | tee -a "
+						.. log_file
+				)
+				vim.cmd("normal G")
+
+				local term_buf = vim.api.nvim_get_current_buf()
+				local project_name = vim.fn.fnamemodify(project_root, ":t")
+				local custom_name = "compile_" .. project_name .. "_terminal"
+
+				vim.api.nvim_buf_set_name(term_buf, custom_name)
+				vim.bo[term_buf].filetype = "runner-terminal"
+				vim.bo[term_buf].bufhidden = "hide"
+			end
+		end
+
+		-- View last compile logs in a scratch buffer
+		local function open_compile_logs()
+			local project_root = vim.fn.getcwd()
+			local log_file = project_root .. "/.nvim_maven_compile.log"
+
+			if vim.fn.filereadable(log_file) == 0 then
+				vim.notify("No compile log found for this project.", vim.log.levels.WARN)
+				return
+			end
+
+			vim.cmd("vsplit " .. log_file)
+			vim.bo.readonly = true
+			vim.bo.modifiable = false
+			vim.bo.filetype = "log"
+			vim.cmd("normal! G")
+		end
+
+		vim.keymap.set("n", "<leader>mc", compile_maven_project, { desc = "Maven compile project (auto & log)" })
+		vim.keymap.set("n", "<leader>ml", open_compile_logs, { desc = "Open Maven compile logs" })
+
 		vim.api.nvim_set_hl(0, "DapStoppedHl", { fg = "#98BB6C", bg = "#2A2A2A", bold = true })
 		vim.api.nvim_set_hl(0, "DapStoppedLineHl", { bg = "#204028", bold = true })
 		vim.fn.sign_define(
