@@ -173,7 +173,15 @@ return {
 		-- Compile the Maven project intelligently
 		local function compile_maven_project()
 			local project_root = vim.fn.getcwd()
-			local cmd = { "mvn", "-f", project_root .. "/pom.xml", "compile" }
+			local cmd = {
+				"mvn",
+				"-B",
+				"--no-transfer-progress",
+				"-Dstyle.color=never",
+				"-f",
+				project_root .. "/pom.xml",
+				"compile",
+			}
 			local log_file = project_root .. "/.nvim_maven_compile.log"
 
 			-- Stop previous compile job if running
