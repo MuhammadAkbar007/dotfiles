@@ -66,6 +66,8 @@ bindkey "^[[3~" delete-char  # Map Delete key
 alias eap="cd /install_me/idea-IU/bin/; prime-run ./idea"
 alias tg="cd ~/install_me/Telegram/; prime-run ./Telegram"
 alias fx="cd ~/install_me/firefox/; prime-run ./firefox"
+alias dcu="docker compose up --build"
+alias dcd="docker compose down"
 alias py="python3"
 alias ex="exit"
 alias ls="lsd"
