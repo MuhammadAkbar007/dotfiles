@@ -120,9 +120,17 @@ return {
 								-- 	name = "JavaSE-23",
 								-- 	path = "/usr/lib/jvm/jdk-23.0.1-oracle-x64",
 								-- },
+								-- {
+								-- 	name = "JavaSE-24",
+								-- 	path = "/usr/lib/jvm/jdk-24.0.2-oracle-x64",
+								-- },
 								{
-									name = "JavaSE-24",
-									path = "/usr/lib/jvm/jdk-24.0.2-oracle-x64",
+									name = "JavaSE-21", -- Add Java 21 since your project uses it
+									path = "/usr/lib/jvm/java-21-openjdk-amd64",
+								},
+								{
+									name = "JavaSE-25",
+									path = "/usr/lib/jvm/jdk-25.0.1-oracle-x64",
 								},
 							},
 						},
@@ -178,15 +186,11 @@ return {
 					end, opts)
 
 					opts.desc = "Go to next diagnostic"
-					keymap.set("n", "[d", function()
+					keymap.set("n", "]d", function()
 						vim.diagnostic.jump({ count = 1, float = true })
 					end, opts)
 
 					keymap.set("n", "K", vim.lsp.buf.hover, opts)
-
-					-- BUG: not working
-					opts.desc = "Restart LSP"
-					keymap.set("n", "<leader>lrs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
 
 					-- JDTLS specific commands
 					opts.desc = "Organize imports"

@@ -59,6 +59,7 @@ return {
 				"djlint",
 				"yamlfmt",
 				"xmlformatter",
+				"shellcheck",
 			},
 		})
 	end,
