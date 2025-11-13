@@ -1,26 +1,7 @@
 return {
-	"williamboman/mason.nvim",
-	dependencies = {
+	{
 		"williamboman/mason-lspconfig.nvim",
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
-	},
-	priority = 100,
-	config = function()
-		local mason = require("mason")
-		local mason_lspconfig = require("mason-lspconfig")
-		local mason_tool_installer = require("mason-tool-installer")
-
-		mason.setup({
-			ui = {
-				icons = {
-					package_installed = "✓",
-					package_pending = "➜",
-					package_uninstalled = "✗",
-				},
-			},
-		})
-
-		mason_lspconfig.setup({
+		opts = {
 			ensure_installed = {
 				"jdtls",
 				"html",
@@ -38,11 +19,32 @@ return {
 				"clangd",
 				"markdown_oxide",
 			},
-			-- auto-install configured servers (with lspconfig)
 			automatic_installation = true, -- not the same as ensure_installed
-		})
-
-		mason_tool_installer.setup({
+			automatic_enable = {
+				exclude = {
+					"jdtls",
+				},
+			},
+		},
+		dependencies = {
+			{
+				"williamboman/mason.nvim",
+				opts = {
+					ui = {
+						icons = {
+							package_installed = "✓",
+							package_pending = "➜",
+							package_uninstalled = "✗",
+						},
+					},
+				},
+			},
+			"neovim/nvim-lspconfig",
+		},
+	},
+	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		opts = {
 			ensure_installed = {
 				"java-debug-adapter",
 				"java-test",
@@ -59,8 +61,10 @@ return {
 				"djlint",
 				"yamlfmt",
 				"xmlformatter",
-				"shellcheck",
 			},
-		})
-	end,
+		},
+		dependencies = {
+			"williamboman/mason.nvim",
+		},
+	},
 }

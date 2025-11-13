@@ -32,6 +32,9 @@ return {
 		cmp.setup({
 			completion = {
 				completeopt = "menu,menuone,preview,noselect",
+				autocomplete = { require("cmp.types").cmp.TriggerEvent.TextChanged },
+				keyword_length = 1,
+				throttle = 20, -- default is 60ms, lower this
 			},
 			snippet = { -- configure how nvim-cmp interacts with snippet engine
 				expand = function(args)
