@@ -30,7 +30,7 @@ return {
 
 			formatters = {
 				prettier = {
-					prepend_args = { "--tab-width", "4" },
+					prepend_args = { "--tab-width", "2" },
 				},
 				["clang-format"] = {
 					prepend_args = { "--style={BreakBeforeBraces: Allman}" },

@@ -21,7 +21,7 @@ return {
 				adaptive_size = true,
 				relativenumber = true,
 				float = {
-					enable = true,
+					enable = false,
 					open_win_config = function()
 						-- Get the editor dimensions
 						local screen_w = vim.opt.columns:get()
