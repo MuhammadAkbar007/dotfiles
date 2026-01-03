@@ -53,6 +53,26 @@ return {
 
 		vim.lsp.config("pyright", {
 			capabilities = capabilities,
+			root_dir = vim.fs.root(0, {
+				"pyproject.toml",
+				"pyrightconfig.json",
+				".git",
+			}),
+			settings = {
+				python = {
+					analysis = {
+						typeCheckingMode = "basic",
+						autoSearchPaths = true,
+						useLibraryCodeForTypes = true,
+					},
+				},
+			},
+		})
+
+		vim.lsp.enable("pyright")
+
+		vim.lsp.config("ruff_lsp", {
+			capabilities = capabilities,
 		})
 
 		vim.lsp.config("tailwindcss", {
