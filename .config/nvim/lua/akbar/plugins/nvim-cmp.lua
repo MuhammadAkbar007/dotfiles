@@ -66,6 +66,9 @@ return {
 				format = lspkind.cmp_format({
 					maxwidth = 50,
 					ellipsis_char = "...",
+					mode = "symbol",
+					max_width = 50,
+					symbol_map = { Supermaven = "" },
 				}),
 				fields = { "abbr", "kind", "menu" },
 				expandable_indicator = true,
@@ -81,11 +84,11 @@ return {
 		})
 
 		-- for python
-		cmp.setup.filetype("python", {
-			mapping = {
-				["<Tab>"] = cmp.mapping.select_next_item(),
-				["<S-Tab>"] = cmp.mapping.select_prev_item(),
-			},
-		})
+		-- cmp.setup.filetype("python", {
+		-- 	mapping = {
+		-- 		["<Tab>"] = cmp.mapping.select_next_item(),
+		-- 		["<S-Tab>"] = cmp.mapping.select_prev_item(),
+		-- 	},
+		-- })
 	end,
 }

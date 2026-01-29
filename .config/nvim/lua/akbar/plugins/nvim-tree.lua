@@ -92,7 +92,7 @@ return {
 			pattern = "NvimTree",
 			callback = function()
 				vim.keymap.set("n", "q", ":NvimTreeClose<CR>", { buffer = true, silent = true }) -- Close NvimTree with 'q'
-				vim.keymap.set("n", "<Esc>", ":NvimTreeClose<CR>", { buffer = true, silent = true }) --  -- Close NvimTree with 'Esc'
+				vim.keymap.set("n", "<Esc>", ":NvimTreeClose<CR>", { buffer = true, silent = true }) -- Close NvimTree with 'Esc'
 			end,
 		})
 
