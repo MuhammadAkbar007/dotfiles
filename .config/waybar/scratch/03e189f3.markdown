@@ -1,0 +1,162 @@
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 15px;
+  border: none;
+  border-radius: 5px;
+}
+
+window#waybar {
+  background: rgba(30, 30, 46, 0.75);
+  color: #cdd6f4;
+}
+
+#workspaces button {
+  padding: 0 8px;
+  background: transparent;
+  color: #6c7086;
+}
+
+#workspaces button.focused {
+  color: #df8e1d;
+  font-weight: bold;
+}
+
+#workspaces button window {
+  margin-left: 8px;
+  padding: 0 2px;
+  background: transparent;
+}
+
+#battery,
+#tray {
+  padding: 0 10px;
+}
+
+#clock {
+  padding: 0 10px;
+  font-weight: bold;
+  background-color: #313244;
+  border-radius: 10px;
+  margin: 5px 10px;
+}
+#idle_inhibitor {
+  font-size: 20px;
+  color: #40a02b;
+}
+
+#idle_inhibitor.activated {
+  color: #f38ba8;
+  padding: 0 10px;
+}
+
+#custom-power {
+  font-size: 16px;
+  color: #f38ba8;
+  padding: 0 10px;
+}
+
+#mpris {
+  background-color: #313244;
+  color: #cdd6f4;
+  padding: 0 12px;
+  margin: 5px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+#mpris.paused {
+  color: #6c7086;
+  background-color: transparent;
+}
+
+#window {
+  color: #a6e3a1;
+  background: rgba(49, 50, 68, 0.5);
+  padding: 0 15px;
+  margin: 5px 0;
+  border-radius: 10px;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(166, 227, 161, 0.3);
+}
+
+window#waybar.empty #window {
+  background: transparent;
+}
+
+#network {
+  font-size: 20px;
+  padding: 0 10px;
+  color: #8839ef;
+}
+
+#network.disconnected {
+  color: #f38ba8;
+}
+
+#pulseaudio {
+  color: #89b4fa;
+  padding: 0 10px;
+  background: transparent;
+  border-radius: 10px;
+}
+
+#pulseaudio.muted {
+  color: #6c7086;
+  background: transparent;
+}
+
+#custom-notification {
+  font-size: 18px;
+  padding: 0 10px;
+  color: #df8e1d;
+}
+
+#network:hover,
+#pulseaudio:hover,
+#idle_inhibitor:hover,
+#custom-power:hover,
+#custom-notification:hover {
+  background: rgba(223, 142, 29, 0.2);
+  transition: background 0.2s ease-in-out;
+}
+
+#privacy {
+  padding: 0 10px;
+}
+
+#privacy-item {
+  padding: 0 5px;
+  border-radius: 8px;
+}
+
+#privacy-item.screenshare {
+  color: #fab387;
+}
+
+#privacy-item.audio-in {
+  color: #a6e3a1;
+}
+
+#custom-clipboard {
+  background: rgba(49, 50, 68, 0.5);
+  padding: 0 12px;
+  margin: 5px 0;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+#custom-clipboard:hover {
+  background: rgba(203, 166, 247, 0.2);
+}
+
+#backlight {
+  color: #f9e2af; /* Catppuccin Yellow */
+  padding: 0 10px;
+  background: transparent;
+}
+
+#backlight:hover {
+  background: rgba(249, 226, 175, 0.2); /* Subtle yellow glow */
+  transition: background 0.2s ease-in-out;
+  border-radius: 10px;
+}

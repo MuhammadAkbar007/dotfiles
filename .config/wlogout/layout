@@ -1,0 +1,36 @@
+{
+	"label" : "lock",
+	"action" : "swaylock -f -i /home/akbar/Pictures/desktop_wallpapers/dark/housesForHyprland.jpg --ring-color df8e1d --inside-color 00000088 --line-color 00000000",
+	"text" : "Lock",
+	"keybind" : "l",
+},
+{
+	"label" : "hibernate",
+	"action" : "swaylock -f -i /home/akbar/Pictures/desktop_wallpapers/dark/housesForHyprland.jpg --ring-color df8e1d --inside-color 00000088 --line-color 00000000 && systemctl hibernate",
+	"text" : "Hibernate",
+	"keybind" : "h",
+},
+{
+	"label" : "logout",
+	"action" : "swaymsg exit",
+	"text" : "Exit",
+	"keybind" : "e",
+},
+{
+	"label" : "shutdown",
+	"action" : "systemctl poweroff",
+	"text" : "Shutdown",
+	"keybind" : "s",
+},
+{
+	"label" : "suspend",
+	"action" : "swaylock -f -i /home/akbar/Pictures/desktop_wallpapers/dark/housesForHyprland.jpg --ring-color df8e1d --inside-color 00000088 --line-color 00000000 && systemctl suspend",
+	"text" : "Suspend",
+	"keybind" : "u",
+},
+{
+	"label" : "reboot",
+	"action" : "systemctl reboot",
+	"text" : "Reboot",
+	"keybind" : "r",
+},

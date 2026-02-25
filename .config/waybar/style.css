@@ -1,0 +1,184 @@
+* {
+  font-family: "Ubuntu Nerd Font", "Ubuntu";
+  font-size: 15px;
+  border: none;
+  border-radius: 5px;
+}
+
+window#waybar {
+  background: rgba(30, 30, 46, 0.75);
+  color: #cdd6f4;
+}
+
+.modules-left {
+  margin-left: 10px;
+}
+
+#workspaces button {
+  padding: 0 8px;
+  background: transparent;
+  color: #6c7086;
+}
+
+#workspaces button.focused {
+  color: #df8e1d;
+  font-weight: bold;
+  background-color: #313244;
+  border-radius: 10px;
+  padding: 0 10px;
+  margin: 5px 0;
+}
+
+#workspaces button window {
+  margin-left: 8px;
+  padding: 0 2px;
+  background: transparent;
+}
+
+#battery,
+#tray {
+  padding: 0 10px;
+}
+
+#clock {
+  padding: 0 10px;
+  font-weight: bold;
+  background-color: #313244;
+  border-radius: 10px;
+  margin: 5px 10px;
+}
+#idle_inhibitor {
+  font-size: 17px;
+  color: #40a02b;
+}
+
+#idle_inhibitor.activated {
+  color: #f38ba8;
+  padding: 0 5px;
+}
+
+#custom-power {
+  color: #f38ba8;
+  padding: 0 5px;
+}
+
+#mpris {
+  background-color: #313244;
+  color: #cdd6f4;
+  padding: 0 12px;
+  margin: 5px 40px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+#mpris.paused {
+  color: #6c7086;
+  background-color: transparent;
+}
+
+#window {
+  color: #a6e3a1;
+  background: rgba(49, 50, 68, 0.5);
+  padding: 0 15px;
+  margin: 5px 0;
+  border-radius: 10px;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(166, 227, 161, 0.3);
+}
+
+window#waybar.empty #window {
+  background: transparent;
+}
+
+#network {
+  font-size: 17px;
+  padding: 0 5px;
+  color: #8839ef;
+  margin-left: 5px;
+}
+
+#network.disconnected {
+  color: #f38ba8;
+}
+
+#pulseaudio {
+  color: #89b4fa;
+  padding: 0 5px;
+  background: transparent;
+  border-radius: 10px;
+}
+
+#pulseaudio.muted {
+  color: #6c7086;
+  background: transparent;
+}
+
+#custom-notification {
+  font-size: 17px;
+  padding: 0 5px;
+  color: #df8e1d;
+}
+
+#network:hover,
+#pulseaudio:hover,
+#idle_inhibitor:hover,
+#custom-power:hover,
+#custom-notification:hover {
+  background: rgba(223, 142, 29, 0.2);
+  transition: background 0.2s ease-in-out;
+}
+
+#privacy {
+  padding: 0 5px;
+}
+
+#privacy-item {
+  padding: 0 5px;
+  border-radius: 8px;
+}
+
+#privacy-item.screenshare {
+  color: #fab387;
+}
+
+#privacy-item.audio-in {
+  color: #a6e3a1;
+}
+
+#custom-clipboard {
+  background: rgba(49, 50, 68, 0.5);
+  padding: 0 12px;
+  margin: 5px 0;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+#custom-clipboard:hover {
+  background: rgba(203, 166, 247, 0.2);
+}
+
+#backlight {
+  color: #f9e2af;
+  padding: 0 5px;
+  background: transparent;
+}
+
+#backlight:hover {
+  background: rgba(249, 226, 175, 0.2);
+  transition: background 0.2s ease-in-out;
+  border-radius: 10px;
+}
+
+#custom-nightlight {
+  color: #a6e3a1;
+  padding: 0 5px;
+}
+
+#custom-nightlight:hover {
+  background-color: rgba(255, 158, 100, 0.2);
+}
+
+#custom-nightlight.active {
+  color: #ff9e64; /* Orange color when on */
+  border-radius: 8px;
+}

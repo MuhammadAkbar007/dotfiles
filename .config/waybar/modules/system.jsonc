@@ -1,0 +1,109 @@
+{
+	"clock#5": {
+		"format": " {:%a %d -  %H:%M}",
+		"tooltip-format": "<tt>{calendar}</tt>"
+	},
+	"network": {
+		"interval": 5,
+		"format-wifi": "{icon}",
+		"format-ethernet": "󰌘",
+		"format-disconnected": "󰤮",
+		"format-icons": [
+			"󰤯 ", // 0%
+			"󰤟 ", // 25%
+			"󰤢 ", // 50%
+			"󰤥 ", // 75%
+			"󰤨 " // 100%
+		],
+		"tooltip-format": "{essid} ({signalStrength}%) via {gwaddr} 󰀂",
+		"on-click": "nm-connection-editor"
+	},
+	"battery": {
+		"format": "{icon} {capacity}%",
+		"format-icons": [
+			"󰂎",
+			"󰁺",
+			"󰁽",
+			"󰁹"
+		]
+	},
+	"tray": {
+		"spacing": 10
+	},
+	"mpris": {
+		"format": "{player_icon} {status_icon} {title}",
+		"format-paused": "{player_icon} {status_icon} <i>{title}</i>",
+		"player-icons": {
+			"default": "<span>▶</span>",
+			"firefox": "<span></span>",
+			"chrome": "<span></span>",
+			"spotify": "<span></span>",
+			"vlc": "<span>󰕼</span>",
+			"mpv": "<span></span>",
+			"clementine": "<span>󱁇</span>"
+		},
+		"status-icons": {
+			"playing": "<span color='#a6d189'></span>",
+			"paused": "<span color='#f38ba8'></span>"
+		},
+		"max-length": 77,
+		"ellipsis": "..."
+	},
+	"idle_inhibitor": {
+		"format": "{icon}",
+		"format-icons": {
+			"activated": "󰅶",
+			"deactivated": "󰾪"
+		},
+		"tooltip-format-activated": "Caffeine: On",
+		"tooltip-format-deactivated": "Caffeine: Off"
+	},
+	"pulseaudio": {
+		"format": "{icon} {volume}%",
+		"format-source": "", // This adds a mic icon
+		"format-source-muted": "",
+		"format-bluetooth": "󰂰 {volume}%",
+		"format-muted": "󰝟 Muted",
+		"format-icons": {
+			"headphone": "",
+			"hands-free": "󱡒",
+			"headset": "󰋎",
+			"phone": "",
+			"portable": "",
+			"car": "",
+			"default": [
+				"󰕿",
+				"󰖀",
+				"󰕾"
+			]
+		},
+		"on-click": "pavucontrol"
+	},
+	"backlight": {
+		"device": "intel_backlight", // Change to "amdgpu_bl0" if you use AMD
+		"format": "{icon} {percent}%",
+		"format-icons": [
+			"󰃞",
+			"󰃟",
+			"󰃠"
+		],
+		"on-scroll-up": "brightnessctl set 1%-",
+		"on-scroll-down": "brightnessctl set 1%+"
+	},
+	"privacy": {
+		"icon-spacing": 8,
+		"icon-size": 18,
+		"nodes": [
+			{
+				"type": "screenshare",
+				"tooltip": true,
+				"tooltip-icon-size": 24
+			},
+			{
+				"type": "audio-in",
+				"tooltip": true,
+				"tooltip-icon-size": 24
+			}
+		]
+	}
+}

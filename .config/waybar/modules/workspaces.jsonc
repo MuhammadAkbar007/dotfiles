@@ -1,0 +1,100 @@
+{
+	"sway/workspaces": {
+		"all-outputs": true,
+		"disable-scroll": true,
+		"format": "{name} {windows}",
+		"window-format": "{icon}", // This is what renders the rewritten icon
+		"window-rewrite-default": "",
+		"window-rewrite": {
+			"class<firefox-esr>": "",
+			"class<clementine>": "󱁇",
+			"class<org.wezfurlong.wezterm>": "",
+			"class<org.telegram.desktop.*>": "",
+			"class<io.github.kotatogram>": "",
+			"class<be.alexandervanhee.gradia>": "󰹙",
+			"class<kitty>": "󰄛",
+			"class<foot>": "󰽒",
+			"class<vlc>": "󰕼",
+			"class<dev.zed.Zed>": "",
+			"class<qm_flutter>": "",
+			"class<mpv>": "",
+			"class<brave-browser>": "",
+			"class<org.qbittorrent.qBittorrent>": "󰴾",
+			"class<com.obsproject.Studio>": "󰑋",
+			"class<org.gnome.FileRoller>": "",
+			"class<org.gnome.TextEditor>": "",
+			"class<org.gnome.Weather>": "󰖑",
+			"class<org.gnome.Evince>": "󰂺",
+			"class<org.gnome.Boxes>": "",
+			"class<org.gnome.Maps>": "",
+			"class<org.gnome.Calendar>": "󰨲",
+			"class<org.gnome.Clocks>": "󰥔",
+			"class<org.gnome.Calculator>": "󰪚",
+			"class<org.gnome.Loupe>": "󰥷",
+			"class<org.gnome.Software>": "",
+			"class<org.gnome.Snapshot>": "",
+			"class<gnome-disks>": "",
+			"class<pgadmin4>": "",
+			"class<antigravity>": "",
+			"class<gnome-pomodoro>": "",
+			"class<google-chrome>": "󰊯",
+			"class<chromium>": "",
+			"class<libreoffice-impress>": "",
+			"class<libreoffice-calc>": "",
+			"class<libreoffice-writer>": "",
+			"class<libreoffice-draw>": "",
+			"class<libreoffice-math>": "",
+			"class<libreoffice-startcenter>": "",
+			"class<chrome-.*-Default>": "󰊯",
+			"class<org.gnome.Nautilus>": "󰝰",
+			"class<spotify>": "",
+			"class<discord>": "",
+			"class<code-oss>": "󰨞"
+		}
+	},
+	"sway/window": {
+		"format": "{}",
+		"max-length": 50,
+		"rewrite": {
+			// Browsers
+			"(.*) — Mozilla Firefox": "<span color='#df8e1d'></span> $1",
+			"(.*) - Google Chrome": "<span color='#df8e1d'>󰊯</span> $1",
+			"(.*) - Brave": "<span color='#df8e1d'></span> $1",
+			"(.*) - Chromium": "<span color='#df8e1d'></span> $1",
+			// Terminals
+			"(.*) - kitty": "<span color='#df8e1d'>󰄛</span> $1",
+			"(.*) - foot": "<span color='#df8e1d'>󰽒</span> $1",
+			"^(.*tmux.*|wezterm|.*wezterm.*)$": "<span color='#df8e1d'></span> $1",
+			"wezterm": "<span color='#df8e1d'></span> Terminal",
+			// Development
+			"(.*) - Visual Studio Code": "<span color='#df8e1d'>󰨞</span> $1",
+			"(.*) - Zed": "<span color='#df8e1d'></span> $1",
+			"pgAdmin 4": "<span color='#df8e1d'></span> pgAdmin",
+			// Media
+			"Clementine": "<span color='#df8e1d'>󱁇</span> Clementine",
+			"VLC media player": "<span color='#df8e1d'>󰕼</span> VLC",
+			"mpv": "<span color='#df8e1d'></span> mpv",
+			"Spotify(.*)": "<span color='#df8e1d'></span> Spotify",
+			// Communication
+			"Telegram(.*)": "<span color='#df8e1d'></span> Telegram",
+			"Discord(.*)": "<span color='#df8e1d'></span> Discord",
+			// GNOME Apps
+			"Files": "<span color='#df8e1d'>󰝰</span> Files",
+			"Text Editor": "<span color='#df8e1d'></span> Text Editor",
+			"Weather": "<span color='#df8e1d'>󰖑</span> Weather",
+			"Calendar": "<span color='#df8e1d'>󰨲</span> Calendar",
+			"Calculator": "<span color='#df8e1d'>󰪚</span> Calculator",
+			"Maps": "<span color='#df8e1d'></span> Maps",
+			"Software": "<span color='#df8e1d'></span> Software",
+			// LibreOffice
+			"(.*) - LibreOffice Writer": "<span color='#df8e1d'></span> $1",
+			"(.*) - LibreOffice Calc": "<span color='#df8e1d'></span> $1",
+			"(.*) - LibreOffice Impress": "<span color='#df8e1d'></span> $1",
+			// System & Tools
+			"qBittorrent(.*)": "<span color='#df8e1d'>󰴾</span> qBittorrent",
+			"OBS(.*)": "<span color='#df8e1d'>󰑋</span> OBS Studio",
+			// This regex ensures we only match if there is no span tag already present
+			"^([^󰊯󰄛󰝰]+)$": "<span color='#df8e1d'></span> $1"
+		}
+	}
+}

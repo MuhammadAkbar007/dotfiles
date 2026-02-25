@@ -1,0 +1,266 @@
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+# Your preferred terminal emulator
+set $term kitty
+# Your preferred application launcher
+set $menu wofi
+
+include /etc/sway/config-vars.d/*
+
+font pango:Ubuntu 11
+
+# background wallpaper
+output * bg /home/akbar/Pictures/desktop_wallpapers/dark/treeBreeze.jpg fill
+
+# per screen configuration:
+#
+#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+
+set $lock_cmd swaylock -f -i /home/akbar/Pictures/desktop_wallpapers/dark/housesForHyprland.jpg --ring-color df8e1d --inside-color 00000088 --line-color 00000000
+
+### Idle configuration
+exec swayidle -w \
+    timeout 270 'brightnessctl -s set 10%' \
+    resume 'brightnessctl -r' \
+    timeout 300 '$lock_cmd' \
+    timeout 600 'swaymsg "output * power off"' \
+    resume 'swaymsg "output * power on"; brightnessctl -r' \
+    before-sleep '$lock_cmd'
+
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+input "1739:52545:SYNA7DB5:00_06CB:CD41_Touchpad" {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+}
+
+input "type:keyboard" {
+    xkb_layout "us"
+}
+
+# Gesture to switch workspaces (3-finger swipe)
+bindgesture swipe:right workspace prev
+bindgesture swipe:left workspace next
+
+# Start terminal
+bindsym $mod+Return exec $term
+
+# Kill focused window
+bindsym $mod+q kill
+
+# Start your launcher
+bindsym $mod+space exec $menu
+
+floating_modifier $mod normal
+
+# Focus window following mouse
+focus_follows_mouse no
+
+# adaptive_sync
+output * adaptive_sync on
+
+# smart borders
+smart_borders off
+default_border pixel 3
+default_floating_border pixel 3
+# Format: class             border  backgr. text    indic.  child_border
+client.focused              #df8e1d #df8e1d #ffffff #df8e1d #df8e1d
+
+smart_gaps off
+gaps inner 5
+gaps outer 3
+
+# set gtk+ theme #
+set $gnome-schema org.gnome.desktop.interface
+
+# always floating
+for_window [app_id="org.gnome.Nautilus"] floating enable, opacity 0.95
+for_window [app_id="org.gnome.FileRoller"] floating enable, opacity 0.95
+for_window [app_id="org.gnome.Loupe"] floating enable, opacity 0.95
+# for_window [app_id="gnome-pomodoro"] floating enable, opacity 0.95
+for_window [app_id="nm-connection-editor"] {
+	opacity 0.95
+    floating enable
+    sticky enable
+    resize set 600 400
+    move position cursor
+	move down 40
+}
+for_window [app_id="pavucontrol"] {
+	opacity 0.95
+    floating enable
+    sticky enable
+    resize set 600 400
+    move position cursor
+	move down 40
+}
+
+# window opacity
+for_window [app_id="firefox-esr"] opacity 0.95
+for_window [app_id="gnome-pomodoro"] opacity 0.95
+# for_window [app_id="org.telegram.desktop.*"] opacity 0.95
+
+# bindings
+# Reload the configuration file
+bindsym $mod+Shift+r reload
+
+# Move your focus around
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+# Or use $mod+[up|down|left|right]
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move the focused window with the same, but add Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+# Ditto, with arrow keys
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Switch to workspace
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number 1; workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2; workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3; workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4; workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5; workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6; workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7; workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8; workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9; workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10; workspace number 10
+
+# Resizing containers:
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+## Better to resize window
+bindsym $mod+Alt+h             resize shrink width  5 px or 5 ppt
+bindsym $mod+Alt+k             resize grow   height 5 px or 5 ppt
+bindsym $mod+Alt+j             resize shrink height 5 px or 5 ppt
+bindsym $mod+Alt+l             resize grow   width  5 px or 5 ppt
+bindsym $mod+Alt+Left          resize shrink width  5 px or 5 ppt
+bindsym $mod+Alt+Up            resize grow   height 5 px or 5 ppt
+bindsym $mod+Alt+Down          resize shrink height 5 px or 5 ppt
+bindsym $mod+Alt+Right         resize grow   width  5 px or 5 ppt
+
+# Move focus to the parent container
+bindsym $mod+p focus parent
+
+# Switch the current container between different layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+a layout toggle split
+
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
+bindsym $mod+slash workspace back_and_forth
+
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+space floating toggle
+
+# split
+bindsym $mod+bar splith
+bindsym $mod+minus splitv
+
+# Swap focus between the tiling area and the floating area
+bindsym $mod+d focus mode_toggle
+# Scratchpad:
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+equal scratchpad show
+
+bindsym Control+Mod1+Delete exec wlogout -b 3
+
+# SwayOSD Keybindings
+# Volume controls
+bindsym --locked XF86AudioMute exec swayosd-client --output-volume mute-toggle
+bindsym --locked XF86AudioLowerVolume exec swayosd-client --output-volume lower
+bindsym --locked XF86AudioRaiseVolume exec swayosd-client --output-volume raise
+bindsym --locked XF86AudioMicMute exec swayosd-client --input-volume mute-toggle
+
+# Brightness controls
+bindsym --locked XF86MonBrightnessDown exec swayosd-client --brightness lower
+bindsym --locked XF86MonBrightnessUp exec swayosd-client --brightness raise
+
+# Media controls
+bindsym --locked XF86AudioPlay exec playerctl play-pause
+bindsym --locked XF86AudioNext exec playerctl next
+bindsym --locked XF86AudioPrev exec playerctl previous
+bindsym --locked XF86AudioStop exec playerctl stop
+
+# quick start bindings for some applications
+bindsym $mod+b exec --no-startup-id firefox
+bindsym $mod+e exec --no-startup-id nautilus
+bindsym $mod+n exec swaync-client -t -sw
+
+# screenshot
+bindsym Print exec grim
+bindcode $mod+34  exec --no-startup-id   grimshot --notify  save area ~/Pictures/Screenshots/$(date "+%Y-%m-%d"T"%H:%M:%S_no_watermark").png
+bindcode $mod+35 exec --no-startup-id   grimshot --notify  copy area
+
+# Bind Mod+V to open the clipboard manager in the Waybar position
+bindsym $mod+v exec cliphist list | sed 's/\[\[ binary data.*\]\]/󰋩 Image/g' | wofi --dmenu --allow-images --location 3 --xoffset -20 --yoffset 45 --width 600 --prompt "Clipboard Manager" | cliphist decode | wl-copy
+
+# startup applications
+exec_always  --no-startup-id  ~/.config/waybar/launch_waybar.sh
+exec_always autotiling
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec /usr/libexec/xdg-desktop-portal-wlr & 
+exec /usr/libexec/xdg-desktop-portal &
+exec wl-paste --type text --watch cliphist store
+exec wl-paste --type image --watch cliphist store
+exec swayosd-server
+exec swaync
+exec wezterm
+exec clementine
+
+include /etc/sway/config.d/*

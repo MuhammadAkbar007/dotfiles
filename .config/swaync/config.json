@@ -1,0 +1,31 @@
+{
+  "$schema": "/etc/xdg/swaync/configSchema.json",
+  "positionX": "right",
+  "positionY": "top",
+  "control-center-width": 450,
+  "notification-window-width": 520,
+  "notification-icon-size": 64,
+  "layer": "top",
+  "widgets": ["title", "dnd", "volume", "backlight", "mpris", "notifications"],
+  "widget-config": {
+    "title": {
+      "text": "Notifications",
+      "clear-all-button": true,
+      "button-text": "Clear All"
+    },
+    "dnd": {
+      "text": "Do Not Disturb"
+    },
+    "mpris": {
+      "image-size": 96,
+      "image-radius": 12
+    },
+    "volume": {
+      "label": "  "
+    },
+    "backlight": {
+      "label": "󰃠 ",
+      "device": "intel_backlight"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+show=drun
+width=30%
+height=30%
+location=center
+allow_images=true
+prompt=Search Apps...
+insensitive=true
+hide_scroll=true
+print_command=true
+no_actions=true

@@ -1,0 +1,38 @@
+{
+	"layer": "top",
+	"position": "top",
+	"height": 40,
+	"exclusive": true,
+	"passthrough": false,
+	"gtk-layer-shell": true,
+	"margin-top": 2,
+	"include": [
+		"~/.config/waybar/modules/workspaces.jsonc",
+		"~/.config/waybar/modules/system.jsonc",
+		"~/.config/waybar/modules/custom.jsonc"
+	],
+	"modules-left": [
+		"sway/workspaces",
+		"mpris"
+	],
+	"modules-center": [
+		"sway/window"
+	],
+	"modules-right": [
+		"custom/clipboard",
+		"battery",
+		"custom/separator#line",
+		"tray",
+		"custom/separator#line",
+		"network",
+		"privacy",
+		"pulseaudio",
+		"backlight",
+		"custom/notification",
+		"custom/nightlight",
+		"idle_inhibitor",
+		"custom/power",
+		"custom/separator#line",
+		"clock#5"
+	]
+}

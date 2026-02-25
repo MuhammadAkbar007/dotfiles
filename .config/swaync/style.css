@@ -1,0 +1,141 @@
+* {
+  font-family: "Ubuntu Nerd Font", "Ubuntu", sans-serif;
+  font-size: 17px;
+}
+
+.control-center {
+  background: rgba(30, 30, 46, 0.8);
+  border: 2px solid #df8e1d;
+  border-radius: 15px;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+/* 1. Reset row margin so it doesn't double-up with notification margin */
+.notification-row {
+  outline: none;
+  margin: 0;
+}
+
+/* 2. Remove padding from the outer container to let inner content dictate height */
+.notification {
+  background: rgba(49, 50, 68, 0.7);
+  border-radius: 10px;
+  margin: 10px;
+  border: 1px solid rgba(223, 142, 29, 0.3);
+  padding: 0; /* Changed from 12px to 0 */
+  transition: background 0.15s ease-in-out;
+}
+
+.notification:hover {
+  background: rgba(69, 71, 90, 0.8);
+  border: 1px solid #df8e1d;
+  box-shadow: none;
+}
+
+/* 3. Add the padding here instead so the text doesn't hit the edges */
+.notification-content {
+  color: #cdd6f4;
+  background: transparent;
+  padding: 12px 12px 5px 12px; /* Top, Right, Bottom, Left */
+  margin: 0;
+}
+
+/* 4. Ensure the actions container is a block that sits properly at the bottom */
+.notification-actions {
+  background: transparent;
+  padding: 5px 12px 12px 12px; /* Space around the buttons */
+  margin: 0;
+  min-height: 45px;
+}
+
+/* 5. Style the buttons to fit nicely */
+.notification-action {
+  background: rgba(69, 71, 90, 0.5);
+  border: 1px solid rgba(223, 142, 29, 0.3);
+  border-radius: 8px;
+  color: #cdd6f4;
+  margin: 0 4px; /* Horizontal margin only */
+  padding: 6px 10px;
+  min-height: 0;
+}
+
+/* Optional: Make button text slightly smaller so multiple buttons don't scroll */
+.notification-action label {
+  font-size: 15px;
+}
+
+.notification-action:hover {
+  background: #df8e1d;
+  color: #11111b;
+}
+
+.notification.critical {
+  border: 2px solid #f38ba8;
+}
+
+/* --- Widgets --- */
+.widget-dnd {
+  margin: 10px;
+  font-size: 1.1rem;
+}
+
+.widget-dnd > switch {
+  background: #45475a;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.widget-dnd > switch:checked {
+  background: #df8e1d;
+  border: 1px solid white;
+}
+
+.widget-dnd > switch slider {
+  background: #cdd6f4;
+  border-radius: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  margin: 2px;
+}
+
+.widget-mpris {
+  background: rgba(49, 50, 68, 0.5);
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(223, 142, 29, 0.1);
+}
+
+.widget-mpris-player {
+  padding: 5px;
+  margin: 5px;
+}
+
+.widget-mpris-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.widget-mpris-subtitle {
+  font-size: 0.9rem;
+}
+
+trough {
+  min-height: 10px;
+  background: rgba(49, 50, 68, 0.5);
+  border-radius: 10px;
+  margin: 5px 10px;
+}
+
+highlight {
+  background: #df8e1d;
+  border-radius: 10px;
+}
+
+slider {
+  background: #cdd6f4;
+  border-radius: 50%;
+  min-height: 15px;
+  min-width: 15px;
+  margin: -3px;
+}

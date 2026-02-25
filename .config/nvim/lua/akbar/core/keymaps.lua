@@ -9,6 +9,7 @@ map("n", "<S-Tab>", ":bp<CR>", { desc = "Previous buffer" })
 map("i", "jk", "<ESC>", { desc = "Exit insert mode" })
 -- map("i", "kj", "<ESC>", { desc = "Exit insert mode" })
 map("n", "vv", "gg0vG$", { desc = "Select whole file" })
+map("n", "ya", ":%y<CR>", { desc = "Yank whole file" })
 
 -- File operations
 map("n", "<C-s>", ":w<CR>", { desc = "Save file" })

@@ -1,0 +1,53 @@
+window {
+  margin: 0px;
+  border: 3px solid #df8e1d;
+  border-radius: 12px;
+  background-color: rgba(30, 30, 46, 0.85);
+  font-family: "JetBrains Mono Nerd Font";
+  font-size: 14px;
+}
+
+#outer-box {
+  padding: 10px;
+}
+
+#input {
+  margin: 5px;
+  margin-bottom: 15px;
+  border: none;
+  color: #cdd6f4;
+  background-color: #313244;
+}
+
+#entry {
+  padding: 5px;
+  border-radius: 5px;
+}
+
+#entry:selected {
+  background-color: #df8e1d;
+  color: #1e1e2e;
+}
+
+#text {
+  margin: 0px;
+  border: none;
+  color: #cdd6f4;
+}
+
+#text:selected {
+  color: #1e1e2e;
+}
+
+#inner-box {
+  margin: 5px;
+  border: none;
+  display: flex;
+  align-items: center; /* This aligns them vertically center */
+}
+
+#img {
+  margin-right: 15px; /* Spacing between icon and text */
+  width: 64px;
+  height: 64px;
+}
