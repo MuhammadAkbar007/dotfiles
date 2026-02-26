@@ -10,7 +10,7 @@
 		"tooltip": false
 	},
 	"custom/notification": {
-		"tooltip": false,
+		"tooltip": true,
 		"format": "{icon}",
 		"format-icons": {
 			"notification": "<span foreground='red'><sup></sup></span>",
@@ -27,6 +27,7 @@
 		"exec": "swaync-client -swb",
 		"on-click": "swaync-client -t -sw",
 		"on-click-right": "swaync-client -d -sw",
+		"on-click-middle": "swaync-client -C -sw", // -C clears all notifications
 		"escape": true
 	},
 	"custom/clipboard": {

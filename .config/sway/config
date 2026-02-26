@@ -87,7 +87,7 @@ set $gnome-schema org.gnome.desktop.interface
 for_window [app_id="org.gnome.Nautilus"] floating enable, opacity 0.95
 for_window [app_id="org.gnome.FileRoller"] floating enable, opacity 0.95
 for_window [app_id="org.gnome.Loupe"] floating enable, opacity 0.95
-# for_window [app_id="gnome-pomodoro"] floating enable, opacity 0.95
+
 for_window [app_id="nm-connection-editor"] {
 	opacity 0.95
     floating enable
@@ -96,6 +96,7 @@ for_window [app_id="nm-connection-editor"] {
     move position cursor
 	move down 40
 }
+
 for_window [app_id="pavucontrol"] {
 	opacity 0.95
     floating enable
@@ -105,14 +106,23 @@ for_window [app_id="pavucontrol"] {
 	move down 40
 }
 
+for_window [app_id="gnome-pomodoro"] {
+	floating enable
+	opacity 0.95
+	move scratchpad
+	scratchpad show
+}
+
 # window opacity
-for_window [app_id="firefox-esr"] opacity 0.95
-for_window [app_id="gnome-pomodoro"] opacity 0.95
 # for_window [app_id="org.telegram.desktop.*"] opacity 0.95
+for_window [app_id="firefox-esr"] opacity 0.95
 
 # bindings
 # Reload the configuration file
 bindsym $mod+Shift+r reload
+
+# Clear all notifications with Mod+Shift+N
+bindsym $mod+Shift+n exec swaync-client -C -sw
 
 # Move your focus around
 bindsym $mod+$left focus left
@@ -262,5 +272,6 @@ exec swayosd-server
 exec swaync
 exec wezterm
 exec clementine
+exec gnome-pomodoro
 
 include /etc/sway/config.d/*

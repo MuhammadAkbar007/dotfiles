@@ -50,6 +50,7 @@ window#waybar {
 #idle_inhibitor {
   font-size: 17px;
   color: #40a02b;
+  padding: 0 5px;
 }
 
 #idle_inhibitor.activated {
@@ -63,6 +64,14 @@ window#waybar {
 }
 
 #mpris {
+  background-color: transparent;
+  color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+#mpris.playing,
+#mpris.paused {
   background-color: #313244;
   color: #cdd6f4;
   padding: 0 12px;
@@ -73,7 +82,7 @@ window#waybar {
 
 #mpris.paused {
   color: #6c7086;
-  background-color: transparent;
+  background-color: rgba(49, 50, 68, 0.6);
 }
 
 #window {
@@ -114,8 +123,8 @@ window#waybar.empty #window {
 }
 
 #custom-notification {
-  font-size: 17px;
   padding: 0 5px;
+  font-size: 17px;
   color: #df8e1d;
 }
 
@@ -179,6 +188,22 @@ window#waybar.empty #window {
 }
 
 #custom-nightlight.active {
-  color: #ff9e64; /* Orange color when on */
+  color: #ff9e64;
   border-radius: 8px;
+}
+
+#cpu {
+  color: #94e2d5;
+  padding: 0 5px;
+}
+
+#memory {
+  color: #cba6f7;
+  padding: 0 5px;
+}
+
+#cpu:hover,
+#memory:hover {
+  background: rgba(148, 226, 213, 0.2);
+  transition: background 0.2s ease-in-out;
 }
