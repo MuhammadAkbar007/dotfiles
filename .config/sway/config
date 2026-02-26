@@ -113,6 +113,14 @@ for_window [app_id="gnome-pomodoro"] {
 	scratchpad show
 }
 
+for_window [app_id="^org\.telegram\.desktop.*"] {
+    floating enable
+    opacity 0.95
+    move scratchpad
+    resize set 1000 800
+	scratchpad show
+}
+
 # window opacity
 # for_window [app_id="org.telegram.desktop.*"] opacity 0.95
 for_window [app_id="firefox-esr"] opacity 0.95
@@ -123,6 +131,9 @@ bindsym $mod+Shift+r reload
 
 # Clear all notifications with Mod+Shift+N
 bindsym $mod+Shift+n exec swaync-client -C -sw
+
+# Launch bemoji using wofi
+bindsym $mod+Shift+e exec ~/.local/bin/bemoji -t -n -p "Search Emojis..."
 
 # Move your focus around
 bindsym $mod+$left focus left
@@ -253,7 +264,8 @@ bindsym $mod+e exec --no-startup-id nautilus
 bindsym $mod+n exec swaync-client -t -sw
 
 # screenshot
-bindsym Print exec grim
+# bindsym Print exec grim
+bindsym Print exec --no-startup-id grimshot --notify save screen ~/Pictures/Screenshots/$(date "+%Y-%m-%d"T"%H:%M:%S").png
 bindcode $mod+34  exec --no-startup-id   grimshot --notify  save area ~/Pictures/Screenshots/$(date "+%Y-%m-%d"T"%H:%M:%S_no_watermark").png
 bindcode $mod+35 exec --no-startup-id   grimshot --notify  copy area
 

@@ -3,7 +3,7 @@ window {
   border: 3px solid #df8e1d;
   border-radius: 12px;
   background-color: rgba(30, 30, 46, 0.85);
-  font-family: "JetBrains Mono Nerd Font";
+  font-family: "Ubuntu Nerd Font";
   font-size: 14px;
 }
 
@@ -31,6 +31,7 @@ window {
 
 #text {
   margin: 0px;
+  font-size: 17px;
   border: none;
   color: #cdd6f4;
 }
