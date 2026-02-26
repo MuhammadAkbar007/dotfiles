@@ -54,7 +54,7 @@
 	},
 	"sway/window": {
 		"format": "{}",
-		"max-length": 50,
+		"max-length": 27,
 		"rewrite": {
 			// Browsers
 			"(.*) — Mozilla Firefox": "<span color='#df8e1d'></span> $1",

@@ -36,7 +36,7 @@
 		"exec": "cliphist list | head -n 1 | sed 's/\\[\\[ binary data.*\\]\\]/󰋩 Image/g' | cut -f 2- || echo 'Empty'",
 		"on-click": "cliphist list | sed 's/\\[\\[ binary data.*\\]\\]/󰋩 Image/g' | wofi --dmenu --allow-images --location 3 --xoffset -20 --yoffset 45 --width 600 --prompt 'Clipboard Manager' | cliphist decode | wl-copy",
 		"on-click-right": "cliphist wipe",
-		"max-length": 27,
+		"max-length": 37,
 		"ellipsis": "...",
 		"tooltip": true
 	},
