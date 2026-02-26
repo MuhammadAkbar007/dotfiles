@@ -226,7 +226,7 @@ bindsym $mod+bar splith
 bindsym $mod+minus splitv
 
 # Swap focus between the tiling area and the floating area
-bindsym $mod+d focus mode_toggle
+bindsym $mod+Tab focus mode_toggle
 # Scratchpad:
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+equal scratchpad show
