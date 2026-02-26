@@ -83,6 +83,10 @@ gaps outer 3
 # set gtk+ theme #
 set $gnome-schema org.gnome.desktop.interface
 
+# window opacity
+for_window [app_id="org.telegram.desktop.*"] opacity 0.95
+for_window [app_id="firefox-esr"] opacity 0.95
+
 # always floating
 for_window [app_id="org.gnome.Nautilus"] floating enable, opacity 0.95
 for_window [app_id="org.gnome.FileRoller"] floating enable, opacity 0.95
@@ -112,18 +116,6 @@ for_window [app_id="gnome-pomodoro"] {
 	move scratchpad
 	scratchpad show
 }
-
-for_window [app_id="^org\.telegram\.desktop.*"] {
-    floating enable
-    opacity 0.95
-    move scratchpad
-    resize set 1000 800
-	scratchpad show
-}
-
-# window opacity
-# for_window [app_id="org.telegram.desktop.*"] opacity 0.95
-for_window [app_id="firefox-esr"] opacity 0.95
 
 # bindings
 # Reload the configuration file
