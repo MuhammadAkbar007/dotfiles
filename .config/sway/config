@@ -86,11 +86,14 @@ set $gnome-schema org.gnome.desktop.interface
 # window opacity
 for_window [app_id="org.telegram.desktop.*"] opacity 0.95
 for_window [app_id="firefox-esr"] opacity 0.95
+for_window [app_id="chromium"] opacity 0.95
 
 # always floating
 for_window [app_id="org.gnome.Nautilus"] floating enable, opacity 0.95
 for_window [app_id="org.gnome.FileRoller"] floating enable, opacity 0.95
 for_window [app_id="org.gnome.Loupe"] floating enable, opacity 0.95
+for_window [app_id="org.gnome.Calculator"] floating enable, opacity 0.95
+for_window [app_id="floating_shell"] floating enable, resize set 600 400, move position cursor
 
 for_window [app_id="nm-connection-editor"] {
 	opacity 0.95

@@ -27,7 +27,7 @@
 		// "cpu",
 		// "memory",
 		"pulseaudio",
-		// "backlight",
+		"backlight",
 		"privacy",
 		"network",
 		"custom/notification",

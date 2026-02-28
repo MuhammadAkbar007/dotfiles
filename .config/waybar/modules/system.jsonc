@@ -16,7 +16,8 @@
 			"󰤨 " // 100%
 		],
 		"tooltip-format": "{essid} ({signalStrength}%) via {gwaddr} 󰀂",
-		"on-click": "nm-connection-editor"
+		// "on-click": "nm-connection-editor"
+		"on-click": "kitty --class floating_shell -e nmtui"
 	},
 	"battery": {
 		"format": "{icon} {capacity}%",
@@ -31,8 +32,9 @@
 		"spacing": 10
 	},
 	"mpris": {
-		"format": "{player_icon} {status_icon} {title}",
-		"format-paused": "{player_icon} {status_icon} <i>{title}</i>",
+		"format": "{status_icon}  {title}",
+		// "format": "{player_icon} {status_icon} {title}",
+		"format-paused": "{status_icon}  <i>{title}</i>",
 		"format-stopped": "",
 		"player-icons": {
 			"default": "<span>▶</span>",
