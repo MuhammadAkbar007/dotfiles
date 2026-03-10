@@ -58,7 +58,7 @@ window#waybar {
 }
 
 #idle_inhibitor.activated {
-  color: #f38ba8;
+  color: #40a02b;
   padding: 0 3px;
 }
 
@@ -157,6 +157,12 @@ window#waybar.empty #window {
 
 #privacy-item.audio-in {
   color: #a6e3a1;
+}
+
+#privacy-item.camera {
+  color: #50fa7b;
+  margin-left: 5px;
+  padding: 0 5px;
 }
 
 #custom-clipboard {

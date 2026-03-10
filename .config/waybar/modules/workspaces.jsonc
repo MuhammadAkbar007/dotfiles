@@ -6,11 +6,11 @@
 		"window-format": "{icon}", // This is what renders the rewritten icon
 		"window-rewrite-default": "",
 		"window-rewrite": {
-			"class<firefox-esr>": "",
+			"class<firefox-esr>": "",
 			"class<clementine>": "󱁇",
 			"class<org.wezfurlong.wezterm>": "",
-			"class<org.telegram.desktop.*>": "",
-			"class<io.github.kotatogram>": "",
+			"class<org.telegram.desktop.*>": "",
+			"class<io.github.kotatogram>": "",
 			"class<be.alexandervanhee.gradia>": "󰹙",
 			"class<kitty>": "󰄛",
 			"class<foot>": "󰽒",
@@ -58,7 +58,7 @@
 		"max-length": 27,
 		"rewrite": {
 			// Browsers
-			"(.*) — Mozilla Firefox": "<span color='#df8e1d'></span> $1",
+			"(.*) — Mozilla Firefox": "<span color='#df8e1d'></span> $1",
 			"(.*) - Google Chrome": "<span color='#df8e1d'>󰊯</span> $1",
 			"(.*) - Brave": "<span color='#df8e1d'></span> $1",
 			"(.*) - Chromium": "<span color='#df8e1d'></span> $1",
@@ -77,7 +77,7 @@
 			"mpv": "<span color='#df8e1d'></span> mpv",
 			"Spotify(.*)": "<span color='#df8e1d'></span> Spotify",
 			// Communication
-			"Telegram(.*)": "<span color='#df8e1d'></span> Telegram",
+			"Telegram(.*)": "<span color='#df8e1d'></span> Telegram",
 			"Discord(.*)": "<span color='#df8e1d'></span> Discord",
 			// GNOME Apps
 			"Files": "<span color='#df8e1d'>󰝰</span> Files",

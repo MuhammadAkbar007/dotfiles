@@ -85,10 +85,13 @@ set $gnome-schema org.gnome.desktop.interface
 
 # window opacity
 for_window [app_id="org.telegram.desktop.*"] opacity 0.95
+for_window [app_id="io.github.kotatogram"] opacity 0.95
 for_window [app_id="firefox-esr"] opacity 0.95
 for_window [app_id="chromium"] opacity 0.95
 
 # always floating
+for_window [app_id="mpv"] floating enable, opacity 0.95
+for_window [app_id="org.gnome.Clocks"] floating enable, opacity 0.95
 for_window [app_id="org.gnome.Nautilus"] floating enable, opacity 0.95
 for_window [app_id="org.gnome.FileRoller"] floating enable, opacity 0.95
 for_window [app_id="org.gnome.Loupe"] floating enable, opacity 0.95
@@ -259,10 +262,9 @@ bindsym $mod+e exec --no-startup-id nautilus
 bindsym $mod+n exec swaync-client -t -sw
 
 # screenshot
-# bindsym Print exec grim
-bindsym Print exec --no-startup-id grimshot --notify save screen ~/Pictures/Screenshots/$(date "+%Y-%m-%d"T"%H:%M:%S").png
-bindcode $mod+34  exec --no-startup-id   grimshot --notify  save area ~/Pictures/Screenshots/$(date "+%Y-%m-%d"T"%H:%M:%S_no_watermark").png
-bindcode $mod+35 exec --no-startup-id   grimshot --notify  copy area
+bindsym Print exec --no-startup-id grimshot --notify save screen ~/Pictures/Screenshots/$(date "+%Y-%m-%d"T"%H:%M:%S").png && wl-copy < ~/Pictures/Screenshots/$(ls -t ~/Pictures/Screenshots/ | head -n 1)
+bindcode $mod+34 exec --no-startup-id grimshot --notify save area ~/Pictures/Screenshots/$(date "+%Y-%m-%d"T"%H:%M:%S_no_watermark").png
+bindcode $mod+35 exec --no-startup-id grimshot --notify copy area
 
 # Bind Mod+V to open the clipboard manager in the Waybar position
 bindsym $mod+v exec cliphist list | sed 's/\[\[ binary data.*\]\]/󰋩 Image/g' | wofi --dmenu --allow-images --location 3 --xoffset -20 --yoffset 45 --width 600 --prompt "Clipboard Manager" | cliphist decode | wl-copy

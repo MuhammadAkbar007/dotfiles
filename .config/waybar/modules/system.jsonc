@@ -17,7 +17,7 @@
 		],
 		"tooltip-format": "{essid} ({signalStrength}%) via {gwaddr} 󰀂",
 		// "on-click": "nm-connection-editor"
-		"on-click": "kitty --class floating_shell -e nmtui"
+		"on-click": "kitty -e nmtui"
 	},
 	"battery": {
 		"format": "{icon} {capacity}%",
@@ -95,7 +95,7 @@
 	},
 	"privacy": {
 		"icon-spacing": 8,
-		"icon-size": 18,
+		"icon-size": 15,
 		"nodes": [
 			{
 				"type": "screenshare",
@@ -104,6 +104,11 @@
 			},
 			{
 				"type": "audio-in",
+				"tooltip": true,
+				"tooltip-icon-size": 24
+			},
+			{
+				"type": "camera",
 				"tooltip": true,
 				"tooltip-icon-size": 24
 			}
