@@ -18,6 +18,11 @@ font pango:Ubuntu 11
 
 # background wallpaper
 output * bg /home/akbar/Pictures/desktop_wallpapers/dark/treeBreeze.jpg fill
+# output * bg /home/akbar/Pictures/desktop_wallpapers/dark/flyingIronManCartoon.jpg fill
+# output * bg /home/akbar/Pictures/desktop_wallpapers/dark/ready_player_one.jpg fill
+# output * bg /home/akbar/Pictures/desktop_wallpapers/dark/lambo.jpg fill
+# output * bg /home/akbar/Pictures/desktop_wallpapers/dark/blackOHaraCostumeInBlackBg.jpg fill
+# output * bg /home/akbar/Pictures/desktop_wallpapers/dark/housesForHyprland.jpg fill
 
 # per screen configuration:
 #
@@ -127,6 +132,7 @@ for_window [app_id="gnome-pomodoro"] {
 # Reload the configuration file
 bindsym $mod+Shift+r reload
 
+# Notification
 # Clear all notifications with Mod+Shift+N
 bindsym $mod+Shift+n exec swaync-client -C -sw
 
@@ -239,7 +245,6 @@ bindsym $mod+equal scratchpad show
 
 bindsym Control+Mod1+Delete exec wlogout -b 3
 
-# SwayOSD Keybindings
 # Volume controls
 bindsym --locked XF86AudioMute exec swayosd-client --output-volume mute-toggle
 bindsym --locked XF86AudioLowerVolume exec swayosd-client --output-volume lower
@@ -247,8 +252,8 @@ bindsym --locked XF86AudioRaiseVolume exec swayosd-client --output-volume raise
 bindsym --locked XF86AudioMicMute exec swayosd-client --input-volume mute-toggle
 
 # Brightness controls
-bindsym --locked XF86MonBrightnessDown exec swayosd-client --brightness lower
-bindsym --locked XF86MonBrightnessUp exec swayosd-client --brightness raise
+bindsym --locked XF86MonBrightnessDown exec swayosd-client --brightness -1
+bindsym --locked XF86MonBrightnessUp exec swayosd-client --brightness +1
 
 # Media controls
 bindsym --locked XF86AudioPlay exec playerctl play-pause

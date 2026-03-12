@@ -1,0 +1,24 @@
+font=Ubuntu Nerd Font 13
+background-color=#1e1e2ecc
+text-color=#cdd6f4
+border-color=#df8e1d
+border-size=2
+border-radius=5
+padding=15
+margin=10
+default-timeout=5000
+format=<b>%s</b>\n%b
+
+# --- Icon Settings ---
+icon-path=/home/akbar/dotfiles/.icons/candy-icons-master/apps/scalable:/home/akbar/.local/share/icons/hicolor/256x256/apps:/usr/share/icons/hicolor:/usr/share/pixmaps
+max-icon-size=64
+icon-location=left
+
+# Interactions
+on-button-left=exec sh -c "makoctl dismiss && pkill -RTMIN+8 waybar"
+on-button-right=exec sh -c "makoctl mode -t dnd && pkill -RTMIN+8 waybar"
+on-button-middle=exec sh -c "makoctl dismiss -a && pkill -RTMIN+8 waybar"
+on-notify=exec pkill -RTMIN+8 waybar
+
+[mode=dnd]
+invisible=1

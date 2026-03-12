@@ -1,7 +1,8 @@
 {
 	"clock#5": {
 		"format": " {:%a %d -  %H:%M}",
-		"tooltip-format": "<tt>{calendar}</tt>"
+		"tooltip-format": "<tt>{calendar}</tt>",
+		"on-click": "swaymsg [app_id='org.gnome.Calendar'] focus || gnome-calendar"
 	},
 	"network": {
 		"interval": 5,
@@ -16,7 +17,6 @@
 			"󰤨 " // 100%
 		],
 		"tooltip-format": "{essid} ({signalStrength}%) via {gwaddr} 󰀂",
-		// "on-click": "nm-connection-editor"
 		"on-click": "kitty -e nmtui"
 	},
 	"battery": {

@@ -220,3 +220,19 @@ window#waybar.empty #window {
   background: rgba(148, 226, 213, 0.2);
   transition: background 0.2s ease-in-out;
 }
+
+#workspaces button.urgent,
+#workspaces button.urgent image,
+#workspaces button.urgent label {
+  color: #e64553;
+  animation-name: blink;
+  animation-duration: 0.9s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes blink {
+  to {
+    color: #1e1e2e;
+  }
+}
