@@ -277,6 +277,7 @@ bindsym $mod+v exec cliphist list | sed 's/\[\[ binary data.*\]\]/󰋩 Image/g' 
 # startup applications
 exec_always  --no-startup-id  ~/.config/waybar/launch_waybar.sh
 exec_always autotiling
+exec_always pgrep wlsunset || wlsunset -l 41.005 -L 71.794 -T 6500 -t 4000
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec /usr/libexec/xdg-desktop-portal-wlr & 
 exec /usr/libexec/xdg-desktop-portal &

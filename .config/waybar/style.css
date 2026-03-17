@@ -226,7 +226,7 @@ window#waybar.empty #window {
 #workspaces button.urgent label {
   color: #e64553;
   animation-name: blink;
-  animation-duration: 0.9s;
+  animation-duration: 0.5s;
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
