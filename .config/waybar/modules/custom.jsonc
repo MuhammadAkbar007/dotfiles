@@ -64,5 +64,12 @@
 		"signal": 10,
 		"on-click": "~/dotfiles/.config/waybar/toggle_nightlight.sh",
 		"format": "{icon} {}"
+	},
+	"custom/prayer": {
+		"exec": "~/dotfiles/.config/waybar/prayer.sh",
+		// "exec": "/home/akbar/.config/waybar/prayer.sh > /tmp/prayer.log 2>&1",
+		"return-type": "json",
+		"interval": 30,
+		"tooltip": true
 	}
 }

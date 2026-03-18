@@ -236,3 +236,17 @@ window#waybar.empty #window {
     color: #1e1e2e;
   }
 }
+
+#custom-prayer {
+  background: rgba(49, 50, 68, 0.5);
+  padding: 0 12px;
+  margin: 5px 5px;
+  border-radius: 10px;
+  font-weight: bold;
+  color: #df8e1d;
+  /* color: #a6e3a1; */
+}
+
+#custom-prayer:hover {
+  background: rgba(166, 227, 161, 0.2);
+}

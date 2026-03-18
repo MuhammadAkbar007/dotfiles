@@ -9,7 +9,8 @@
 	"include": [
 		"~/.config/waybar/modules/workspaces.jsonc",
 		"~/.config/waybar/modules/system.jsonc",
-		"~/.config/waybar/modules/custom.jsonc"
+		"~/.config/waybar/modules/custom.jsonc",
+		"~/.config/waybar/modules/groups.jsonc"
 	],
 	"modules-left": [
 		"sway/workspaces",
@@ -21,20 +22,9 @@
 	"modules-right": [
 		"custom/clipboard",
 		"battery",
-		"custom/separator#line",
+		"custom/prayer",
+		"group/quicksettings",
 		"tray",
-		"custom/separator#line",
-		// "cpu",
-		// "memory",
-		"pulseaudio",
-		"backlight",
-		"privacy",
-		"network",
-		"custom/notification",
-		"custom/nightlight",
-		"idle_inhibitor",
-		"custom/power",
-		"custom/separator#line",
 		"clock#5"
 	]
 }
