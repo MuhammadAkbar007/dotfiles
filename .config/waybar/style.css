@@ -62,6 +62,11 @@ window#waybar {
   padding: 0 3px;
 }
 
+#idle_inhibitor.deactivated {
+  color: #e64553;
+  padding: 0 3px;
+}
+
 #custom-power {
   color: #f38ba8;
   padding: 0 3px;
@@ -249,4 +254,51 @@ window#waybar.empty #window {
 
 #custom-prayer:hover {
   background: rgba(166, 227, 161, 0.2);
+}
+
+#workspaces,
+#quicksettings {
+  border-radius: 10px;
+  background: rgba(30, 30, 46, 0.5);
+}
+
+#quicksettings.open {
+  border: 1px solid #df8e1d;
+}
+
+/* Ensure children have consistent padding */
+#quicksettings > * {
+  padding: 0 5px;
+}
+
+/* Hide the child modules visually until the drawer opens */
+#quicksettings .drawer {
+  transition: all 0.5s cubic-bezier(0, 1, 0.5, 1);
+}
+
+#custom-pomodoro {
+  padding: 0 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 15px;
+  border-radius: 10px;
+  font-weight: bold;
+  background: rgba(49, 50, 68, 0.5);
+}
+
+#custom-pomodoro:hover {
+  background: rgba(223, 142, 29, 0.2);
+  transition: background 0.2s ease-in-out;
+}
+
+#custom-pomodoro.work {
+  color: #40a02b;
+}
+
+#custom-pomodoro.break {
+  color: #e64553;
+}
+
+#custom-pomodoro.idle {
+  color: #df8e1d;
 }

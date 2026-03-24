@@ -69,7 +69,16 @@
 		"exec": "~/dotfiles/.config/waybar/prayer.sh",
 		// "exec": "/home/akbar/.config/waybar/prayer.sh > /tmp/prayer.log 2>&1",
 		"return-type": "json",
-		"interval": 30,
+		"interval": 600,
+		"signal": 8,
 		"tooltip": true
+	},
+	"custom/pomodoro": { // next, toggle, reset
+		"exec": "/home/akbar/akbarDev/pet-projects/pomodoro/pomodoro.py",
+		"return-type": "json",
+		"interval": 0,
+		"on-click": "/home/akbar/akbarDev/pet-projects/pomodoro/pomodoroctl.py toggle",
+		"on-click-right": "/home/akbar/akbarDev/pet-projects/pomodoro/pomodoroctl.py next",
+		"on-click-middle": "/home/akbar/akbarDev/pet-projects/pomodoro/pomodoroctl.py reset"
 	}
 }

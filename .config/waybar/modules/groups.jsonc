@@ -7,15 +7,14 @@
 			"transition-left-to-right": false
 		},
 		"modules": [ // The first element is the "anchor" (always visible)
-			"network",
+			"pulseaudio",
 			"cpu",
 			"memory",
-			"pulseaudio",
 			"backlight",
 			"privacy",
 			"custom/notification",
 			"custom/nightlight",
-			"idle_inhibitor",
+			"battery",
 			"custom/power"
 		]
 	}

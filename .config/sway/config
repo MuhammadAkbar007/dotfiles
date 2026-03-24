@@ -360,6 +360,6 @@ exec mako
 # exec swaync
 exec wezterm
 exec clementine
-exec gnome-pomodoro
+# exec gnome-pomodoro
 
 include /etc/sway/config.d/*

@@ -14,6 +14,7 @@
 	],
 	"modules-left": [
 		"sway/workspaces",
+		"custom/pomodoro",
 		"mpris"
 	],
 	"modules-center": [
@@ -21,9 +22,10 @@
 	],
 	"modules-right": [
 		"custom/clipboard",
-		"battery",
-		"custom/prayer",
 		"group/quicksettings",
+		"network",
+		"idle_inhibitor",
+		"custom/prayer",
 		"tray",
 		"clock#5"
 	]

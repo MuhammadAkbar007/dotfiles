@@ -55,7 +55,7 @@
 	"idle_inhibitor": {
 		"format": "{icon}",
 		"format-icons": {
-			"activated": "",
+			"activated": "󰅶", // 
 			"deactivated": "󰾪"
 		},
 		"tooltip-format-activated": "Caffeine: On",
