@@ -133,3 +133,6 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # kilo
 export PATH=/home/akbar/.kilo/bin:$PATH
+
+# uv zsh autocompletion
+eval "$(uv generate-shell-completion zsh)"

@@ -1,4 +1,5 @@
 return {
+	-- https://github.com/projekt0n/github-nvim-theme
 	"catppuccin/nvim", -- colorscheme catppuccin
 	priority = 1000,
 	name = "catppuccin",

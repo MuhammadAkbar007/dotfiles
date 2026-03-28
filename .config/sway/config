@@ -308,10 +308,14 @@ bindsym Control+Mod1+Delete exec wlogout -b 3
 #########################
 # Volume controls
 #########################
-bindsym --locked XF86AudioMute exec swayosd-client --output-volume mute-toggle
-bindsym --locked XF86AudioLowerVolume exec swayosd-client --output-volume lower
-bindsym --locked XF86AudioRaiseVolume exec swayosd-client --output-volume raise
 bindsym --locked XF86AudioMicMute exec swayosd-client --input-volume mute-toggle
+bindsym --locked XF86AudioMute exec swayosd-client --output-volume mute-toggle
+bindsym --locked XF86AudioLowerVolume exec swayosd-client --output-volume -1
+bindsym --locked XF86AudioRaiseVolume exec swayosd-client --output-volume +1
+
+# bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +1% ; swayosd-client --output-volume +1
+# bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -1% ; swayosd-client --output-volume -1
+# bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle ; swayosd-client --output-volume mute-toggle
 
 #########################
 # Brightness controls
@@ -357,9 +361,7 @@ exec wl-paste --type text --watch cliphist store
 exec wl-paste --type image --watch cliphist store
 exec swayosd-server
 exec mako 
-# exec swaync
 exec wezterm
 exec clementine
-# exec gnome-pomodoro
 
 include /etc/sway/config.d/*
