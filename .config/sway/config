@@ -117,6 +117,7 @@ for_window [app_id="org.telegram.desktop.*"] opacity 0.95
 for_window [app_id="io.github.kotatogram"] opacity 0.95
 for_window [app_id="firefox-esr"] opacity 0.95
 for_window [app_id="chromium"] opacity 0.95
+# for_window [class="discord"] opacity 0.95
 
 #########################
 # always floating
@@ -127,6 +128,7 @@ for_window [app_id="org.gnome.Nautilus"] floating enable, opacity 0.95
 for_window [app_id="org.gnome.FileRoller"] floating enable, opacity 0.95
 for_window [app_id="org.gnome.Loupe"] floating enable, opacity 0.95
 for_window [app_id="org.gnome.Calculator"] floating enable, opacity 0.95
+for_window [class="discord"] floating enable, opacity 0.95
 for_window [app_id="floating_shell"] floating enable, resize set 600 400, move position cursor
 
 for_window [app_id="nm-connection-editor"] {
@@ -354,14 +356,17 @@ bindsym $mod+v exec cliphist list | sed 's/\[\[ binary data.*\]\]/󰋩 Image/g' 
 exec_always  --no-startup-id  ~/.config/waybar/launch_waybar.sh
 exec_always autotiling
 exec_always pgrep wlsunset || wlsunset -l 41.005 -L 71.794 -T 6500 -t 4000
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec /usr/libexec/xdg-desktop-portal-wlr & 
+exec /usr/libexec/xdg-desktop-portal-gtk &
 exec /usr/libexec/xdg-desktop-portal &
-exec wl-paste --type text --watch cliphist store
+exec /usr/libexec/xdg-desktop-portal &exec wl-paste --type text --watch cliphist store
 exec wl-paste --type image --watch cliphist store
 exec swayosd-server
 exec mako 
 exec wezterm
 exec clementine
+xwayland enable
 
 include /etc/sway/config.d/*

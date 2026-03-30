@@ -8,8 +8,8 @@
 		},
 		"modules": [ // The first element is the "anchor" (always visible)
 			"pulseaudio",
-			"cpu",
-			"memory",
+			// "cpu",
+			// "memory",
 			"backlight",
 			"privacy",
 			"custom/notification",

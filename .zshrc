@@ -136,3 +136,6 @@ export PATH=/home/akbar/.kilo/bin:$PATH
 
 # uv zsh autocompletion
 eval "$(uv generate-shell-completion zsh)"
+
+export XDG_CURRENT_DESKTOP=sway
+export XDG_SESSION_TYPE=wayland
