@@ -19,7 +19,8 @@ font pango:Ubuntu 11
 #########################
 # background wallpaper
 #########################
-output * bg /home/akbar/Pictures/desktop_wallpapers/dark/treeBreeze.jpg fill
+output * bg /home/akbar/Pictures/desktop_wallpapers/light/nissan_gtr-34.png fill
+# output * bg /home/akbar/Pictures/desktop_wallpapers/dark/treeBreeze.jpg fill
 # output * bg /home/akbar/Pictures/desktop_wallpapers/dark/flyingIronManCartoon.jpg fill
 # output * bg /home/akbar/Pictures/desktop_wallpapers/dark/ready_player_one.jpg fill
 # output * bg /home/akbar/Pictures/desktop_wallpapers/dark/lambo.jpg fill
@@ -64,6 +65,12 @@ input "type:keyboard" {
 #########################
 bindgesture swipe:right workspace prev
 bindgesture swipe:left workspace next
+
+#########################
+# Gesture for Fullscreen (4-finger swipe)
+#########################
+bindgesture swipe:4:up fullscreen toggle
+bindgesture swipe:4:down fullscreen toggle
 
 #########################
 # Start terminal
@@ -111,12 +118,13 @@ gaps outer 3
 set $gnome-schema org.gnome.desktop.interface
 
 #########################
-# window opacity
+# window opacity | transparent
 #########################
 for_window [app_id="org.telegram.desktop.*"] opacity 0.95
 for_window [app_id="io.github.kotatogram"] opacity 0.95
 for_window [app_id="firefox-esr"] opacity 0.95
 for_window [app_id="chromium"] opacity 0.95
+for_window [app_id="chrome-nbgaohbaloalcnahopokcccdifipeekd-Profile_2"] title_format "HStaff: %title", opacity 0.95
 # for_window [class="discord"] opacity 0.95
 
 #########################
@@ -129,6 +137,7 @@ for_window [app_id="org.gnome.FileRoller"] floating enable, opacity 0.95
 for_window [app_id="org.gnome.Loupe"] floating enable, opacity 0.95
 for_window [app_id="org.gnome.Calculator"] floating enable, opacity 0.95
 for_window [class="discord"] floating enable, opacity 0.95
+for_window [class="Netsoft-com.netsoft.hubstaff"] floating enable, opacity 0.95
 for_window [app_id="floating_shell"] floating enable, resize set 600 400, move position cursor
 
 for_window [app_id="nm-connection-editor"] {
@@ -303,8 +312,12 @@ bindsym $mod+Tab focus mode_toggle
 # Scratchpad:
 #########################
 bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+Shift+z move container to workspace current, floating disable
 bindsym $mod+equal scratchpad show
 
+#########################
+# wlogout menu
+#########################
 bindsym Control+Mod1+Delete exec wlogout -b 3
 
 #########################
@@ -343,8 +356,8 @@ bindsym $mod+e exec --no-startup-id nautilus
 #########################
 # screenshot
 #########################
-bindsym Print exec --no-startup-id grimshot --notify save screen ~/Pictures/Screenshots/$(date "+%Y-%m-%d"T"%H:%M:%S").png && wl-copy < ~/Pictures/Screenshots/$(ls -t ~/Pictures/Screenshots/ | head -n 1)
-bindcode $mod+34 exec --no-startup-id grimshot --notify save area ~/Pictures/Screenshots/$(date "+%Y-%m-%d"T"%H:%M:%S_no_watermark").png
+bindsym Print exec bash -c 'FILE=~/Pictures/Screenshots/$(date "+%Y-%m-%d_T_%H:%M:%S").png; grimshot save screen "$FILE" && wl-copy < "$FILE" && [ "$(notify-send "Screenshot Captured" "Click to open" -i "$FILE" --action=default="Open")" = "default" ] && xdg-open "$FILE"'
+bindcode $mod+34 exec bash -c 'FILE=~/Pictures/Screenshots/$(date "+%Y-%m-%d_T_%H:%M:%S_no_watermark").png; grimshot save area "$FILE" && wl-copy < "$FILE" && [ "$(notify-send "Screenshot Captured" "Click to open" -i "$FILE" --action=default="Open")" = "default" ] && xdg-open "$FILE"'
 bindcode $mod+35 exec --no-startup-id grimshot --notify copy area
 
 # Bind Mod+V to open the clipboard manager in the Waybar position
@@ -361,12 +374,13 @@ exec hash dbus-update-activation-environment 2>/dev/null && \
 exec /usr/libexec/xdg-desktop-portal-wlr & 
 exec /usr/libexec/xdg-desktop-portal-gtk &
 exec /usr/libexec/xdg-desktop-portal &
-exec /usr/libexec/xdg-desktop-portal &exec wl-paste --type text --watch cliphist store
+exec wl-paste --type text --watch cliphist store
 exec wl-paste --type image --watch cliphist store
 exec swayosd-server
 exec mako 
 exec wezterm
 exec clementine
 xwayland enable
+
 
 include /etc/sway/config.d/*

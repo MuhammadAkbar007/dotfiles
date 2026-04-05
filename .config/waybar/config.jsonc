@@ -22,10 +22,8 @@
 	],
 	"modules-right": [
 		"custom/clipboard",
-		"group/quicksettings",
-		"network",
-		"idle_inhibitor",
 		"custom/prayer",
+		"group/quicksettings",
 		"tray",
 		"clock#5"
 	]

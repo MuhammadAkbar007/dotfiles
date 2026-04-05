@@ -30,7 +30,8 @@ set which-key "" show which key is can be pressed
 
 "" Key mappings
 "" ========================================================
-inoremap jk <Esc> "" escape from insert mode
+"" escape from insert mode
+inoremap jk <Esc>
 
 " Pane navigation
 nnoremap <A-h> <C-w>h

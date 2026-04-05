@@ -1,6 +1,6 @@
 return {
 	filetypes = { "python" },
-	root_dir = require("lspconfig.util").root_pattern("manage.py", ".git", "pyrightconfig.json"),
+	root_dir = require("lspconfig.util").root_pattern("manage.py", ".git", "pyrightconfig.json", "pyproject.toml"),
 	settings = {
 		python = {
 			analysis = {

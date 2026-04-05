@@ -15,9 +15,10 @@ max-icon-size=64
 icon-location=left
 
 # Interactions
-on-button-left=exec sh -c "makoctl dismiss && pkill -RTMIN+8 waybar"
-on-button-right=exec sh -c "makoctl mode -t dnd && pkill -RTMIN+8 waybar"
-on-button-middle=exec sh -c "makoctl dismiss -a && pkill -RTMIN+8 waybar"
+# on-button-left=exec sh -c "makoctl dismiss && pkill -RTMIN+8 waybar"
+on-button-left=invoke-default-action
+on-button-right=exec sh -c "makoctl dismiss -a && pkill -RTMIN+8 waybar"
+on-button-middle=exec sh -c "makoctl mode -t dnd && pkill -RTMIN+8 waybar"
 on-notify=exec pkill -RTMIN+8 waybar
 
 [mode=dnd]

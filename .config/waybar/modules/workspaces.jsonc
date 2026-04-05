@@ -50,12 +50,14 @@
 			"class<spotify>": "",
 			"class<discord>": "",
 			"class<code-oss>": "󰨞",
-			"class<code>": "󰨞"
+			"class<code>": "󰨞",
+			"class<chrome-nbgaohbaloalcnahopokcccdifipeekd-Profile_2>": "",
+			"class<Netsoft-com.netsoft.hubstaff>": ""
 		}
 	},
 	"sway/window": {
 		"format": "{}",
-		"max-length": 27,
+		"max-length": 25,
 		"rewrite": {
 			// Browsers
 			"(.*) — Mozilla Firefox": "<span color='#df8e1d'></span> $1",
@@ -79,6 +81,7 @@
 			// Communication
 			"Telegram(.*)": "<span color='#df8e1d'></span> Telegram",
 			"Discord(.*)": "<span color='#df8e1d'></span> Discord",
+			"(.*) - Discord": "<span color='#df8e1d'></span> Discord",
 			// GNOME Apps
 			"Files": "<span color='#df8e1d'>󰝰</span> Files",
 			"Text Editor": "<span color='#df8e1d'></span> Text Editor",
@@ -94,6 +97,8 @@
 			// System & Tools
 			"qBittorrent(.*)": "<span color='#df8e1d'>󰴾</span> qBittorrent",
 			"OBS(.*)": "<span color='#df8e1d'>󰑋</span> OBS Studio",
+			"HStaff (.*)": "<span color='#df8e1d'></span> $1",
+			"Hubstaff": "<span color='#df8e1d'></span> $1 Hubstaff",
 			// This regex ensures we only match if there is no span tag already present
 			"^([^󰊯󰄛󰝰]+)$": "<span color='#df8e1d'></span> $1"
 		}

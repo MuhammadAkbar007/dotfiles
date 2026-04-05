@@ -49,7 +49,7 @@
 			"playing": "<span color='#a6d189'></span>",
 			"paused": "<span color='#f38ba8'></span>"
 		},
-		"max-length": 41,
+		"max-length": 25, // 41
 		"ellipsis": "..."
 	},
 	"idle_inhibitor": {
