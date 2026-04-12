@@ -124,6 +124,8 @@ for_window [app_id="org.telegram.desktop.*"] opacity 0.95
 for_window [app_id="io.github.kotatogram"] opacity 0.95
 for_window [app_id="firefox-esr"] opacity 0.95
 for_window [app_id="chromium"] opacity 0.95
+for_window [app_id="brave-browser"] opacity 0.95
+for_window [app_id="code"] opacity 0.95
 for_window [app_id="chrome-nbgaohbaloalcnahopokcccdifipeekd-Profile_2"] title_format "HStaff: %title", opacity 0.95
 # for_window [class="discord"] opacity 0.95
 

@@ -139,3 +139,10 @@ eval "$(uv generate-shell-completion zsh)"
 
 export XDG_CURRENT_DESKTOP=sway
 export XDG_SESSION_TYPE=wayland
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+export TERMINAL=kitty
+
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
