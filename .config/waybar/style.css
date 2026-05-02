@@ -244,6 +244,7 @@ window#waybar.empty #window {
 
 #custom-prayer {
   /* background: rgba(49, 50, 68, 0.5); */
+  background: rgba(166, 227, 161, 0.1);
   padding: 0 12px;
   margin: 5px 5px;
   border-radius: 10px;

@@ -79,7 +79,8 @@ return {
 	window_decorations = "NONE",
 	enable_tab_bar = false,
 	adjust_window_size_when_changing_font_size = false,
-	window_background_opacity = 0.8,
+	window_background_opacity = 0.93,
+	-- window_background_opacity = 0.8,
 
 	window_padding = {
 		left = 10,

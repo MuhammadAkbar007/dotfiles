@@ -144,5 +144,9 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export TERMINAL=kitty
 
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
+# Lazy load pyenv to avoid lock contention during parallel shell initialization
+if [[ -d "$PYENV_ROOT" ]]; then
+  eval "$(pyenv init --path)"
+  eval "$(pyenv init - --no-rehash)"  # Skip rehash during init
+  (pyenv rehash 2>/dev/null &) >/dev/null 2>&1  # Async rehash in background, silently
+fi

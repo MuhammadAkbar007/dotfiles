@@ -18,13 +18,13 @@
 		"mpris"
 	],
 	"modules-center": [
-		"sway/window"
+		"clock#5"
+		// "sway/window"
 	],
 	"modules-right": [
 		"custom/clipboard",
-		"custom/prayer",
 		"group/quicksettings",
 		"tray",
-		"clock#5"
+		"custom/prayer"
 	]
 }

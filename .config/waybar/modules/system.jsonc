@@ -1,6 +1,6 @@
 {
 	"clock#5": {
-		"format": " {:%a %d -  %H:%M}",
+		"format": " {:%d %B | %a -  %H:%M}",
 		"tooltip-format": "<tt>{calendar}</tt>",
 		"on-click": "swaymsg [app_id='org.gnome.Calendar'] focus || gnome-calendar"
 	},
