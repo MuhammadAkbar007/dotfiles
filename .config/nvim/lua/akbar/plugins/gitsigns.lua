@@ -93,8 +93,8 @@ return {
 				map("n", "<leader>hb", function()
 					gitsigns.blame_line({ full = true })
 				end)
-				map("n", "<leader>hd", gitsigns.diffthis) -- git diff buffer-to-beffer side-by-side
-				map("n", "<leader>hD", function()
+				map("n", "<leader>hD", gitsigns.diffthis) -- git diff buffer-to-beffer side-by-side
+				map("n", "<leader>hd", function()
 					gitsigns.diffthis("~")
 				end)
 				map("n", "<leader>hQ", function()

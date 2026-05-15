@@ -130,6 +130,7 @@ for_window [app_id="com.discordapp.Discord"] opacity 0.98
 for_window [app_id="firefox-esr"] opacity 0.98
 for_window [app_id="chromium"] opacity 0.98
 for_window [app_id="brave-browser"] opacity 0.98
+for_window [app_id="google-chrome"] opacity 0.98
 
 #########################
 # always floating
@@ -318,6 +319,13 @@ bindsym $mod+Tab focus mode_toggle
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+Shift+z move container to workspace current, floating disable
 bindsym $mod+equal scratchpad show
+
+#########################
+# Assign to specific workspace:
+#########################
+assign [app_id="org.telegram.desktop.*"] workspace number 9
+assign [app_id="com.discordapp.Discord"] workspace number 9
+assign [app_id="chrome-nbgaohbaloalcnahopokcccdifipeekd-Profile_2"] workspace number 10
 
 #########################
 # wlogout menu
