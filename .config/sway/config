@@ -323,9 +323,9 @@ bindsym $mod+equal scratchpad show
 #########################
 # Assign to specific workspace:
 #########################
-assign [app_id="org.telegram.desktop.*"] workspace number 9
-assign [app_id="com.discordapp.Discord"] workspace number 9
-assign [app_id="chrome-nbgaohbaloalcnahopokcccdifipeekd-Profile_2"] workspace number 10
+# assign [app_id="org.telegram.desktop.*"] workspace number 9
+# assign [app_id="com.discordapp.Discord"] workspace number 9
+# assign [app_id="chrome-nbgaohbaloalcnahopokcccdifipeekd-Profile_2"] workspace number 10
 
 #########################
 # wlogout menu

@@ -19,6 +19,12 @@
 		"tooltip-format": "{essid} ({signalStrength}%) via {gwaddr} 󰀂",
 		"on-click": "kitty -e nmtui"
 	},
+	"network#speed": {
+		"interval": 2,
+		"format": " {bandwidthUpBytes} 󰬦 {bandwidthDownBytes}",
+		"format-disconnected": "↑ 0 ↓ 0",
+		"tooltip": false
+	},
 	"battery": {
 		"format": "{icon} {capacity}%",
 		"format-icons": [

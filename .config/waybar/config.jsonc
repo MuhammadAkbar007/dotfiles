@@ -23,6 +23,7 @@
 	],
 	"modules-right": [
 		"custom/clipboard",
+		"group/info",
 		"group/quicksettings",
 		"tray",
 		"custom/prayer"

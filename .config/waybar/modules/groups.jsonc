@@ -8,8 +8,6 @@
 		},
 		"modules": [ // The first element is the "anchor" (always visible)
 			"idle_inhibitor",
-			// "cpu",
-			// "memory",
 			// "backlight",
 			"privacy",
 			// "custom/notification",
@@ -19,6 +17,19 @@
 			"network",
 			"custom/power"
 			// "bluetooth"
+		]
+	},
+	"group/info": {
+		"orientation": "horizontal",
+		"drawer": {
+			"transition-duration": 500,
+			"children-class": "not-memory",
+			"transition-left-to-right": false
+		},
+		"modules": [
+			"cpu",
+			"memory",
+			"network#speed"
 		]
 	}
 }
