@@ -122,14 +122,14 @@
 		]
 	},
 	"cpu": {
-		"interval": 10,
+		"interval": 2,
 		// "format": "  {load}",
 		"format": "  {usage}%",
 		"max-length": 10,
 		"on-click": "kitty -e htop"
 	},
 	"memory": {
-		"interval": 30,
+		"interval": 2,
 		"format": "  {used:0.2f}G", // Shows used RAM in GB with one decimal
 		"tooltip-format": "RAM: {used:0.2f}GiB / {total:0.2f}GiB\nSwap: {swapUsed:0.2f}GiB / {swapTotal:0.2f}GiB",
 		"on-click": "kitty -e htop"

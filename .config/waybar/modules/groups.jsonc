@@ -28,8 +28,8 @@
 		},
 		"modules": [
 			"cpu",
-			"memory",
-			"network#speed"
+			"network#speed",
+			"memory"
 		]
 	}
 }
