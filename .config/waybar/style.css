@@ -303,3 +303,7 @@ window#waybar.empty #window {
 #custom-pomodoro.idle {
   color: #6c7086;
 }
+
+#custom-pomodoro.paused {
+  color: #df8e1d;
+}
