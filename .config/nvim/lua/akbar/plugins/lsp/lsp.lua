@@ -21,7 +21,7 @@ return {
 
 		vim.lsp.config("eslint", {
 			capabilities = capabilities,
-			on_attach = function(client, bufnr)
+			on_attach = function(client, _) -- bufnr
 				client.server_capabilities.documentFormattingProvider = false
 				client.server_capabilities.documentRangeFormattingProvider = false
 			end,
