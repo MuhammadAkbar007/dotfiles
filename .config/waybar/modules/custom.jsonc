@@ -71,7 +71,8 @@
 		"return-type": "json",
 		"interval": 60,
 		"signal": 8,
-		"tooltip": true
+		"tooltip": true,
+		"on-click": "kitty -e bash -c '~/dotfiles/.config/waybar/prayer_display.sh; echo; echo \"(Press Enter to close...)\"; read'"
 	},
 	"custom/pomodoro": { // next, toggle, reset
 		"exec": "/home/akbar/akbarDev/pet-projects/pomodoro/pomodoro.py",
