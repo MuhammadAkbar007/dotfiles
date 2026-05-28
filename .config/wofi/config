@@ -8,3 +8,4 @@ insensitive=true
 hide_scroll=true
 print_command=true
 no_actions=true
+layer=overlay

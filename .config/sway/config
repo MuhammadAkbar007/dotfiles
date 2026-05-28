@@ -86,7 +86,8 @@ bindsym $mod+q kill
 #########################
 # Start your launcher
 #########################
-bindsym $mod+space exec $menu
+# bindsym $mod+space exec $menu
+bindsym $mod+Space exec bash -c 'swaymsg fullscreen disable; wofi --show drun'
 
 floating_modifier $mod normal
 
@@ -126,6 +127,7 @@ for_window [app_id="io.github.kotatogram"] opacity 0.98
 for_window [app_id="code"] opacity 0.98
 for_window [class="VSCodium"] opacity 0.98
 for_window [app_id="chrome-nbgaohbaloalcnahopokcccdifipeekd-Profile_2"] title_format "HStaff: %title", opacity 0.98
+for_window [app_id="chrome-mjoklplbddabcmpepnokjaffbmgbkkgg-Default"] title_format "HStaff: %title", opacity 0.98
 # for_window [class="discord"] opacity 0.97
 for_window [app_id="com.discordapp.Discord"] opacity 0.98
 for_window [app_id="firefox-esr"] opacity 0.98
