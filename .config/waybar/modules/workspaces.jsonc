@@ -55,9 +55,10 @@
 			"class<com.discordapp.Discord>": "",
 			"class<chrome-magkoliahgffibhgfkmoealggombgknl-Profile_2>": "",
 			"class<google-chrome>": "󰊯",
-			"class<chrome-.*-Default>": "󰊯",
+			"class<chrome-mjoklplbddabcmpepnokjaffbmgbkkgg-Default>": "",
 			"class<chrome-nbgaohbaloalcnahopokcccdifipeekd-Profile_2>": "",
 			"class<chrome-gdkfabifllnklpdipljalbjddenefpad-Profile_2>": ""
+			// "class<chrome-.*-Default>": "󰊯"
 		}
 	},
 	"sway/window": {
