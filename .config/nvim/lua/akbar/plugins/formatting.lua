@@ -6,31 +6,32 @@ return {
 
 		conform.setup({
 			formatters_by_ft = {
-				javascript = { "prettier" },
-				typescript = { "prettier" },
-				javascriptreact = { "prettier" },
-				typescriptreact = { "prettier" },
-				css = { "prettier" },
-				html = { "prettier" },
-				htmldjango = { "djlint" },
-				json = { "prettier" },
+				javascript = { "prettierd" },
+				typescript = { "prettierd" },
+				javascriptreact = { "prettierd" },
+				typescriptreact = { "prettierd" },
+				css = { "prettierd" },
+				html = { "prettierd" },
+				txt = { "prettierd" },
+				vue = { "prettierd" },
+				json = { "prettierd" },
 				yaml = { "yamlfmt" },
 				yml = { "yamlfmt" },
-				lua = { "stylua" },
-				txt = { "prettier" },
-				xml = { "xmlformat" },
-				java = { "google-java-format" },
 				c = { "clang-format" },
 				cpp = { "clang-format" },
 				sh = { "shfmt" }, -- beautysh
 				bash = { "shfmt" }, -- beautysh
-				-- sql = { "sql_formatter" },
+				htmldjango = { "djlint" },
+				lua = { "stylua" },
+				xml = { "xmlformat" },
+				java = { "google-java-format" },
 				python = { "ruff_format" },
+				-- sql = { "sql_formatter" },
 			},
 
 			formatters = {
 				prettier = {
-					prepend_args = { "--tab-width", "2" },
+					prepend_args = { "--tab-width", "4" },
 				},
 				["clang-format"] = {
 					prepend_args = { "--style={BreakBeforeBraces: Allman}" },

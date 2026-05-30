@@ -7,7 +7,7 @@ border-radius=11
 padding=19
 margin=21
 default-timeout=5000
-format=<b>%s</b>\n%b
+format=<b>%s</b>\n%b\n<span foreground="#6c7086"><small>%a</small></span>
 
 # --- Icon Settings ---
 icon-path=/home/akbar/dotfiles/.icons/candy-icons-master/apps/scalable:/home/akbar/.local/share/icons/hicolor/256x256/apps:/usr/share/icons/hicolor:/usr/share/pixmaps:/usr/share/icons/hicolor/scalable/apps:/home/akbar/dotfiles/.icons/BeautySolar/apps/scalable

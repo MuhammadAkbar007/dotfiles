@@ -15,7 +15,6 @@ return {
 				"yamlls",
 				"vtsls", -- for ts, js, jsx, tsx
 				"tailwindcss",
-				"eslint",
 				"clangd",
 				"markdown_oxide",
 			},

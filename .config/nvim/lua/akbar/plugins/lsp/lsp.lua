@@ -19,13 +19,13 @@ return {
 
 		local capabilities = cmp_nvim_lsp.default_capabilities()
 
-		vim.lsp.config("eslint", {
-			capabilities = capabilities,
-			on_attach = function(client, _) -- bufnr
-				client.server_capabilities.documentFormattingProvider = false
-				client.server_capabilities.documentRangeFormattingProvider = false
-			end,
-		})
+		-- vim.lsp.config("eslint", {
+		-- 	capabilities = capabilities,
+		-- 	on_attach = function(client, _) -- bufnr
+		-- 		client.server_capabilities.documentFormattingProvider = false
+		-- 		client.server_capabilities.documentRangeFormattingProvider = false
+		-- 	end,
+		-- })
 
 		vim.lsp.config("clangd", {
 			capabilities = capabilities,
@@ -86,7 +86,51 @@ return {
 
 		vim.lsp.config("vtsls", {
 			capabilities = capabilities,
+			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+			settings = {
+				vtsls = {
+					tsserver = {
+						globalPlugins = {
+							{
+								name = "@vue/typescript-plugin",
+								location = vim.fn.expand(
+									"$MASON/packages/vue-language-server/node_modules/@vue/language-server"
+								),
+								languages = { "vue" },
+								configNamespace = "typescript",
+								enableForWorkspaceTypeScriptVersions = true,
+							},
+						},
+					},
+				},
+			},
 		})
+		vim.lsp.enable("vtsls")
+
+		vim.lsp.config("vue_ls", {
+			capabilities = capabilities,
+			init_options = {
+				vue = {
+					hybridMode = true,
+				},
+				typescript = {
+					tsdk = vim.fn.expand(
+						"$MASON/packages/vtsls/node_modules/@vtsls/language-server/node_modules/typescript/lib"
+					),
+				},
+			},
+		})
+		vim.lsp.enable("vue_ls")
+
+		vim.lsp.config("vue_ls", {
+			capabilities = capabilities,
+			init_options = {
+				vue = {
+					hybridMode = false, -- disables the need for a separate TS server takeover
+				},
+			},
+		})
+		vim.lsp.enable("vue_ls")
 
 		vim.lsp.config("yamlls", {
 			capabilities = capabilities,

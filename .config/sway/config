@@ -87,7 +87,7 @@ bindsym $mod+q kill
 # Start your launcher
 #########################
 # bindsym $mod+space exec $menu
-bindsym $mod+Space exec bash -c 'swaymsg fullscreen disable; wofi --show drun'
+bindsym $mod+Space exec bash -c 'swaymsg fullscreen disable; pkill wofi || wofi --show drun'
 
 floating_modifier $mod normal
 
@@ -126,6 +126,9 @@ for_window [app_id="org.telegram.desktop.*"] opacity 0.98
 for_window [app_id="io.github.kotatogram"] opacity 0.98
 for_window [app_id="code"] opacity 0.98
 for_window [class="VSCodium"] opacity 0.98
+for_window [class="Antigravity IDE"] opacity 0.98
+for_window [class="Antigravity"] opacity 0.98
+for_window [app_id="antigravity-ide"] opacity 0.98
 for_window [app_id="chrome-nbgaohbaloalcnahopokcccdifipeekd-Profile_2"] title_format "HStaff: %title", opacity 0.98
 for_window [app_id="chrome-mjoklplbddabcmpepnokjaffbmgbkkgg-Default"] title_format "HStaff: %title", opacity 0.98
 # for_window [class="discord"] opacity 0.97
@@ -291,9 +294,9 @@ bindsym $mod+p focus parent
 #########################
 # Switch the current container between different layout styles
 #########################
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+a layout toggle split
+# bindsym $mod+s layout stacking
+# bindsym $mod+w layout tabbed
+# bindsym $mod+a layout toggle split
 
 #########################
 # Make the current focus fullscreen
