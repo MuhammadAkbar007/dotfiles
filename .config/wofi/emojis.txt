@@ -1358,6 +1358,8 @@ name_badge 📛
 japanese_symbol_for_beginner 🔰
 hollow_red_circle ⭕
 check_mark_button ✅
+white_check_mark_button ✅
+done ✅
 check_box_with_check ☑️
 check_mark ✔️
 multiplication_sign ✖️

@@ -379,7 +379,7 @@ bindcode $mod+34 exec bash -c 'FILE=~/Pictures/Screenshots/$(date "+%Y-%m-%d_T_%
 bindcode $mod+35 exec bash -c 'grimshot copy area && notify-send "Screenshot Copied" "Copied to clipboard" -i /home/akbar/dotfiles/.icons/candy-icons-master/apps/scalable/cheese.svg -t 5000'
 
 # Bind Mod+V to open the clipboard manager in the Waybar position
-bindsym $mod+v exec cliphist list | sed 's/\[\[ binary data.*\]\]/󰋩 Image/g' | wofi --dmenu --allow-images --location 3 --xoffset -20 --yoffset 45 --width 600 --prompt "Clipboard Manager" | cliphist decode | wl-copy
+bindsym $mod+v exec cliphist list | sed 's/\[\[ binary data.*\]\]/󰋩 Image/g' | wofi --dmenu --allow-images --location 3 --xoffset -35 --yoffset 15 --width 700 --prompt "Clipboard Manager" | cliphist decode | wl-copy
 
 #########################
 # startup applications
