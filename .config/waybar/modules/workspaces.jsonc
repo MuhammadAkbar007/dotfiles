@@ -49,17 +49,19 @@
 			"class<Netsoft-com.netsoft.hubstaff>": "",
 			"class<spotify>": "",
 			"class<zoom>": "",
+			"class<Claude>": "󱚝",
 			"class<chromium>": "",
 			"class<code-oss>": "󰨞",
 			"class<VSCodium>": "󰨞",
 			"class<code>": "󰨞",
 			"class<discord>": "",
 			"class<com.discordapp.Discord>": "",
-			"class<chrome-magkoliahgffibhgfkmoealggombgknl-Profile_2>": "",
 			"class<google-chrome>": "󰊯",
 			"class<chrome-mjoklplbddabcmpepnokjaffbmgbkkgg-Default>": "",
+			"class<chrome-magkoliahgffibhgfkmoealggombgknl-Profile_2>": "",
 			"class<chrome-nbgaohbaloalcnahopokcccdifipeekd-Profile_2>": "",
-			"class<chrome-gdkfabifllnklpdipljalbjddenefpad-Profile_2>": ""
+			"class<chrome-gdkfabifllnklpdipljalbjddenefpad-Profile_2>": "",
+			"class<chrome-bgdbmehlmdmddlgneophbcddadgknlpm-Profile_2>": "󱡓"
 			// "class<chrome-.*-Default>": "󰊯"
 		}
 	},
