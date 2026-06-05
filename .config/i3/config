@@ -1,0 +1,155 @@
+### variables
+# logo key. Use Mod1 for Alt.
+set $mod Mod4
+
+# workspace names
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+### Movement
+# change focus (Vim-style)
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+bindsym $mod+r mode "resize"
+mode "resize" {
+        bindsym l resize shrink width 10 px or 10 ppt
+        bindsym h resize grow width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym j resize shrink height 10 px or 10 ppt
+        # Back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+equal scratchpad show
+
+### Window manipulation
+# kill focused window
+bindsym $mod+q kill
+
+# toggle full screen mode
+bindsym $mod+f fullscreen toggle
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# drag windows by holding $mod and clicking with mouse anywhere on the window
+floating_modifier $mod
+
+### Key bindings
+# open terminal
+bindsym $mod+Return exec kitty
+
+### Control
+# Use pactl to adjust volume in PulseAudio.
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -1%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# brightness
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +1%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 1%-
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+### UI
+# window borders
+default_border pixel 9
+
+# gaps
+gaps 1
+gaps inner 7
+gaps outer 0
+
+# colors
+client.focused          #df8e1d #df8e1d #ffffff #df8e1d #df8e1d
+client.unfocused        #444444 #444444 #888888 #444444 #444444
+client.focused_inactive #333333 #333333 #aaaaaa #333333 #333333
+
+# font
+font pango:Ubuntu 11
+
+### Startup applications
+exec_always --no-startup-id ~/.config/polybar/polybar_launcher.sh
+exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
+exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/light/nissan_gtr-34.png
+
+######################  TODO: #########################
+# 1. configure wallpaper with feh or wallnut: /home/akbar/Pictures/desktop_wallpapers/light/nissan_gtr-34.png fill [22]
+
+# 2. i3lock-color or betterlockscreen for lock screen [37]
+# 3. xss-lock xidlehook for dimming & lock the screen [42] -
+# exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+# 4. configure rofi as application launcher
+# 5. fix screen tear with picom
+# 6. fix focused window border color size [107]
+# 7. fix smart gaps [114]
+# 8. set gtk theme [120]
+# 9. write always floating applications [146]
+# 10. configure notification with dunst or alternative
+# 11. emoji selector with bemoji or rofi
+# 12. configure volume controls maybe with dunst [344]
+# 13. configure logout menu with rofi
+# 14. configure brightness controls maybe with dunst [356]
+# 15. configure media controls maybe with dunst [364]
+# 16. configure screenshot in 3 modes [379]
+# 17. configure clipboard
+# 18. configure tiling as fibonacci [390]
+# 19. configure wlsunset alternative [391]
+
+#  INFO: 20. configure polybar like waybar
+
+# 21. configure autostart applications
+# https://wiki.archlinux.org/index.php/XDG_Autostart
+# exec --no-startup-id dex --autostart --environment i3
