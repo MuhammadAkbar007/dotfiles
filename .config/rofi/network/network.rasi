@@ -1,0 +1,133 @@
+/*
+ * Network applet (rounded).
+ * Adapted from dctxmei/rofi-themes (originally adi1090x) "rounded" network:
+ *   - palette swapped to Catppuccin Mocha + #df8e1d gold
+ *   - fonts swapped from Comfortaa/feather to the installed Ubuntu Nerd Font
+ *   - 3 columns (toggle / nmtui / editor), top-right below the polybar
+ *   - compact tiles; window solid, picom supplies translucency (blur excluded
+ *     for Rofi so corners stay crisp)
+ */
+
+configuration {
+    font:            "Ubuntu Nerd Font 12";
+    disable-history: false;
+    fullscreen:      false;
+    hide-scrollbar:  true;
+    sidebar-mode:    false;
+}
+
+* {
+    bg:       #1e1e2e;
+    bg-alt:   #313244;
+    fg:       #cdd6f4;
+    accent:   #df8e1d;
+    on:       #a6e3a1;
+    off:      #f38ba8;
+
+    background-color: @bg;
+    text-color:       @fg;
+}
+
+window {
+    transparency:  "real";
+    border-radius: 12px;
+    location:      northeast;
+    width:         270px;
+    x-offset:      -15px;
+    y-offset:      45px;
+}
+
+prompt {
+    enabled:          true;
+    padding:          10px;
+    background-color: @bg-alt;
+    text-color:       @accent;
+    border:           0px 2px 0px 2px;
+    border-radius:    10px;
+    border-color:     @accent;
+}
+
+textbox-prompt-colon {
+    expand:           false;
+    str:              " Network ";
+    background-color: @accent;
+    text-color:       @bg;
+    padding:          10px 10px 0px 10px;
+    border-radius:    10px;
+}
+
+inputbar {
+    children:         [ textbox-prompt-colon, prompt ];
+    spacing:          12px;
+    background-color: @bg;
+    text-color:       @fg;
+    expand:           false;
+    border:           0px;
+    border-radius:    0px;
+    border-color:     @accent;
+    margin:           0px;
+    padding:          0px;
+    position:         center;
+}
+
+listview {
+    columns:  3;
+    lines:    1;
+    spacing:  12px;
+    cycle:    true;
+    dynamic:  true;
+    layout:   vertical;
+}
+
+mainbox {
+    background-color: @bg;
+    children:         [ inputbar, listview ];
+    spacing:          12px;
+    margin:           12px;
+}
+
+element {
+    background-color: @bg-alt;
+    text-color:       @fg;
+    orientation:      vertical;
+    border-radius:    12px;
+}
+
+element-text {
+    font:             "Ubuntu Nerd Font 20";
+    expand:           true;
+    horizontal-align: 0.5;
+    vertical-align:   0.5;
+    margin:           12px 10px;
+}
+
+element normal.urgent,
+element alternate.urgent {
+    background-color: @off;
+    text-color:       @bg;
+    border-radius:    12px;
+}
+
+element normal.active,
+element alternate.active {
+    background-color: @on;
+    text-color:       @bg;
+}
+
+element selected {
+    background-color: @bg-alt;
+    text-color:       @accent;
+    border:           2px;
+    border-radius:    12px;
+    border-color:     @accent;
+}
+
+element selected.urgent {
+    background-color: @off;
+    text-color:       @bg;
+}
+
+element selected.active {
+    background-color: @on;
+    text-color:       @bg;
+}

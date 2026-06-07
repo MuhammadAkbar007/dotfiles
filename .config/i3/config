@@ -80,22 +80,64 @@ bindsym $mod+f fullscreen toggle
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 
+# toggle focus between floating window and tiling window
+bindsym $mod+Tab focus mode_toggle
+
 # drag windows by holding $mod and clicking with mouse anywhere on the window
 floating_modifier $mod
+
+# move to urgent window
+focus_on_window_activation focus
+
+# always floating windows
+for_window [class="mpv"] floating enable
+for_window [class="loupe"] floating enable
+for_window [class="gnome-calculator"] floating enable
+for_window [class="org.gnome.Nautilus"] floating enable
+for_window [class="Netsoft-com.netsoft.hubstaff"] floating enable
+for_window [class="org.gnome.FileRoller"] floating enable
 
 ### Key bindings
 # open terminal
 bindsym $mod+Return exec kitty
 
-### Control
-# Use pactl to adjust volume in PulseAudio.
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -1%
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+# default browser
+bindsym $mod+b exec google-chrome
 
-# brightness
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +1%
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 1%-
+# application launcher (rofi)
+bindsym $mod+space exec --no-startup-id rofi -show drun
+# application switcher (rofi)
+bindsym Mod1+Tab exec --no-startup-id ~/.config/rofi/window-switcher.sh
+# clipboard history (cliphist + rofi)
+bindsym $mod+v exec --no-startup-id ~/.config/i3/clipboard/clip-menu.sh
+# emoji picker (bemoji + rofi)
+bindsym $mod+Shift+e exec --no-startup-id ~/.config/i3/emoji.sh
+# power menu (round applet, rofi) — also on the polybar power icon
+bindsym Control+Mod1+Delete exec --no-startup-id ~/.config/rofi/powermenu/powermenu.sh
+
+#   Print        -> full screen (save + copy + notify/open)
+bindsym   Print     exec --no-startup-id ~/.config/i3/screenshot.sh screen
+#   $mod+[  -> select area (save + copy + notify/open)
+bindcode  $mod+34   exec --no-startup-id ~/.config/i3/screenshot.sh area
+#   $mod+]  -> select area (copy to clipboard only + notify)
+bindcode  $mod+35   exec --no-startup-id ~/.config/i3/screenshot.sh copy
+
+### Control
+# Volume — adjust + show a dunst OSD progress bar (SwayOSD replacement)
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/osd/volume.sh up
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/osd/volume.sh down
+bindsym XF86AudioMute        exec --no-startup-id ~/.config/i3/osd/volume.sh mute
+
+# Brightness — adjust + show a dunst OSD progress bar
+bindsym XF86MonBrightnessUp   exec --no-startup-id ~/.config/i3/osd/brightness.sh up
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/osd/brightness.sh down
+
+# media (playerctl)
+bindsym XF86AudioPlay  exec --no-startup-id playerctl play-pause
+bindsym XF86AudioPause exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext  exec --no-startup-id playerctl next
+bindsym XF86AudioPrev  exec --no-startup-id playerctl previous
+bindsym XF86AudioStop  exec --no-startup-id playerctl stop
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -104,10 +146,11 @@ bindsym $mod+Shift+r restart
 
 ### UI
 # window borders
-default_border pixel 9
+default_border pixel 3
+default_floating_border pixel 3
+for_window [class=".*"] border pixel 3
 
 # gaps
-gaps 1
 gaps inner 7
 gaps outer 0
 
@@ -120,36 +163,30 @@ client.focused_inactive #333333 #333333 #aaaaaa #333333 #333333
 font pango:Ubuntu 11
 
 ### Startup applications
+# x11 environment
+exec_always --no-startup-id systemctl --user unset-environment SWAYSOCK WAYLAND_DISPLAY
+exec_always --no-startup-id dbus-update-activation-environment --systemd XDG_SESSION_TYPE=x11 XDG_CURRENT_DESKTOP=i3 DISPLAY XAUTHORITY
+# bg (background) image
+exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/treeBreeze.jpg
+# exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/light/nissan_gtr-34.png
+
 exec_always --no-startup-id ~/.config/polybar/polybar_launcher.sh
 exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
-exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/light/nissan_gtr-34.png
+exec_always --no-startup-id pgrep -x gammastep >/dev/null || gammastep
+exec_always --no-startup-id pgrep -x dunst >/dev/null || dunst
+exec_always --no-startup-id pgrep -f "[/]usr/bin/autotiling" >/dev/null || autotiling
+exec_always --no-startup-id amixer -c0 sset 'Auto-Mute Mode' Enabled
+# OSD watcher (transient dunst popups).
+exec_always --no-startup-id python3 ~/.config/i3/osd/lockkeys.py
+# Clipboard history watcher (X11 -> cliphist; replaces Wayland wl-paste --watch).
+exec_always --no-startup-id ~/.config/i3/clipboard/cliphist-watch.sh
 
-######################  TODO: #########################
-# 1. configure wallpaper with feh or wallnut: /home/akbar/Pictures/desktop_wallpapers/light/nissan_gtr-34.png fill [22]
+# Screen lock
+exec_always --no-startup-id pgrep -x xss-lock >/dev/null || xss-lock --transfer-sleep-lock -- ~/.config/i3/lock.sh
+exec_always --no-startup-id xset s 300 300
+exec_always --no-startup-id xset dpms 600 600 600
 
-# 2. i3lock-color or betterlockscreen for lock screen [37]
-# 3. xss-lock xidlehook for dimming & lock the screen [42] -
-# exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-
-# 4. configure rofi as application launcher
-# 5. fix screen tear with picom
-# 6. fix focused window border color size [107]
-# 7. fix smart gaps [114]
-# 8. set gtk theme [120]
-# 9. write always floating applications [146]
-# 10. configure notification with dunst or alternative
-# 11. emoji selector with bemoji or rofi
-# 12. configure volume controls maybe with dunst [344]
-# 13. configure logout menu with rofi
-# 14. configure brightness controls maybe with dunst [356]
-# 15. configure media controls maybe with dunst [364]
-# 16. configure screenshot in 3 modes [379]
-# 17. configure clipboard
-# 18. configure tiling as fibonacci [390]
-# 19. configure wlsunset alternative [391]
-
-#  INFO: 20. configure polybar like waybar
-
-# 21. configure autostart applications
-# https://wiki.archlinux.org/index.php/XDG_Autostart
-# exec --no-startup-id dex --autostart --environment i3
+### Startup apps — `exec` (NOT exec_always): launched once per login, so they
+### are not re-spawned/duplicated on every $mod+Shift+r restart.
+exec --no-startup-id strawberry
+exec --no-startup-id kitty -e tmux new-session -A -s akbar

@@ -1,0 +1,92 @@
+# dunst — X11 notification daemon (the i3 replacement for mako, which is
+# Wayland-only). Styling mirrors ~/.config/mako/config:
+# Catppuccin Mocha bg, #df8e1d gold accent, rounded corners, candy-icons.
+
+[global]
+    ### Geometry / placement (mako: margin=21, top-right like waybar) ###
+    monitor = 0
+    follow = mouse
+    width = (0, 420)
+    height = (0, 300)
+    origin = top-right
+    offset = 27x61
+    gap_size = 10
+    notification_limit = 0
+    indicate_hidden = yes
+    shrink = no
+
+    ### Progress bar (volume/brightness OSD) — gold fill to match the accent ###
+    progress_bar = true
+    progress_bar_height = 12
+    progress_bar_frame_width = 1
+    progress_bar_min_width = 180
+    progress_bar_max_width = 360
+    highlight = "#df8e1d"
+
+    ### Frame / corners (mako: border-size=2, border-radius=11) ###
+    frame_width = 2
+    frame_color = "#df8e1d"
+    corner_radius = 11
+    separator_height = 2
+    separator_color = frame
+
+    ### Padding (mako: padding=19) ###
+    padding = 19
+    horizontal_padding = 19
+    text_icon_padding = 12
+
+    ### Text (mako: font + format with pango markup) ###
+    font = Ubuntu Nerd Font 13
+    line_height = 0
+    markup = full
+    format = "<b>%s</b>\n%b\n<span foreground='#6c7086'><small>%a</small></span>"
+    alignment = left
+    vertical_alignment = center
+    word_wrap = yes
+    ellipsize = middle
+    show_age_threshold = 60
+    stack_duplicates = true
+    hide_duplicate_count = false
+    show_indicators = yes
+
+    ### Icons (mako: icon-path / max-icon-size=64 / icon-location=left) ###
+    # Direct icon_path lookup (like mako) — resolves <dir>/<name>.svg straight
+    # from the dirs below. Recursive XDG-theme lookup needs candy-icons' missing
+    # parent themes (breeze-dark/Adwaita) and failed to find icons.
+    enable_recursive_icon_lookup = false
+    icon_position = left
+    min_icon_size = 0
+    max_icon_size = 64
+    icon_path = /home/akbar/dotfiles/.icons/candy-icons-master/apps/scalable:/home/akbar/.local/share/icons/hicolor/256x256/apps:/usr/share/icons/hicolor:/usr/share/pixmaps:/usr/share/icons/hicolor/scalable/apps:/home/akbar/dotfiles/.icons/BeautySolar/apps/scalable
+
+    ### History / actions ###
+    sticky_history = yes
+    history_length = 20
+    dmenu = rofi -dmenu -p dunst
+    browser = xdg-open
+    title = Dunst
+    class = Dunst
+
+    ### Mouse (mako: left=default action, right=dismiss all, middle=context) ###
+    mouse_left_click = do_action, close_current
+    mouse_middle_click = context
+    mouse_right_click = close_all
+
+[urgency_low]
+    background = "#1e1e2ecc"
+    foreground = "#cdd6f4"
+    frame_color = "#df8e1d"
+    timeout = 5
+
+[urgency_normal]
+    background = "#1e1e2ecc"
+    foreground = "#cdd6f4"
+    frame_color = "#df8e1d"
+    timeout = 5
+
+# Critical stays until dismissed and uses Catppuccin red, like a proper alert.
+[urgency_critical]
+    background = "#1e1e2ecc"
+    foreground = "#cdd6f4"
+    frame_color = "#f38ba8"
+    timeout = 0

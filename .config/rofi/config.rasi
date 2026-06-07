@@ -1,0 +1,21 @@
+/* rofi main config — application launcher */
+configuration {
+    modi:                "drun,run,window";
+    show-icons:          true;
+    icon-theme:          "candy-icons-master";
+    drun-display-format: "{name}";
+    display-drun:        " Apps";
+    display-run:         " Run";
+    display-window:      " Windows";
+    drun-match-fields:   "name,generic,exec,categories,keywords";
+    terminal:            "kitty";
+    kb-cancel:           "Escape";
+
+    /* free Control+j/k from their defaults so they can be vim-style nav */
+    kb-accept-entry:     "Control+m,Return,KP_Enter";
+    kb-remove-to-eol:    "";
+    kb-row-up:           "Up,Control+k";
+    kb-row-down:         "Down,Control+j";
+}
+
+@theme "catppuccin-mocha"

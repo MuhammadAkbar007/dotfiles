@@ -1,0 +1,89 @@
+/* Catppuccin Mocha + #df8e1d accent — matches polybar.
+   Window stays opaque here; picom handles the blur + transparency. */
+* {
+    bg:       #1e1e2e;
+    bg-alt:   #313244;
+    fg:       #cdd6f4;
+    fg-alt:   #6c7086;
+    accent:   #df8e1d;
+    urgent:   #f38ba8;
+
+    background-color: transparent;
+    text-color:       @fg;
+    font:             "Ubuntu Nerd Font 12";
+}
+
+window {
+    transparency:     "real";
+    background-color: @bg;
+    border:           2px;
+    border-color:     @accent;
+    border-radius:    12px;
+    width:            620px;
+    location:         center;
+    anchor:           center;
+}
+
+mainbox {
+    padding: 16px;
+    spacing: 12px;
+    children: [ inputbar, listview ];
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border-radius:    10px;
+    padding:          10px 14px;
+    spacing:          10px;
+    children:         [ prompt, entry ];
+}
+
+prompt {
+    text-color: @accent;
+}
+
+entry {
+    placeholder:       "Search…";
+    placeholder-color: @fg-alt;
+    cursor:            text;
+}
+
+listview {
+    lines:        8;
+    columns:      1;
+    scrollbar:    false;
+    spacing:      4px;
+    fixed-height: false;
+    dynamic:      true;
+}
+
+element {
+    padding:       8px 10px;
+    border-radius: 8px;
+    spacing:       10px;
+}
+
+element normal active {
+    text-color: @accent;
+}
+
+element selected {
+    background-color: @accent;
+    text-color:       @bg;
+}
+
+element selected active {
+    background-color: @accent;
+    text-color:       @bg;
+}
+
+element-icon {
+    size:           28px;
+    vertical-align: 0.5;
+}
+
+element-text {
+    text-color:     inherit;   /* pick up the element's state color (dark when selected) */
+    background-color: transparent;
+    vertical-align: 0.5;
+}

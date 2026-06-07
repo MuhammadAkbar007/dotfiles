@@ -1,0 +1,8 @@
+# Per-user input-method selection, read by Debian's
+# /etc/X11/Xsession.d/70im-config_launch at X login (overrides the system
+# default, which resolves to ibus here).
+#
+# `run_im none` disables the input-method framework, so ibus no longer starts
+# and its "EN" keyboard indicator no longer appears in the tray. This is exactly
+# what `im-config -n none` writes; kept here under stow so it's versioned.
+run_im none

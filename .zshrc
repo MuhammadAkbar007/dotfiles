@@ -65,7 +65,6 @@ bindkey "^[[3~" delete-char  # Map Delete key
 # My aliases
 alias eap="cd /install_me/idea-IU/bin/; prime-run ./idea"
 alias tg="cd ~/install_me/Telegram/; prime-run ./Telegram"
-alias fx="cd ~/install_me/firefox/; prime-run ./firefox"
 alias dcu="docker compose up --build"
 alias dcd="docker compose down"
 alias py="python3"
@@ -77,7 +76,20 @@ alias lla="ls -al"
 alias lt="ls --tree"
 alias del="rm -rf"
 alias tm="tmux new-session -s akbar"
-alias tma="tmux a"
+# Attach to tmux; if no server is running, start one first so tmux-continuum
+# restores saved sessions (restore only fires on server start, never on a bare
+# `tmux a`). Wait for the restored sessions, then attach to them.
+tma() {
+  tmux has-session 2>/dev/null && { tmux attach; return; }
+  tmux new-session -d -s _restore            # start server -> continuum restore (bg)
+  local i
+  for i in {1..50}; do                       # wait up to ~5s for sessions to come back
+    [ "$(tmux list-sessions 2>/dev/null | wc -l)" -gt 1 ] && break
+    sleep 0.1
+  done
+  tmux kill-session -t _restore 2>/dev/null  # drop bootstrap session if real ones returned
+  tmux attach 2>/dev/null || tmux new-session -s akbar
+}
 alias vi="nvim"
 alias v="nvim ./"
 alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
@@ -136,9 +148,6 @@ export PATH=/home/akbar/.kilo/bin:$PATH
 
 # uv zsh autocompletion
 eval "$(uv generate-shell-completion zsh)"
-
-export XDG_CURRENT_DESKTOP=sway
-export XDG_SESSION_TYPE=wayland
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"

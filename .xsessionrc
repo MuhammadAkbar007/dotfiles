@@ -1,0 +1,20 @@
+# Sourced by the X session at login (Debian Xsession). Good place for
+# session-wide environment that GUI apps launched from i3 should inherit.
+
+# Scrub stale Wayland/Sway env that leaks in from previous GNOME/Sway logins.
+# On this i3/X11 session those markers are dead (no compositor behind them), but
+# apps like Zoom trust them and take the Wayland portal screen-share path, which
+# has no working backend here -> screen sharing silently fails. Force X11.
+unset WAYLAND_DISPLAY SWAYSOCK
+export XDG_SESSION_TYPE=x11
+
+# Qt theming -> Kvantum (Catppuccin Mocha) for both Qt5 and Qt6 apps.
+# QT_STYLE_OVERRIDE is version-agnostic, so Qt5 (vlc) and Qt6 (qbittorrent,
+# obs, strawberry) all pick up Kvantum; qt6ct adds icon/font/dialog integration.
+export QT_STYLE_OVERRIDE=kvantum
+export QT_QPA_PLATFORMTHEME=qt6ct
+
+# Cursor: make Bibata apply to Xcursor-based apps (Chromium/Electron/Qt) and
+# the root window. Pairs with ~/.icons/default (Inherits) + gsettings + GTK.
+export XCURSOR_THEME=Bibata-Modern-Ice
+export XCURSOR_SIZE=24

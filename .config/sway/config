@@ -8,7 +8,7 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term kitty
+set $term foot
 # Your preferred application launcher
 set $menu wofi
 
@@ -369,7 +369,7 @@ bindsym --locked XF86AudioStop exec playerctl stop
 #########################
 # quick start bindings for some applications
 #########################
-bindsym $mod+b exec --no-startup-id firefox
+bindsym $mod+b exec --no-startup-id chromium
 bindsym $mod+e exec --no-startup-id nautilus
 # bindsym $mod+n exec swaync-client -t -sw
 
@@ -398,8 +398,7 @@ exec wl-paste --type text --watch cliphist store
 exec wl-paste --type image --watch cliphist store
 exec swayosd-server
 exec mako 
-exec wezterm
-exec clementine
+exec foot
 xwayland enable
 
 
