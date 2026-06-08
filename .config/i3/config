@@ -107,6 +107,11 @@ bindsym $mod+b exec google-chrome
 
 # application launcher (rofi)
 bindsym $mod+space exec --no-startup-id rofi -show drun
+# web search / URL opener (rofi -> default browser via xdg-open)
+bindsym $mod+s exec --no-startup-id rofi -show web -modi "web:~/.config/rofi/websearch.sh" -p search
+# run a command in kitty (--hold keeps the window open after it exits, so quick
+# commands like `ls`/`npm i` don't flash-and-close; bash -c allows pipes etc.)
+bindsym $mod+t exec --no-startup-id rofi -show run -run-command 'kitty --hold -e bash -c "{cmd}"'
 # application switcher (rofi)
 bindsym Mod1+Tab exec --no-startup-id ~/.config/rofi/window-switcher.sh
 # clipboard history (cliphist + rofi)
@@ -168,7 +173,8 @@ font pango:Ubuntu 11
 exec_always --no-startup-id systemctl --user unset-environment SWAYSOCK WAYLAND_DISPLAY
 exec_always --no-startup-id dbus-update-activation-environment --systemd XDG_SESSION_TYPE=x11 XDG_CURRENT_DESKTOP=i3 DISPLAY XAUTHORITY
 # bg (background) image
-exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/treeBreeze.jpg
+exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/flyingIronManCartoon.jpg
+# exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/treeBreeze.jpg
 # exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/light/nissan_gtr-34.png
 
 exec_always --no-startup-id ~/.config/polybar/polybar_launcher.sh
