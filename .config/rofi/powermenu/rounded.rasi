@@ -3,7 +3,8 @@
  * Adapted from dctxmei/rofi-themes (originally adi1090x) "rounded" applet:
  *   - palette swapped to Catppuccin Mocha + #df8e1d gold (matches polybar/rofi)
  *   - fonts swapped from Comfortaa/feather to the installed Ubuntu Nerd Font
- *   - positioned top-right, just below the polybar (northeast)
+ *   - top-anchored, just below the polybar; powermenu.sh passes -xoffset so it
+ *     opens centered under the mouse (the icon you clicked) instead of the corner
  *   - window kept solid; picom supplies translucency (blur is excluded for Rofi
  *     so the corners stay crisp)
  */
@@ -31,9 +32,9 @@ configuration {
 window {
     transparency:  "real";
     border-radius: 12px;
-    location:      northeast;
+    location:      north;
     width:         420px;
-    x-offset:      -15px;
+    x-offset:      0px;
     y-offset:      45px;
 }
 
