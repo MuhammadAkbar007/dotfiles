@@ -17,7 +17,8 @@ ICON_PLAY=$''  #   nf-fa-play_circle
 ICON_PAUSE=$'' #   nf-fa-pause_circle
 COL_PLAY='#a6d189'
 COL_PAUSE='#f38ba8'
-MAXLEN=25 # mirrors waybar max-length
+COL_DIM='#6c7086' # ${colors.disabled} — dim the title when paused (like clipboard)
+MAXLEN=25         # max visible title chars (polybar label-maxlen is unset; see config.ini)
 
 # Per-player glyph (Ubuntu Nerd Font), matching the waybar player-icons map.
 player_icon() {
@@ -40,16 +41,31 @@ IFS=$'\t' read -r status player title <<<"$line"
 [ -z "$title" ] && exit 0
 
 case "$status" in
-    Playing) sicon="%{F${COL_PLAY}}${ICON_PLAY}%{F-}" ;;
-    Paused) sicon="%{F${COL_PAUSE}}${ICON_PAUSE}%{F-}" ;;
+    Playing)
+        sicon="%{F${COL_PLAY}}${ICON_PLAY}%{F-}"
+        dim=0
+        ;;
+    Paused)
+        sicon="%{F${COL_PAUSE}}${ICON_PAUSE}%{F-}"
+        dim=1
+        ;;
     *) exit 0 ;; # Stopped / unknown -> show nothing
 esac
 
 picon="$(player_icon "$player")"
 
 # Truncate long titles with an ellipsis (waybar did this via max-length).
+# (Done BEFORE adding colour tags so the length check counts real characters,
+# not the %{F...} markup.)
 if [ "${#title}" -gt "$MAXLEN" ]; then
     title="${title:0:$((MAXLEN - 1))}…"
+fi
+
+# While paused, dim the title to the disabled colour (matches the clipboard
+# module) AND italicise it via the bold-italic font (%{T5} = font-4 in
+# config.ini); while playing it keeps the bar's normal bold foreground.
+if [ "$dim" -eq 1 ]; then
+    title="%{T5}%{F${COL_DIM}}${title}%{F-}%{T-}"
 fi
 
 printf '%s %s  %s\n' "$picon" "$sicon" "$title"
