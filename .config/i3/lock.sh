@@ -7,7 +7,7 @@
 # and swap the i3lock line below for one with --ring-color=df8e1dff etc.
 set -u
 
-src="$HOME/Pictures/desktop_wallpapers/dark/housesForHyprland.jpg"
+src="$HOME/Pictures/desktop_wallpapers/dark/treeBreeze.jpg"
 img="$HOME/.cache/i3lock/lock.png"
 
 # Detect the active resolution so the image fills the screen exactly.

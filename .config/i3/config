@@ -105,6 +105,9 @@ bindsym $mod+Return exec kitty
 # default browser
 bindsym $mod+b exec google-chrome
 
+# file manager
+bindsym $mod+e exec nautilus
+
 # application launcher (rofi)
 bindsym $mod+space exec --no-startup-id rofi -show drun
 # web search / URL opener (rofi -> default browser via xdg-open)
@@ -173,8 +176,11 @@ font pango:Ubuntu 11
 exec_always --no-startup-id systemctl --user unset-environment SWAYSOCK WAYLAND_DISPLAY
 exec_always --no-startup-id dbus-update-activation-environment --systemd XDG_SESSION_TYPE=x11 XDG_CURRENT_DESKTOP=i3 DISPLAY XAUTHORITY
 # bg (background) image
-exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/flyingIronManCartoon.jpg
+# exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/flyingIronManCartoon.jpg
 # exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/treeBreeze.jpg
+# exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/hyundai.jpg
+# exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/ready_player_one.jpg
+exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/housesForHyprland.jpg
 # exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/light/nissan_gtr-34.png
 
 exec_always --no-startup-id ~/.config/polybar/polybar_launcher.sh
