@@ -1,0 +1,7 @@
+/**
+ * Fonts — used by the confirmation dialog.
+ */
+
+* {
+    font: "JetBrains Mono Nerd Font 12";
+}

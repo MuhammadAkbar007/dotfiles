@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Fullscreen rofi power menu (dctxmei/rofi-themes "full_circle", adapted).
+# Self-contained: five circular icons centered on a full-screen overlay, like
+# wlogout. Actions are wired to THIS i3 setup (loginctl lock via xss-lock,
+# i3-msg exit, systemctl). No external style.sh / bin helpers needed.
+set -u
+
+theme="$HOME/.config/rofi/powermenu/fullscreen.rasi"
+
+# Power glyphs (Ubuntu Nerd Font, Material Design). Order matters: it sets the
+# left-to-right layout and the -selected-row index below.
+shutdown="󰐥"
+reboot="󰜉"
+lock="󰌾"
+suspend="󰒲"
+logout="󰍃"
+
+uptime_str="$(uptime -p 2>/dev/null | sed 's/^up //')"
+
+options="$shutdown\n$reboot\n$lock\n$suspend\n$logout"
+
+# Fullscreen overlay (the theme sets configuration { fullscreen: true; }), so no
+# mouse/offset positioning is needed. -selected-row 2 pre-selects Lock (middle).
+chosen="$(echo -e "$options" | rofi -dmenu -i -selected-row 2 \
+    -p "$uptime_str" -theme "$theme")"
+
+case "$chosen" in
+    "$shutdown") systemctl poweroff ;;
+    "$reboot")   systemctl reboot ;;
+    "$lock")     loginctl lock-session ;;   # xss-lock -> ~/.config/i3/lock.sh
+    "$suspend")  systemctl suspend ;;
+    "$logout")   i3-msg exit ;;
+esac

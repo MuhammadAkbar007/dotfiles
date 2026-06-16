@@ -1,0 +1,13 @@
+/**
+ * Catppuccin Mocha — matched to this setup's polybar/rofi palette.
+ * `selected` is the #df8e1d gold accent used elsewhere in the config.
+ */
+
+* {
+    background:     #1e1e2eFF;
+    background-alt: #313244FF;
+    foreground:     #cdd6f4FF;
+    selected:       #df8e1dFF;
+    active:         #a6e3a1FF;
+    urgent:         #f38ba8FF;
+}

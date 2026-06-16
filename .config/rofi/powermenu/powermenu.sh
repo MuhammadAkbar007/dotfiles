@@ -1,47 +1,96 @@
 #!/usr/bin/env bash
-# Round applet-style rofi power menu (dctxmei/rofi-themes "circle", adapted).
-# Self-contained: five circular icons in a row. Actions are wired to THIS i3
-# setup (loginctl lock via xss-lock, i3-msg exit, systemctl). No external
-# style.sh / bin helpers from the original repo are needed.
-set -u
 
-theme="$HOME/.config/rofi/powermenu/rounded.rasi"
+## Author : Aditya Shakya (adi1090x)
+## Github : @adi1090x
+#
+## Rofi   : Power Menu
+#
+## Available Styles
+#
+## style-1   style-2   style-3   style-4   style-5
 
-# Power glyphs (Ubuntu Nerd Font, Material Design). Order matters: it sets the
-# left-to-right layout and the -selected-row index below.
-shutdown="󰐥"
-reboot="󰜉"
-lock="󰌾"
-suspend="󰒲"
-logout="󰍃"
+# Current Theme (style-1 .. style-5)
+dir="$HOME/.config/rofi/powermenu/type-4"
+theme='style-1'
 
-uptime_str="$(uptime -p 2>/dev/null | sed 's/^up //')"
+# CMDs
+uptime="$(uptime -p | sed -e 's/up //g')"
+host=$(hostname)
+# Full name from the GECOS field, falling back to the login name
+fullname="$(getent passwd "$USER" | cut -d: -f5 | cut -d, -f1)"
+fullname="${fullname:-$USER}"
 
-options="$shutdown\n$reboot\n$lock\n$suspend\n$logout"
+# Options
+shutdown=''
+reboot=''
+lock=''
+suspend=''
+logout=''
+yes=''
+no=''
 
-# Open the menu centered under the mouse (the icon you clicked) instead of the
-# screen corner. The theme is north-anchored, so x-offset shifts the window's
-# centre from screen centre: xoff = mouse_x - screen_w/2, clamped to keep the
-# menu fully on-screen (10px margins). Width is read from the theme.
-eval "$(xdotool getmouselocation --shell)"          # sets X, Y, ...
-sw=$(xdotool getdisplaygeometry | cut -d' ' -f1)
-ww=$(grep -oE 'width:[[:space:]]*[0-9]+' "$theme" | grep -oE '[0-9]+' | head -1)
-ww=${ww:-400}
-xoff=$(( X - sw / 2 ))
-lim=$(( sw / 2 - ww / 2 - 10 ))
-(( xoff >  lim )) && xoff=$lim
-(( xoff < -lim )) && xoff=$(( -lim ))
+# Rofi CMD
+rofi_cmd() {
+    rofi -dmenu \
+        -p "${fullname}" \
+        -mesg "Uptime: $uptime" \
+        -theme ${dir}/${theme}.rasi
+}
 
-# -selected-row 2 -> pre-select Lock (the middle icon). The offset is injected
-# via -theme-str (NOT -xoffset): the theme's own window{x-offset} overrides the
-# CLI -xoffset, but -theme-str is applied on top of the theme and wins.
-chosen="$(echo -e "$options" | rofi -dmenu -i -selected-row 2 \
-    -p "$uptime_str" -theme "$theme" -theme-str "window { x-offset: ${xoff}px; }")"
+# Confirmation CMD
+confirm_cmd() {
+    rofi -dmenu \
+        -p 'Confirmation' \
+        -mesg 'Are you Sure?' \
+        -theme ${dir}/shared/confirm.rasi
+}
 
-case "$chosen" in
-    "$shutdown") systemctl poweroff ;;
-    "$reboot")   systemctl reboot ;;
-    "$lock")     loginctl lock-session ;;   # xss-lock -> ~/.config/i3/lock.sh
-    "$suspend")  systemctl suspend ;;
-    "$logout")   i3-msg exit ;;
+# Ask for confirmation
+confirm_exit() {
+    echo -e "$yes\n$no" | confirm_cmd
+}
+
+# Pass variables to rofi dmenu
+run_rofi() {
+    echo -e "$lock\n$suspend\n$logout\n$reboot\n$shutdown" | rofi_cmd
+}
+
+# Execute Command
+run_cmd() {
+    selected="$(confirm_exit)"
+    if [[ "$selected" == "$yes" ]]; then
+        if [[ $1 == '--shutdown' ]]; then
+            systemctl poweroff
+        elif [[ $1 == '--reboot' ]]; then
+            systemctl reboot
+        elif [[ $1 == '--suspend' ]]; then
+            command -v mpc >/dev/null && mpc -q pause
+            command -v amixer >/dev/null && amixer set Master mute
+            systemctl suspend
+        elif [[ $1 == '--logout' ]]; then
+            i3-msg exit
+        fi
+    else
+        exit 0
+    fi
+}
+
+# Actions
+chosen="$(run_rofi)"
+case ${chosen} in
+    $shutdown)
+        run_cmd --shutdown
+        ;;
+    $reboot)
+        run_cmd --reboot
+        ;;
+    $lock)
+        loginctl lock-session # xss-lock -> ~/.config/i3/lock.sh
+        ;;
+    $suspend)
+        run_cmd --suspend
+        ;;
+    $logout)
+        run_cmd --logout
+        ;;
 esac

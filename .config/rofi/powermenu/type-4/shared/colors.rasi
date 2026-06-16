@@ -1,0 +1,5 @@
+/**
+ * Colors — pulls the shared Catppuccin Mocha scheme.
+ */
+
+@import "~/.config/rofi/colors/catppuccin.rasi"
