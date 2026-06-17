@@ -10,6 +10,17 @@
 /*****----- Configuration -----*****/
 configuration {
     show-icons:                 false;
+
+    /* vim-style navigation for the horizontal power menu.
+       h/k/Up/Left = previous button, l/j/Down/Right = next button.
+       Routed through row-up/row-down ("select prev/next entry") so the
+       listview's `cycle: true` wraps last->first and first->last.
+       Control+j/k are already freed in ~/.config/rofi/config.rasi. */
+    cycle:                      true;
+    kb-row-up:                  "Up,Left,h,j,Control+k";
+    kb-row-down:                "Down,Right,l,k,Control+j";
+    kb-move-char-back:          "Control+b";
+    kb-move-char-forward:       "Control+f";
 }
 
 /*****----- Global Properties -----*****/
