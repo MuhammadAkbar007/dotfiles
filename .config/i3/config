@@ -191,8 +191,8 @@ exec_always --no-startup-id pgrep -f "[/]usr/bin/autotiling" >/dev/null || autot
 exec_always --no-startup-id amixer -c0 sset 'Auto-Mute Mode' Enabled
 # OSD watcher (transient dunst popups).
 exec_always --no-startup-id python3 ~/.config/i3/osd/lockkeys.py
-# Clipboard history watcher (X11 -> cliphist; replaces Wayland wl-paste --watch).
-exec_always --no-startup-id ~/.config/i3/clipboard/cliphist-watch.sh
+# Clipboard manager: copyq, event-driven (headless server + polybar refresh).
+exec_always --no-startup-id ~/.config/i3/clipboard/copyq-setup.sh
 
 # Screen lock
 exec_always --no-startup-id pgrep -x xss-lock >/dev/null || xss-lock --transfer-sleep-lock -- ~/.config/i3/lock.sh
