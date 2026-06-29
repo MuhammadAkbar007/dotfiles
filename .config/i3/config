@@ -98,6 +98,8 @@ for_window [class="org.gnome.Nautilus"] floating enable
 for_window [class="Netsoft-com.netsoft.hubstaff"] floating enable
 for_window [class="org.gnome.FileRoller"] floating enable
 
+for_window [class="copyq"] kill
+
 ### Key bindings
 # open terminal
 bindsym $mod+Return exec kitty
