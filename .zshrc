@@ -152,6 +152,8 @@ eval "$(uv generate-shell-completion zsh)"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export TERMINAL=kitty
+export EDITOR="nvim"
+export VISUAL="nvim"
 
 # Lazy load pyenv to avoid lock contention during parallel shell initialization
 if [[ -d "$PYENV_ROOT" ]]; then
