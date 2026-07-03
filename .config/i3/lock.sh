@@ -20,11 +20,27 @@ if [ ! -f "$img" ] || [ "$src" -nt "$img" ]; then
     convert "$src" -resize "${res}^" -gravity center -extent "$res" "$img" 2>/dev/null
 fi
 
+# Pomodoro: freeze to the next work session on lock, auto-start it on unlock.
+# lock.sh is the single choke point for EVERY lock (rofi power menu, polybar
+# power icon, idle/DPMS via xset, and pre-suspend), so hooking here covers them
+# all. Best-effort: a missing or failing pomodoro must never block the lock.
+pctl="$HOME/akbarDev/pet-projects/pomodoro/pomodoroctl.py"
+[ -f "$pctl" ] && python3 "$pctl" lock 2>/dev/null || true
+
 # -n: do not fork (required by xss-lock). -e: ignore empty password.
 # Fall back to a solid Catppuccin-base colour if the image can't be produced,
 # so a lock NEVER silently fails to appear (e.g. before suspend).
+#
+# NOTE: no `exec` here — we must regain control after i3lock exits to run the
+# unlock hook. i3lock -n stays in the foreground for the whole locked period,
+# so xss-lock's transferred sleep-lock fd remains held until this script
+# returns (i.e. after unlock), which is exactly what we want.
 if [ -f "$img" ]; then
-    exec i3lock -n -e -i "$img" -c 1e1e2e
+    i3lock -n -e -i "$img" -c 1e1e2e
 else
-    exec i3lock -n -e -c 1e1e2e
+    i3lock -n -e -c 1e1e2e
 fi
+
+# Reached only after the correct password unlocks i3lock. Start the primed
+# work session counting.
+[ -f "$pctl" ] && python3 "$pctl" unlock 2>/dev/null || true
