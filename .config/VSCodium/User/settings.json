@@ -1,0 +1,12 @@
+{
+    "workbench.colorTheme": "GitHub Dark Colorblind (Beta)",
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.startupEditor": "none",
+    "terminal.integrated.fontFamily": "\"JetBrainsMono Nerd Font\"",
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
+    "vscode-neovim.neovimInitVimPaths.linux": "/home/akbar/.config/nvim/vscode-init.lua",
+    "editor.lineNumbers": "relative"
+}

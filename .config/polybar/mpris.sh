@@ -28,7 +28,7 @@ player_icon() {
         spotify*) printf '' ;;
         vlc*) printf '󰕼' ;;
         mpv*) printf '' ;;
-        clementine*) printf '󱁇' ;;
+        # clementine*) printf '󱁇' ;;
         *) printf '' ;;
     esac
 }
