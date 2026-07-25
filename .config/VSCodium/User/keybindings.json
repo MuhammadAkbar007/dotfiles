@@ -36,5 +36,92 @@
     "key": "ctrl+k",
     "command": "list.focusUp",
     "when": "listFocus && !inputFocus"
+  },
+
+  // <leader>e toggle-off. nvim owns <leader>e in the editor (reveal + focus
+  // tree); once focus is in the tree nvim is out of the loop, so the same
+  // chord has to be re-declared here to close.
+  // Cost: space is a chord prefix in the explorer, so type-ahead filter waits
+  // on it. Accepted deliberately in favour of a symmetric <leader>e toggle.
+  {
+    "key": "space e",
+    "command": "workbench.action.closeSidebar",
+    "when": "filesExplorerFocus && !inputFocus"
+  },
+
+  // Same close, second way out. Guards differ: escape must still cancel a
+  // rename (!inputFocus) and clear a multi-select (!listMultiSelection) first.
+  {
+    "key": "escape",
+    "command": "workbench.action.closeSidebar",
+    "when": "filesExplorerFocus && !inputFocus && !listMultiSelection"
+  },
+
+  // <leader>ff with no editor open. nvim only receives keys while a text
+  // editor has focus, so on the empty workbench the nvim map is unreachable
+  // and this stands in for it. Scoped to !editorTextFocus so nvim keeps
+  // owning <leader>ff whenever a file is actually open.
+  {
+    "key": "space f f",
+    "command": "workbench.action.quickOpen",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+
+  // <C-e>/<C-y> line scroll. The extension already contributes these, but its
+  // binding was losing to VSCode's default (ctrl+e = quickOpen); a user
+  // binding outranks both. Calls the extension's own commands, so nvim's
+  // cursor/viewport stay in sync rather than drifting from the editor.
+  {
+    "key": "ctrl+e",
+    "command": "vscode-neovim.ctrl-e",
+    "when": "editorTextFocus && neovim.init && neovim.mode != insert"
+  },
+  {
+    "key": "ctrl+y",
+    "command": "vscode-neovim.ctrl-y",
+    "when": "editorTextFocus && neovim.init && neovim.mode != insert"
+  },
+
+  // Same keys inside notebooks. A notebook is a virtualized list of separate
+  // cell editors, so vscode-neovim.ctrl-e scrolls only the active cell's
+  // viewport - already fully visible, hence a no-op. The thing that actually
+  // scrolls is the cell list. Must stay AFTER the bindings above: both match
+  // in a cell, and the later one wins.
+  {
+    "key": "ctrl+e",
+    "command": "list.scrollDown",
+    "when": "notebookEditorFocused && neovim.mode != insert"
+  },
+  {
+    "key": "ctrl+y",
+    "command": "list.scrollUp",
+    "when": "notebookEditorFocused && neovim.mode != insert"
+  },
+
+  // Treesitter incremental_selection equivalent. The nvim config binds
+  // <C-space> to init/expand and <bs> to shrink; treesitter isn't loaded in
+  // VSCode, so smartSelect (syntax-aware, from the language provider) stands
+  // in. Expanding the VSCode selection flips nvim into visual mode on its own.
+  // Scoped to non-insert so ctrl+space still triggers suggest while typing.
+  {
+    "key": "ctrl+space",
+    "command": "editor.action.smartSelect.expand",
+    "when": "editorTextFocus && neovim.init && neovim.mode != insert"
+  },
+  {
+    "key": "backspace",
+    "command": "editor.action.smartSelect.shrink",
+    "when": "editorTextFocus && neovim.init && neovim.mode != insert && editorHasSelection"
+  },
+
+  // Enter on a file: open it, then close the sidebar.
+  // Folders keep default expand/collapse; rename input keeps default confirm.
+  {
+    "key": "enter",
+    "command": "runCommands",
+    "args": {
+      "commands": ["explorer.openAndPassFocus", "workbench.action.closeSidebar"]
+    },
+    "when": "filesExplorerFocus && !explorerResourceIsFolder && !inputFocus"
   }
 ]

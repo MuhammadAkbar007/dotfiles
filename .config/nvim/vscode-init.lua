@@ -28,6 +28,8 @@ map("n", "<leader><leader>", cmd("workbench.action.showAllEditors"), { desc = "O
 -- File ops
 map({ "n", "i" }, "<C-s>", cmd("workbench.action.files.save"), { desc = "Save file" })
 map("n", "<leader>q", cmd("workbench.action.closeActiveEditor"), { desc = "Close editor" })
+-- Parity with snacks.bufdelete <leader>ww in the terminal config.
+map("n", "<leader>ww", cmd("workbench.action.closeActiveEditor"), { desc = "Close buffer" })
 map("n", "<leader>sq", function()
 	vim.fn.VSCodeNotify("workbench.action.files.save")
 	vim.fn.VSCodeNotify("workbench.action.closeActiveEditor")
@@ -40,8 +42,10 @@ map("n", "<leader>fs", cmd("workbench.action.findInFiles"), { desc = "Grep in cw
 map("n", "<leader>fc", cmd("workbench.action.findInFiles"), { desc = "Grep word under cursor" })
 map("n", "<leader>ft", cmd("todo-tree.list"), { desc = "Find todos (needs Todo Tree ext)" })
 
--- nvim-tree -> explorer
-map("n", "<leader>e", cmd("workbench.view.explorer"), { desc = "Toggle explorer" })
+-- nvim-tree -> explorer. Reveals the current file and focuses the tree.
+-- Closing again is keybindings.json's job: once focus leaves the editor nvim
+-- stops receiving keys, so the `space e` chord there handles toggle-off.
+map("n", "<leader>e", cmd("workbench.files.action.showActiveFileInExplorer"), { desc = "Reveal file in explorer" })
 map("n", "<leader>tc", cmd("workbench.files.action.collapseExplorerFolders"), { desc = "Collapse explorer" })
 
 -- LSP
