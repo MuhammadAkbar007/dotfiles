@@ -35,6 +35,19 @@ map("n", "<leader>sq", function()
 	vim.fn.VSCodeNotify("workbench.action.closeActiveEditor")
 end, { desc = "Save and close" })
 
+-- <C-w>q: close the split, but do nothing on the last one. vim's default would
+-- quit the buffer; guard on visible-window count instead so a lone pane stays.
+-- ponytail: winnr("$") tracks vscode-neovim's synced windows, which mirror the
+-- visible editor groups. If it ever miscounts, drop the guard and let it always
+-- closeEditorsAndGroup (vim-accurate: last pane closes the editor).
+local function close_split()
+	if vim.fn.winnr("$") > 1 then
+		vim.fn.VSCodeNotify("workbench.action.closeEditorsAndGroup")
+	end
+end
+map("n", "<C-w>q", close_split, { desc = "Close split (no-op if last)" })
+map("n", "<C-w><C-q>", close_split, { desc = "Close split (no-op if last)" })
+
 -- Telescope -> VSCode pickers
 map("n", "<leader>ff", cmd("workbench.action.quickOpen"), { desc = "Find files" })
 map("n", "<leader>fr", cmd("workbench.action.openRecent"), { desc = "Recent files" })

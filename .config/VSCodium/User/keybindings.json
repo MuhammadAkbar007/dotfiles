@@ -123,5 +123,77 @@
       "commands": ["explorer.openAndPassFocus", "workbench.action.closeSidebar"]
     },
     "when": "filesExplorerFocus && !explorerResourceIsFolder && !inputFocus"
+  },
+
+  // ctrl+hjkl split/pane navigation, parity with vim-tmux-navigator in the
+  // terminal config. navigate{Left,Right,Up,Down} cross the whole workbench -
+  // editor groups AND the terminal panel - so one keyset moves editor<->editor
+  // and editor<->terminal seamlessly. Editor side is normal-mode only so
+  // insert-mode ctrl+h (VSCode's replace) etc. survive. In the terminal these
+  // shadow readline ctrl+h/j/k/l (backspace/enter/kill/clear) - the same trade
+  // the tmux navigator already makes there.
+  {
+    "key": "ctrl+h",
+    "command": "workbench.action.navigateLeft",
+    "when": "editorTextFocus && neovim.mode != insert"
+  },
+  {
+    "key": "ctrl+l",
+    "command": "workbench.action.navigateRight",
+    "when": "editorTextFocus && neovim.mode != insert"
+  },
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.navigateUp",
+    "when": "editorTextFocus && neovim.mode != insert"
+  },
+  {
+    "key": "ctrl+j",
+    "command": "workbench.action.navigateDown",
+    "when": "editorTextFocus && neovim.mode != insert"
+  },
+  {
+    "key": "ctrl+h",
+    "command": "workbench.action.navigateLeft",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+l",
+    "command": "workbench.action.navigateRight",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.navigateUp",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+j",
+    "command": "workbench.action.navigateDown",
+    "when": "terminalFocus"
+  },
+
+  // <C-w>q closes the split, no-op on the last pane. This block is the
+  // !editorTextFocus half (explorer, panels, empty group); the in-editor half
+  // lives in vscode-init.lua because there nvim owns <C-w>q. First kill the
+  // extension's own ctrl+w q (it ran closeActiveEditor, which closes the last
+  // editor too)...
+  {
+    "key": "ctrl+w q",
+    "command": "-workbench.action.closeActiveEditor",
+    "when": "!editorTextFocus && neovim.mode != 'cmdline' && !terminalFocus && !filesExplorerFocus && !searchViewletFocus"
+  },
+  // ...then close the whole group, but only when there's more than one, so a
+  // lone pane stays put.
+  {
+    "key": "ctrl+w q",
+    "command": "workbench.action.closeEditorsAndGroup",
+    "when": "!editorTextFocus && !terminalFocus && multipleEditorGroups"
+  },
+  // Ctrl-held variant: pressing q without releasing Ctrl reads as ctrl+q.
+  {
+    "key": "ctrl+w ctrl+q",
+    "command": "workbench.action.closeEditorsAndGroup",
+    "when": "!editorTextFocus && !terminalFocus && multipleEditorGroups"
   }
 ]

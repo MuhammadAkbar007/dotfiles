@@ -9,5 +9,12 @@
     "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
     "vscode-neovim.neovimInitVimPaths.linux": "/home/akbar/.config/nvim/vscode-init.lua",
     "editor.lineNumbers": "relative",
-    "editor.minimap.enabled": false
+    "editor.minimap.enabled": false,
+    "vscode-neovim.compositeKeys": {
+        "jk": {
+            "command": "vscode-neovim.escape"
+        }
+    },
+    "files.autoSave": "afterDelay",
+    "git.openRepositoryInParentFolders": "never"
 }
