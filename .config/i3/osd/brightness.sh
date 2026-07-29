@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 # Brightness OSD for i3/X11 — dunst progress bar, updates one popup in place.
+# Laptop panel only. External monitors have no /sys/class/backlight entry, and
+# the software substitute (`xrandr --output X --brightness`) is unusable here:
+# gammastep owns the XRandR gamma ramp and reapplies it on every RandR change
+# event, so it wipes the value within a second. Confirmed by SIGSTOPing
+# gammastep — the value sticks only while it's paused.
+# Use the monitor's own OSD buttons. For software control it'd have to be
+# ddcutil (I2C/DDC-CI, a separate channel gammastep can't reach), which costs a
+# package plus i2c group membership — deliberately not taken.
 case "$1" in
     up) brightnessctl set +1% >/dev/null ;;
     down) brightnessctl set 1%- >/dev/null ;;

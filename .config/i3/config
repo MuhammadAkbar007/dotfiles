@@ -51,6 +51,13 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
+# i3 workspaces are global — one output each, never mirrored. So instead of
+# chasing a workspace across screens, send it to the other screen. `next` cycles
+# outputs, so with two monitors this is a straight toggle. (`output current` is
+# useless here: focus follows the workspace, so the target is always where it
+# already is.)
+bindsym $mod+Shift+m move workspace to output next
+
 bindsym $mod+r mode "resize"
 mode "resize" {
         bindsym l resize shrink width 10 px or 10 ppt

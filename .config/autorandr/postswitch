@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Bars are per-output, so a layout change needs them respawned.
+exec "$HOME/.config/polybar/polybar_launcher.sh"
