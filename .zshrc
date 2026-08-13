@@ -179,3 +179,6 @@ unset __conda_setup
 
 # Added by Antigravity CLI installer
 export PATH="/home/akbar/.local/bin:$PATH"
+
+# To customize prompt, run `p10k configure` or edit ~/dotfiles/.p10k.zsh.
+[[ ! -f ~/dotfiles/.p10k.zsh ]] || source ~/dotfiles/.p10k.zsh
