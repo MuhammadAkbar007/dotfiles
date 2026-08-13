@@ -31,6 +31,9 @@ rofi_cmd() {
     rofi -dmenu \
         -p "${fullname}" \
         -mesg "Uptime: $uptime" \
+        -hover-select \
+        -me-select-entry '' \
+        -me-accept-entry MousePrimary \
         -theme ${dir}/${theme}.rasi
 }
 

@@ -38,6 +38,30 @@
     "when": "listFocus && !inputFocus"
   },
 
+  // Esc closes the editor find widget (its match highlights linger otherwise).
+  // Two focus states: typing in the find box (findInputFocussed) or cursor
+  // back in the editor text with the widget still open (editorFocus). Cover
+  // both; the find box has no vim mode, so Esc there is pure VSCode. Everywhere
+  // else Esc still reaches nvim for normal mode.
+  {
+    "key": "escape",
+    "command": "closeFindWidget",
+    "when": "findInputFocussed && findWidgetVisible"
+  },
+  {
+    "key": "escape",
+    "command": "closeFindWidget",
+    "when": "editorFocus && findWidgetVisible"
+  },
+
+  // Esc dismisses the Search sidebar (space fs/fc), like Esc closing a telescope
+  // picker. Fires whether the search box or the results list has focus.
+  {
+    "key": "escape",
+    "command": "workbench.action.closeSidebar",
+    "when": "searchViewletFocus"
+  },
+
   // <leader>e toggle-off. nvim owns <leader>e in the editor (reveal + focus
   // tree); once focus is in the tree nvim is out of the loop, so the same
   // chord has to be re-declared here to close.
@@ -64,6 +88,79 @@
   {
     "key": "space f f",
     "command": "workbench.action.quickOpen",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+
+  // The nvim leader maps, duplicated for non-editor surfaces (notebook command
+  // mode, explorer, empty workbench) where nvim receives no keys. All scoped
+  // !editorTextFocus so nvim keeps owning them inside real editors. Only global
+  // commands are here; cursor-dependent maps (gd, K, rename, diagnostics,
+  // folding, code actions) are meaningless without an editor and stay
+  // nvim-only by design.
+  {
+    "key": "space space",
+    "command": "workbench.action.showAllEditors",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  // <leader>e reveal-in-tree, the open half. The close half is the `space e` /
+  // `escape` -> closeSidebar bindings above; guard !filesExplorerFocus so this
+  // twin doesn't collide with them once the tree has focus.
+  {
+    "key": "space e",
+    "command": "workbench.files.action.showActiveFileInExplorer",
+    "when": "!editorTextFocus && !filesExplorerFocus && !inputFocus"
+  },
+  {
+    "key": "space f r",
+    "command": "workbench.action.openRecent",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "space f s",
+    "command": "workbench.action.findInFiles",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "space f c",
+    "command": "workbench.action.findInFiles",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "space f t",
+    "command": "todo-tree.list",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "space t c",
+    "command": "workbench.files.action.collapseExplorerFolders",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "space l g",
+    "command": "workbench.view.scm",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "space q",
+    "command": "workbench.action.closeActiveEditor",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "space w w",
+    "command": "workbench.action.closeActiveEditor",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "space s q",
+    "command": "runCommands",
+    "args": {
+      "commands": ["workbench.action.files.save", "workbench.action.closeActiveEditor"]
+    },
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "space s m",
+    "command": "workbench.action.toggleMaximizeEditorGroup",
     "when": "!editorTextFocus && !inputFocus"
   },
 
@@ -171,6 +268,19 @@
     "key": "ctrl+j",
     "command": "workbench.action.navigateDown",
     "when": "terminalFocus"
+  },
+  // Same split nav from notebook command mode (cell selected, not editing) -
+  // not editorTextFocus, so the editor bindings above miss it. Only h/l here:
+  // ctrl+j/k stay owned by list.focusDown/Up for cell-to-cell movement.
+  {
+    "key": "ctrl+h",
+    "command": "workbench.action.navigateLeft",
+    "when": "notebookEditorFocused && !editorTextFocus"
+  },
+  {
+    "key": "ctrl+l",
+    "command": "workbench.action.navigateRight",
+    "when": "notebookEditorFocused && !editorTextFocus"
   },
 
   // <C-w>q closes the split, no-op on the last pane. This block is the

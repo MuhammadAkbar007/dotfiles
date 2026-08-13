@@ -25,10 +25,8 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
+ZVM_VI_INSERT_ESCAPE_BINDKEY=jk   # must be set before the plugin loads
 zinit light jeffreytse/zsh-vi-mode
-
-# Enable vi mode for command line editing
-bindkey -v  # Enable vi mode
 
 # Load completions
 autoload -Uz compinit && compinit

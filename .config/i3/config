@@ -58,6 +58,14 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 # already is.)
 bindsym $mod+Shift+m move workspace to output next
 
+# Rescue binding for when a screen stays black. autorandr matches profiles by
+# EDID, so an unrecognised monitor matches nothing and it leaves the output
+# disabled — the display then sleeps and looks broken. `horizontal` is one of
+# autorandr's built-in virtual profiles: it enables every connected output side
+# by side at its best mode, no saved profile needed. Beats rebooting.
+# Once a new monitor is laid out how you want it: autorandr --save <name>
+bindsym $mod+p exec --no-startup-id autorandr --change --default horizontal
+
 bindsym $mod+r mode "resize"
 mode "resize" {
         bindsym l resize shrink width 10 px or 10 ppt

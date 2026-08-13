@@ -47,12 +47,22 @@ local function close_split()
 end
 map("n", "<C-w>q", close_split, { desc = "Close split (no-op if last)" })
 map("n", "<C-w><C-q>", close_split, { desc = "Close split (no-op if last)" })
+-- vim-maximizer <leader>sm parity: maximize the active group, toggle back.
+map("n", "<leader>sm", cmd("workbench.action.toggleMaximizeEditorGroup"), { desc = "Maximize/restore split" })
 
 -- Telescope -> VSCode pickers
 map("n", "<leader>ff", cmd("workbench.action.quickOpen"), { desc = "Find files" })
 map("n", "<leader>fr", cmd("workbench.action.openRecent"), { desc = "Recent files" })
-map("n", "<leader>fs", cmd("workbench.action.findInFiles"), { desc = "Grep in cwd" })
-map("n", "<leader>fc", cmd("workbench.action.findInFiles"), { desc = "Grep word under cursor" })
+-- fs opens Search empty; the view otherwise keeps its last query, so pass an
+-- explicit empty query to clear it. fc seeds the word under cursor. Both pass
+-- args explicitly instead of the global search.seedWithNearestWord, which would
+-- seed fs too.
+map("n", "<leader>fs", function()
+	vim.fn.VSCodeNotify("workbench.action.findInFiles", { query = "" })
+end, { desc = "Grep in cwd" })
+map("n", "<leader>fc", function()
+	vim.fn.VSCodeNotify("workbench.action.findInFiles", { query = vim.fn.expand("<cword>"), triggerSearch = true })
+end, { desc = "Grep word under cursor" })
 map("n", "<leader>ft", cmd("todo-tree.list"), { desc = "Find todos (needs Todo Tree ext)" })
 
 -- nvim-tree -> explorer. Reveals the current file and focuses the tree.

@@ -45,20 +45,42 @@ player_icon() {
 LAST_FILE="${XDG_RUNTIME_DIR:-/tmp}/polybar-mpris-last"
 last="$(cat "$LAST_FILE" 2>/dev/null)" || last=''
 
+# Fields pulled per player, tab-separated. Order matters: the awk below treats a
+# player as "has a track" when EITHER artist or title is non-empty, so a song
+# with only one of the two tags still shows (and browser tabs with a live media
+# session but no metadata are still skipped).
 pick_player() {
     playerctl -a metadata \
-        --format '{{status}}'$'\t''{{playerName}}'$'\t''{{title}}' 2>/dev/null |
+        --format '{{status}}'$'\t''{{playerName}}'$'\t''{{xesam:artist}}'$'\t''{{title}}' 2>/dev/null |
         awk -F'\t' -v last="$last" \
-            '$3 != "" { if ($1 == "Playing" && !p) p = $0
-                        if ($2 == last && !l) l = $0
-                        if (!f) f = $0 }
+            '($3 != "" || $4 != "") { if ($1 == "Playing" && !p) p = $0
+                                      if ($2 == last && !l) l = $0
+                                      if (!f) f = $0 }
              END { print (p ? p : (l ? l : f)) }'
 }
 
 line="$(pick_player)"
 [ -z "$line" ] && exit 0
 
-IFS=$'\t' read -r status player title <<<"$line"
+IFS=$'\t' read -r status player artist title <<<"$line"
+
+# Build the display string from whatever metadata exists, best-effort, in
+# priority order. Tags are often mislabelled (e.g. a file whose xesam:title is
+# actually the featured artist), so showing artist AND title together is more
+# identifying than either alone.
+if [ -n "$artist" ] && [ -n "$title" ]; then
+    title="$artist — $title"
+elif [ -n "$title" ]; then
+    : # title as-is
+elif [ -n "$artist" ]; then
+    title="$artist"
+else
+    # No usable tags at all — fall back to the filename (without dir/extension).
+    url="$(playerctl -p "$player" metadata xesam:url 2>/dev/null)"
+    title="${url##*/}"          # strip path
+    title="${title%.*}"         # strip extension
+    title="${title//%20/ }"     # cheap URL-decode of the common space escape
+fi
 [ -z "$title" ] && exit 0
 
 # Remember the active player so rule 2 above has something to point at. Only on
