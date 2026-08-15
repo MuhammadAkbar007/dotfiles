@@ -11,9 +11,9 @@ x-prop-non_desktop 0
 x-prop-scaling_mode Full aspect
 output HDMI-1
 crtc 1
-mode 1920x1080
+mode 1920x1080_60.00
 pos 1920x0
-rate 60.00
+rate 59.96
 x-prop-aspect_ratio Automatic
 x-prop-audio auto
 x-prop-broadcast_rgb Automatic

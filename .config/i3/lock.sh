@@ -10,15 +10,27 @@ set -u
 src="$HOME/Pictures/desktop_wallpapers/dark/treeBreeze.jpg"
 img="$HOME/.cache/i3lock/lock.png"
 
-# Detect the active resolution so the image fills the screen exactly.
-res="$(xrandr 2>/dev/null | awk 'match($0,/[0-9]+x[0-9]+\+[0-9]+\+[0-9]+/){s=substr($0,RSTART,RLENGTH); sub(/\+.*/,"",s); print s; exit}')"
-res="${res:-1920x1080}"
+# Full virtual screen (union of all monitors, e.g. laptop + HDMI side by
+# side) so the canvas covers every output, not just the first one xrandr
+# lists.
+canvas="$(xdpyinfo 2>/dev/null | awk '/dimensions:/{print $2}')"
+canvas="${canvas:-1920x1080}"
 
 mkdir -p "$(dirname "$img")"
-# (Re)generate the scaled lock image only when missing or the source changed.
-if [ ! -f "$img" ] || [ "$src" -nt "$img" ]; then
-    convert "$src" -resize "${res}^" -gravity center -extent "$res" "$img" 2>/dev/null
-fi
+# Composite the full image onto EACH monitor's own rectangle (matching
+# `feh --bg-fill`'s per-output behaviour), not one image stretched across
+# the whole virtual screen split between monitors. Layout can change
+# between locks (external monitor plugged/unplugged), so always rebuild
+# rather than trying to cache-invalidate on source mtime alone.
+convert -size "$canvas" xc:"#1e1e2e" "$img" 2>/dev/null
+tmp="$(mktemp --suffix=.png)"
+trap 'rm -f "$tmp"' EXIT
+while read -r geom; do
+    wh="${geom%%+*}"     # e.g. 1920x1080
+    off="+${geom#*+}"    # e.g. +1920+0
+    convert "$src" -resize "${wh}^" -gravity center -extent "$wh" "$tmp" 2>/dev/null
+    convert "$img" "$tmp" -geometry "$off" -composite "$img" 2>/dev/null
+done < <(xrandr --query 2>/dev/null | awk '/ connected/{for(i=1;i<=NF;i++) if ($i ~ /^[0-9]+x[0-9]+\+[0-9]+\+[0-9]+$/) print $i}')
 
 # Pomodoro: freeze to the next work session on lock, auto-start it on unlock.
 # lock.sh is the single choke point for EVERY lock (rofi power menu, polybar
