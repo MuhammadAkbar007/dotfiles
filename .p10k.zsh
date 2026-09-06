@@ -264,7 +264,9 @@
   # respectively.
   typeset -g POWERLEVEL9K_DIR_TRUNCATE_BEFORE_MARKER=false
   # Don't shorten this many last directory segments. They are anchors.
-  typeset -g POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
+  # 99 = every segment is an anchor, i.e. the path is never shortened. Without this p10k
+  # squeezes the path to make room for the right prompt instead of hiding the right prompt.
+  typeset -g POWERLEVEL9K_SHORTEN_DIR_LENGTH=99
   # Shorten directory if it's longer than this even if there is space for it. The value can
   # be either absolute (e.g., '80') or a percentage of terminal width (e.g, '50%'). If empty,
   # directory will be shortened only when prompt doesn't fit or when other parameters demand it

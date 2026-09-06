@@ -36,22 +36,38 @@ icon_for() {   # $1=class  $2=instance  -> prints an icon name or path
   printf '%s' "${inst,,}"
 }
 
-# Pull all real windows from the i3 tree: con_id, class, instance, title
+# Pull all real windows from the i3 tree: con_id, X11 window id, class, instance, title
 mapfile -t rows < <(i3-msg -t get_tree | jq -r '
   .. | objects | select(.type? == "workspace")
   | .. | objects
   | select(.window != null and .window_properties != null)
   | [ (.id|tostring),
+      (.window|tostring),
       (.window_properties.class // "?"),
       (.window_properties.instance // "?"),
       (.name // "?") ] | @tsv')
 
 [ "${#rows[@]}" -eq 0 ] && exit 0
 
+# Sort most-recently-focused first. The i3 tree is in layout order, which would
+# make Alt+Tab jump somewhere arbitrary; _NET_CLIENT_LIST_STACKING is bottom-to-
+# top stacking order, so reversed it approximates MRU. Unlisted windows go last.
+declare -A rank
+r=0
+while read -r w; do
+  rank[$((w))]=$((r++))
+done < <(xprop -root _NET_CLIENT_LIST_STACKING | grep -o '0x[0-9a-f]*' | tac)
+
+mapfile -t rows < <(
+  for row in "${rows[@]}"; do
+    printf '%s\t%s\n' "${rank[$(cut -f2 <<< "$row")]:-99999}" "$row"
+  done | sort -n -k1,1 | cut -f2-
+)
+
 CIDS=(); DISP=(); ICON=()
 i=0
 for row in "${rows[@]}"; do
-  IFS=$'\t' read -r conid cls inst title <<< "$row"
+  IFS=$'\t' read -r conid win cls inst title <<< "$row"
   CIDS[i]="$conid"
   DISP[i]="${title}    ·    ${cls}"
   ICON[i]="$(icon_for "$cls" "$inst")"
@@ -62,7 +78,11 @@ done
 idx=$(
   for j in "${!CIDS[@]}"; do
     printf '%s\0icon\x1f%s\n' "${DISP[$j]}" "${ICON[$j]}"
-  done | rofi -dmenu -i -p "Windows" -format i -show-icons
+  done | rofi -dmenu -i -p "Windows" -format i -show-icons \
+      -selected-row 1 \
+      -kb-row-down 'Alt+Tab,Down,Control+n' \
+      -kb-row-up 'Alt+ISO_Left_Tab,Up,Control+p' \
+      -kb-accept-entry '!Alt+Tab,Return,KP_Enter'
 )
 
 [ -n "$idx" ] && i3-msg "[con_id=${CIDS[$idx]}] focus" >/dev/null 2>&1

@@ -11,10 +11,19 @@ for _ in $(seq 20); do
 done
 killall -q -9 polybar
 
-# One bar per connected output. Systray only lands on the primary; the other
-# bars log "tray already managed" and carry on.
-for m in $(polybar --list-monitors | cut -d: -f1); do
-  MONITOR=$m polybar example 2>&1 | tee -a /tmp/polybar.log &
+# One bar per connected output. Only ONE bar can own the systray (X11 tray
+# manager selection is single-owner) — prefer an external monitor over the
+# laptop panel (eDP-*) when one's connected, otherwise fall back to whatever
+# is there. That bar gets the `example` config (has systray); every other
+# monitor gets `example-notray` so it doesn't race for the selection.
+monitors="$(polybar --list-monitors | cut -d: -f1)"
+tray_monitor="$(echo "$monitors" | grep -v '^eDP' | head -1)"
+tray_monitor="${tray_monitor:-$(echo "$monitors" | head -1)}"
+
+for m in $monitors; do
+  bar=example
+  [ "$m" = "$tray_monitor" ] || bar=example-notray
+  MONITOR=$m polybar "$bar" 2>&1 | tee -a /tmp/polybar.log &
   disown
 done
 

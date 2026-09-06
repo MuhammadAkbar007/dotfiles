@@ -132,6 +132,10 @@ bindsym $mod+s exec --no-startup-id rofi -show web -modi "web:~/.config/rofi/web
 # run a command in kitty (--hold keeps the window open after it exits, so quick
 # commands like `ls`/`npm i` don't flash-and-close; bash -c allows pipes etc.)
 bindsym $mod+t exec --no-startup-id rofi -show run -run-command 'kitty --hold -e bash -c "{cmd}"'
+# file browser (rofi) starting at $HOME; Enter on a file opens it via xdg-open,
+# which is set to mpv for audio/video, so this is a keyboard-only way to pick
+# and play an mp3 without typing a path.
+bindsym $mod+m exec --no-startup-id rofi -show filebrowser
 # application switcher (rofi)
 bindsym Mod1+Tab exec --no-startup-id ~/.config/rofi/window-switcher.sh
 # clipboard history (cliphist + rofi)
@@ -197,10 +201,17 @@ exec_always --no-startup-id dbus-update-activation-environment --systemd XDG_SES
 # exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/treeBreeze.jpg
 # exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/hyundai.jpg
 # exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/ready_player_one.jpg
-exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/housesForHyprland.jpg
+exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/rocket-raccoon.jpg
 # exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/light/nissan_gtr-34.png
+exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/housesForHyprland.jpg
 
 exec_always --no-startup-id ~/.config/polybar/polybar_launcher.sh
+# Pomodoro timer daemon. Started from here, NOT enabled in systemd: a
+# default.target unit would start before the dbus-update-activation-environment
+# line above, so the daemon would inherit no DISPLAY and every break overlay it
+# spawned that session would silently fail to open. exec_always also restarts it
+# on an i3 reload, which is what you want after editing the project.
+exec_always --no-startup-id systemctl --user restart pomodoro.service
 exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
 exec_always --no-startup-id pgrep -x gammastep >/dev/null || gammastep
 exec_always --no-startup-id pgrep -x dunst >/dev/null || dunst

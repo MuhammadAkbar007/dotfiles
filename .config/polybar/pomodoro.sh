@@ -3,14 +3,14 @@
 # machine + bar text live in the pet project; this wrapper just streams its
 # JSON and emits a polybar label.
 #
-# pomodoro.py is a long-running driver: it prints one {"text","class"} line per
-# second (flushed), drives the timer, fires notify-send/sound on completion, and
-# (on Wayland) spawns the break overlay. Running it here as a `tail = true`
-# module makes polybar its single host, exactly like waybar was.
+# pomodoro.py is READ-ONLY: it prints one {"text","class"} line per second
+# (flushed) and nothing else. It does not drive the timer, notify, or spawn the
+# overlay — pomodorod.py does, as a single user service started from i3. That
+# split exists because polybar runs one copy of this script per connected
+# output, so a second monitor used to mean two timers, two notifications and two
+# overlays. Safe to put the module on every bar.
 #
 # We map `class` -> a polybar %{F} colour so work/break/paused read differently.
-# NOTE: the break OVERLAY is Wayland-only (GTK Layer Shell) and won't appear on
-# X11 — that piece is handled separately; the bar text + timer work fine.
 PY=/home/akbar/akbarDev/pet-projects/pomodoro/pomodoro.py
 
 exec python3 -u "$PY" | jq --unbuffered -r '
