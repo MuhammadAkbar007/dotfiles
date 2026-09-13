@@ -5,6 +5,7 @@ return {
 	dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
 	config = function()
 		require("render-markdown").setup({
+			anti_conceal = { enabled = false },
 			latex = { enabled = false },
 			yaml = { enabled = false },
 		})

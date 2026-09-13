@@ -1,0 +1,4 @@
+[[mgr.prepend_keymap]]
+on = [ "o", "n" ]
+run = 'shell --orphan -- nautilus .'
+desc = "Open Nautilus here"

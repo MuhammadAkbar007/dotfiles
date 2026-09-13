@@ -24,8 +24,9 @@ configuration {
 }
 
 /*****----- Global Properties -----*****/
+/* whole theme scaled up (font + every px size) for readability from a distance */
 * {
-    font:                        "JetBrains Mono Nerd Font 12";
+    font:                        "JetBrains Mono Nerd Font 17";
     background:                  #1e1e2e;
     background-alt:              #313244;
     foreground:                  #cdd6f4;
@@ -41,7 +42,7 @@ window {
     location:                    center;
     anchor:                      center;
     fullscreen:                  false;
-    width:                       600px;
+    width:                       720px;
     x-offset:                    0px;
     y-offset:                    0px;
 
@@ -49,7 +50,7 @@ window {
     enabled:                     true;
     border:                      2px;
     border-color:                @selected;
-    border-radius:               20px;
+    border-radius:               21px;
     cursor:                      "default";
     background-color:            @background;
 }
@@ -64,8 +65,8 @@ mainbox {
 }
 
 listbox {
-    spacing:                     20px;
-    padding:                     20px;
+    spacing:                     21px;
+    padding:                     21px;
     background-color:            transparent;
     orientation:                 vertical;
     children:                    [ "message", "listview" ];
@@ -75,7 +76,7 @@ listbox {
 inputbar {
     enabled:                     true;
     spacing:                     10px;
-    padding:                     80px 60px;
+    padding:                     85px 64px;
     background-color:            transparent;
     background-image:            url("~/.config/rofi/images/banner.jpg", width);
     text-color:                  @foreground;
@@ -86,7 +87,7 @@ textbox-prompt-colon {
     enabled:                     true;
     expand:                      false;
     str:                         "";
-    padding:                     12px 15px;
+    padding:                     12px 16px;
     border-radius:               100%;
     background-color:            @background-alt;
     text-color:                  inherit;
@@ -94,8 +95,8 @@ textbox-prompt-colon {
 entry {
     enabled:                     true;
     expand:                      false;
-    width:                       250px;
-    padding:                     12px 16px;
+    width:                       315px;
+    padding:                     12px 17px;
     border-radius:               100%;
     background-color:            @background-alt;
     text-color:                  inherit;
@@ -116,7 +117,7 @@ mode-switcher{
     text-color:                  @foreground;
 }
 button {
-    width:                       45px;
+    width:                       53px;
     padding:                     12px;
     border-radius:               100%;
     background-color:            @background-alt;
@@ -184,7 +185,7 @@ element selected.active {
 element-icon {
     background-color:            transparent;
     text-color:                  inherit;
-    size:                        36px;
+    size:                        42px;
     cursor:                      inherit;
 }
 element-text {
@@ -209,7 +210,7 @@ textbox {
 }
 error-message {
     padding:                     12px;
-    border-radius:               20px;
+    border-radius:               21px;
     background-color:            @background;
     text-color:                  @foreground;
 }
