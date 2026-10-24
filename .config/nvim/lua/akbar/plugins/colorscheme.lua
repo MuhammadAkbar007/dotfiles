@@ -45,6 +45,7 @@ return {
 				treesitter_context = true,
 				render_markdown = true,
 				dadbod_ui = true,
+				diffview = true,
 				which_key = true,
 				snacks = {
 					enabled = true,
