@@ -101,9 +101,10 @@ return {
 			vim.cmd(command)
 		end
 
-		set_highlight("NvimTreeFolderName", "#FFD700")
-		set_highlight("NvimTreeFolderIcon", "#FFD700")
-		set_highlight("NvimTreeOpenedFolderName", "#FFD700")
+		-- match lazygit: grey folder icon (its DEFAULT_DIRECTORY_ICON color), name in default text color
+		set_highlight("NvimTreeFolderName", "#cdd6f4")
+		set_highlight("NvimTreeFolderIcon", "#878787")
+		set_highlight("NvimTreeOpenedFolderName", "#cdd6f4")
 		set_highlight("NvimTreeEmptyFolderName", "#808080")
 		set_highlight("NvimTreeIndentMarker", "#A9A9A9")
 
