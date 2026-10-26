@@ -52,7 +52,7 @@ window {
     border-color:                @selected;
     border-radius:               19px;
     cursor:                      "default";
-    background-color:            @background;
+    background-color:            #1e1e2ed9;
 }
 
 /*****----- Main Box -----*****/
