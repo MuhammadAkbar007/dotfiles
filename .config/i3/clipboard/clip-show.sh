@@ -27,8 +27,8 @@ case "${out#file://}" in
         ;;
 esac
 
-if [ "${#out}" -gt "$max" ]; then
-    printf '%s…\n' "${out:0:max}"
-else
-    printf '%s\n' "$out"
-fi
+[ "${#out}" -gt "$max" ] && out="${out:0:max}…"
+# Clipboard text is untrusted and polybar parses this output for %{...} tags
+# (an %{A1:cmd:} tag would make the label run cmd when clicked). polybar has no
+# escape for a literal "%{", so break every one up with a space.
+printf '%s\n' "${out//'%{'/'% {'}"

@@ -11,6 +11,15 @@ for _ in $(seq 20); do
 done
 killall -q -9 polybar
 
+# polybar starts each module script as `sh -c <exec>` leading its own process
+# group, but on exit (and never after the -9 above) it doesn't take the group
+# down with it, so long-running module scripts outlive the bar: pulseaudio.sh's
+# `pactl subscribe` piled up one copy per restart. Their parent is gone now
+# (re-parented to init), so kill each such group whole.
+for pg in $(pgrep -P 1 -f '^/bin/sh -c ~/(\.config/polybar|\.local/bin)/'); do
+  kill -- -"$pg" 2>/dev/null
+done
+
 # One bar per connected output. Only ONE bar can own the systray (X11 tray
 # manager selection is single-owner) — prefer an external monitor over the
 # laptop panel (eDP-*) when one's connected, otherwise fall back to whatever
