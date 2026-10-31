@@ -61,13 +61,9 @@ bindkey "^[[1;5C" forward-word     # Ctrl + Right
 bindkey "^[[3~" delete-char  # Map Delete key
 
 # My aliases
-alias eap="cd /install_me/idea-IU/bin/; prime-run ./idea"
 alias tg="cd ~/install_me/Telegram/; prime-run ./Telegram"
-alias dcu="docker compose up --build"
-alias dcd="docker compose down"
 alias py="python3"
 alias ex="exit"
-alias yz="yazi"
 alias lg="lazygit"
 alias ls="lsd"
 alias la="ls -a"
@@ -98,18 +94,11 @@ alias fzf='fzf --preview="bat --color=always {}"'
 alias cl="clear"
 alias gp="git push origin main"
 alias gc="git clone"
-alias gadc="git add ~/.tmux.conf ~/.wezterm.lua ~/.ideavimrc ~/.p10k.zsh ~/.zshrc ~/.config/kitty/ ~/.config/nvim/"
 # alias up="sudo dnf update -y; flatpak update -y"
 # alias up="sudo nala upgrade -y; flatpak update -y"
 alias up="sudo nala upgrade -y"
-# alias up="sudo nala upgrade -y"
-alias sr="mvn spring-boot:run"
 alias open="xdg-open"
-alias prayer="xdg-open /home/akbar/infinity/decemberPrayingTimetable.pdf"
-alias shut="shutdown now"
-alias reb="reboot"
 alias sdcv="sdcv -c"
-alias record="cd; ./akbarDev/petProjects/screen-recorder-script/screen-recorder.sh"
 alias prime-run="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia __VK_LAYER_NV_optimus=NVIDIA_only"
 function dic {
   espeak-ng "$1"
