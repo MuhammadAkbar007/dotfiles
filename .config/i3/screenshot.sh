@@ -44,25 +44,34 @@ capture_region_to() {  # $1 = dest file
   fi
 }
 
+# PNG -> clipboard. Fails loudly (critical dunst popup, stays until dismissed)
+# instead of silently: an apt autoremove once took xclip away and every
+# screenshot "worked" while the clipboard stayed empty.
+copy_png() {  # $1 = png file
+  xclip -selection clipboard -t image/png -i "$1" && return 0
+  dunstify -a screenshot -u critical "Screenshot not copied" \
+    "Clipboard copy failed (is xclip installed?)"
+  return 1
+}
+
 case "$mode" in
   screen)
     file="$dir/$ts.png"
     maim --hidecursor "$file" || exit 1
-    xclip -selection clipboard -t image/png -i "$file"
+    copy_png "$file"
     notify_open "$file"
     ;;
 
   area)
     file="$dir/${ts}.png"
     capture_region_to "$file" || exit 0     # cancelled -> no screenshot
-    xclip -selection clipboard -t image/png -i "$file"
+    copy_png "$file"
     notify_open "$file"
     ;;
 
   copy)
     tmp=$(mktemp --suffix=.png)
-    if capture_region_to "$tmp"; then
-      xclip -selection clipboard -t image/png -i "$tmp"
+    if capture_region_to "$tmp" && copy_png "$tmp"; then
       dunstify -a screenshot "Screenshot copied" "Region copied to clipboard" \
         -i "$cheese" -t 5000
     fi
