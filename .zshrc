@@ -176,3 +176,4 @@ export PATH="/home/akbar/.local/bin:$PATH"
 
 # Added by the Hunk installer (https://hunk.dev)
 export PATH='/home/akbar/.hunk/bin':"$PATH"
+[ -f ~/.secrets.env ] && source ~/.secrets.env
