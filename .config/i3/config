@@ -136,8 +136,6 @@ bindsym $mod+t exec --no-startup-id rofi -show run -run-command 'kitty --hold -e
 # which is set to mpv for audio/video, so this is a keyboard-only way to pick
 # and play an mp3 without typing a path.
 bindsym $mod+m exec --no-startup-id rofi -show filebrowser
-# application switcher (rofi)
-bindsym Mod1+Tab exec --no-startup-id ~/.config/rofi/window-switcher.sh
 # clipboard history (cliphist + rofi)
 bindsym $mod+v exec --no-startup-id ~/.config/i3/clipboard/clip-menu.sh
 # emoji picker (bemoji + rofi)
