@@ -203,7 +203,7 @@ exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpaper
 # exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/light/nissan_gtr-34.png
 # exec_always --no-startup-id feh --bg-fill /home/akbar/Pictures/desktop_wallpapers/dark/housesForHyprland.jpg
 
-exec_always --no-startup-id ~/.config/polybar/polybar_launcher.sh
+exec_always --no-startup-id ~/.config/polybar/polybar_launcher.sh island
 # Pomodoro timer daemon. Started from here, NOT enabled in systemd: a
 # default.target unit would start before the dbus-update-activation-environment
 # line above, so the daemon would inherit no DISPLAY and every break overlay it

@@ -29,9 +29,12 @@ monitors="$(polybar --list-monitors | cut -d: -f1)"
 tray_monitor="$(echo "$monitors" | grep -v '^eDP' | head -1)"
 tray_monitor="${tray_monitor:-$(echo "$monitors" | head -1)}"
 
+# Bar variant: `polybar_launcher.sh island` runs bar/island + bar/island-notray.
+variant="${1:-example}"
+
 for m in $monitors; do
-  bar=example
-  [ "$m" = "$tray_monitor" ] || bar=example-notray
+  bar=$variant
+  [ "$m" = "$tray_monitor" ] || bar=$variant-notray
   MONITOR=$m polybar "$bar" 2>&1 | tee -a /tmp/polybar.log &
   disown
 done
