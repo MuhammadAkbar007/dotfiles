@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-# Polybar dynamic island. The right-side module (module/island) is a row of
-# always-compact status icons. When a section's state changes (or you click it),
-# the daemon parks that section's FULL form in $DIR/center for AUTO_SECS; the
-# centre module (module/island-center) shows it there in place of the clock/date,
-# then falls back to the date. The right icon never expands — it stays compact.
+# Polybar dynamic island (module/island): a row of status icons after the
+# workspaces. Each icon is compact; when its state changes (or you click it) it
+# expands IN PLACE to its full form for AUTO_SECS, then collapses. One section
+# open at a time. The clock/date is a separate centre module, untouched.
 #
 # Producers are the existing bar scripts (pomodoro.sh, mpris.sh, pulseaudio.sh,
 # caffeine.sh, clip-show.sh) plus nmcli; colours come from their output / the
@@ -13,7 +12,6 @@ set -u
 DIR="${XDG_RUNTIME_DIR:-/tmp}/polybar-island"
 BAR="$HOME/.config/polybar"
 OPEN="$DIR/open"         # "<section> <expiry-epoch>"; collapsed once now > expiry
-CENTER="$DIR/center"     # the daemon parks the centre line here
 AUTO_SECS=5              # how long any open (manual or state-change) stays
 
 G_PLAY=$''         # nf-fa-play_circle  (mpris.sh ICON_PLAY)
@@ -31,8 +29,6 @@ CLIPCLR="$HOME/.config/i3/clipboard/clip-clear.sh"
 NETSH="$HOME/.config/rofi/network/network.sh"
 POMOCTL="python3 /home/akbar/akbarDev/pet-projects/pomodoro/pomodoroctl.py"
 VOLOSD="$HOME/.config/i3/osd/volume.sh"
-# Reuse the date module's exact format, so the centre's resting view is identical.
-DFMT=$(sed -n 's/^date = "\(.*\)"$/\1/p' "$BAR/config.ini" | head -1); DFMT=${DFMT:-%a %d %B | %H:%M}
 
 mkdir -p "$DIR"
 
@@ -47,9 +43,9 @@ opened() {
 }
 
 # Click dispatcher: `island.sh do <section> <button>`. A left-click on a section
-# that isn't open just opens it (shows it in the centre); the NEXT left-click,
-# while it's open, runs its primary action. Other buttons act immediately and
-# open the section too. Matches the old standalone modules' actions.
+# that isn't open just opens it (expands it in place); the NEXT left-click, while
+# it's open, runs its primary action. Other buttons act immediately and open the
+# section too. Matches the old standalone modules' actions.
 if [ "${1-}" = do ]; then
     sec=${2-}; btn=${3-}
     printf -v now '%(%s)T' -1
@@ -74,19 +70,7 @@ if [ "${1-}" = do ]; then
     exit 0
 fi
 
-# Centre module feed: print whatever the daemon parked in $CENTER (the open
-# section's full form, or the clock/date when idle).
-if [ "${1-}" = centerloop ]; then
-    prev=__
-    while :; do
-        cur=$(cat "$CENTER" 2>/dev/null)
-        if [ -z "$cur" ]; then printf -v d "%($DFMT)T" -1; cur="%{F#cdd6f4}${d}%{F-}"; fi
-        [ "$cur" != "$prev" ] && { printf '%s\n' "$cur"; prev=$cur; }
-        sleep 0.1
-    done
-fi
-
-# Wrap a compact icon with all five button actions, routed through the dispatcher.
+# Wrap a segment's markup with all five button actions, routed through the dispatcher.
 acts() {   # $1=section  $2=content
     local s=$1 c=$2
     printf '%%{A1:%s/island.sh do %s left:}%%{A2:%s/island.sh do %s mid:}%%{A3:%s/island.sh do %s right:}%%{A4:%s/island.sh do %s up:}%%{A5:%s/island.sh do %s down:}%s%%{A}%%{A}%%{A}%%{A}%%{A}' \
@@ -95,7 +79,6 @@ acts() {   # $1=section  $2=content
 
 # --- daemon -----------------------------------------------------------------
 : >"$OPEN"      # start fully compact; sections open only on change/click
-: >"$CENTER"    # centre falls back to the date until something opens
 
 FIFO="$DIR/fifo.$$"
 mkfifo "$FIFO"
@@ -141,7 +124,7 @@ pgids+=("$!")
 { while :; do printf 'clip\t%s\n' "$("$CLIPSHOW" 2>/dev/null)"; sleep 0.3; done; } 3>&- >"$FIFO" &
 pgids+=("$!")
 
-pomo='' music='' wifi='' caf='' vol='' clip='' prev='' prevc=''
+pomo='' music='' wifi='' caf='' vol='' clip='' prev=''
 
 # Auto-open a section for AUTO_SECS when its meaningful state changes. Some
 # payloads churn (pomodoro counts down every tick, wifi signal wiggles), so the
@@ -163,21 +146,7 @@ maybe_open() {   # $1=section $2=payload
     lastkey[$1]=$k; seen[$1]=1
 }
 
-# ---- compact icons (right island) ----
-# pomodoro.sh's label varies (running = glyph+time, idle = " pomodoro "), so show
-# a fixed timer glyph tinted with its phase colour. Full label shows in centre.
-seg_pomo() {
-    [ -z "$pomo" ] && return
-    local color="${pomo%%\}*}}"   # leading "%{F#...}" = phase colour
-    acts pomo "${color}${G_POMO}%{F-}"
-}
-seg_music() {
-    [ -z "$music" ] && return
-    local out
-    if [[ $music == *a6d189* ]]; then out="%{F#a6d189}${G_PLAY}%{F-}"   # playing
-    else out="%{F#f38ba8}${G_PAUSE}%{F-}"; fi                            # paused
-    acts music "$out"
-}
+# ---- segments: compact icon, or full form while open (expands in place) ----
 wifi_icon() {   # coloured ramp glyph, or the disconnected glyph
     [ -z "$wifi" ] && { printf '%%{F#f38ba8}%s%%{F-}' "$G_WOFF"; return; }
     local sig=${wifi%%:*} ramp
@@ -188,10 +157,33 @@ wifi_icon() {   # coloured ramp glyph, or the disconnected glyph
     else ramp=$G_W0; fi
     printf '%%{F#8839ef}%s%%{F-}' "$ramp"
 }
-seg_wifi() { acts wifi "$(wifi_icon)"; }
-# Volume never uses the centre — dunst already shows an OSD on change. It just
-# sits on the right; its actions route through the OSD script (so scroll/mute
-# also pop the dunst bar), never through the open/centre mechanism.
+# pomodoro.sh's label varies (running = glyph+time, idle = " pomodoro "), so the
+# compact icon is a fixed timer glyph tinted with the phase colour; open = label.
+seg_pomo() {
+    [ -z "$pomo" ] && return
+    if opened pomo; then acts pomo "$pomo"
+    else acts pomo "${pomo%%\}*}}${G_POMO}%{F-}"; fi
+}
+seg_music() {
+    [ -z "$music" ] && return
+    if opened music; then acts music "$music"; return; fi
+    if [[ $music == *a6d189* ]]; then acts music "%{F#a6d189}${G_PLAY}%{F-}"   # playing
+    else acts music "%{F#f38ba8}${G_PAUSE}%{F-}"; fi                            # paused
+}
+seg_wifi() {
+    local ic; ic="$(wifi_icon)"
+    if opened wifi; then
+        if [ -z "$wifi" ]; then acts wifi "$ic Disconnected"
+        else acts wifi "$ic ${wifi#*:} ${wifi%%:*}%"; fi
+    else acts wifi "$ic"; fi
+}
+seg_clip() {
+    if opened clip; then acts clip "%{F#cba6f7}${G_CLIP}%{F-} %{F#6c7086}${clip}%{F-}"   # muted text
+    else acts clip "%{F#cba6f7}${G_CLIP}%{F-}"; fi
+}
+# Volume has no open form — dunst already shows an OSD on change. It just sits on
+# the right; its actions route through the OSD script (so scroll/mute also pop
+# the dunst bar), never through the open mechanism.
 seg_vol() {
     [ -z "$vol" ] && return
     local color rest glyph icon
@@ -200,8 +192,7 @@ seg_vol() {
     printf '%%{A1:%s mute:}%%{A3:pavucontrol:}%%{A4:%s up:}%%{A5:%s down:}%s%%{A}%%{A}%%{A}%%{A}' \
         "$VOLOSD" "$VOLOSD" "$VOLOSD" "$icon"
 }
-seg_clip() { acts clip "%{F#cba6f7}${G_CLIP}%{F-}"; }
-# caffeine toggles on click (no centre form); power launches the menu.
+# caffeine toggles on click (no open form); power launches the menu.
 seg_caffeine() { [ -z "$caf" ] && return; printf '%%{A1:%s/caffeine.sh toggle:}%s%%{A}' "$BAR" "$caf"; }
 seg_power() { printf '%%{A1:%s:}%%{F#f38ba8}%s%%{F-}%%{A}' "$POWERMENU" "$G_POWER"; }
 
@@ -215,49 +206,25 @@ render() {
     printf '%s' "$out"
 }
 
-# ---- centre: the open section's full form, else the date ----
-full() {
-    case "$1" in
-        clip) printf '%%{F#cba6f7}%s%%{F-} %%{F#6c7086}%s%%{F-}' "$G_CLIP" "$clip" ;;   # muted text
-        pomo) printf '%s' "$pomo" ;;
-        music) printf '%s' "$music" ;;
-        wifi)
-            if [ -z "$wifi" ]; then printf '%s Disconnected' "$(wifi_icon)"
-            else printf '%s %s %s%%' "$(wifi_icon)" "${wifi#*:}" "${wifi%%:*}"; fi ;;
-    esac
-}
-center() {
-    local sec exp now d f
-    read -r sec exp 2>/dev/null <"$OPEN"
-    printf -v now '%(%s)T' -1
-    # Fall through to the date if the open section has nothing to show (e.g. the
-    # player quit), so the centre never goes blank for AUTO_SECS.
-    if [ -n "${sec:-}" ] && ((now <= ${exp:-0})) && f=$(full "$sec") && [ -n "$f" ]; then
-        acts "$sec" "$f"                    # centre item carries the same click actions
-    else
-        printf -v d "%($DFMT)T" -1          # builtin clock, no subshell per tick
-        printf '%%{F#cdd6f4}%s%%{F-}' "$d"
-    fi
-}
-
-# The right icons only change on data events, so redraw them after an event, not
-# on every tick. The centre is checked each tick (cheap: builtin clock) so a
-# click or state change shows within ~0.1s.
-draw_right() { local out; out="$(render)"; [ "$out" != "$prev" ] && { printf '%s\n' "$out"; prev=$out; }; }
-draw_right
+# Redraw only when the icons could have changed: after a data event (dirty), or
+# when the open-state signature changes (click, or a section expiring). This
+# keeps the idle bar from re-running render() — and its subshells — every tick.
+draw() { local out; out="$(render)"; [ "$out" != "$prev" ] && { printf '%s\n' "$out"; prev=$out; }; }
+prevsig=''; dirty=1
 while :; do
-    c="$(center)"
-    # atomic write: the 10Hz centerloop reader must never catch the file mid-write
-    [ "$c" != "$prevc" ] && { printf '%s\n' "$c" >"$CENTER.tmp" && mv "$CENTER.tmp" "$CENTER"; prevc=$c; }
-    if IFS=$'\t' read -r -t 0.1 -u 3 kind payload; then
+    read -r osec oexp 2>/dev/null <"$OPEN" || { osec=''; oexp=0; }
+    printf -v now '%(%s)T' -1
+    sig="$osec $((now <= ${oexp:-0}))"
+    { [ "$sig" != "$prevsig" ] || [ "$dirty" = 1 ]; } && { draw; prevsig=$sig; dirty=0; }
+    if IFS=$'\t' read -r -t 0.2 -u 3 kind payload; then
         case "$kind" in
             pomo) pomo=$payload; maybe_open pomo "$payload" ;;
             music) music=$payload; maybe_open music "$payload" ;;
             wifi) wifi=$payload; maybe_open wifi "$payload" ;;
-            caf) caf=$payload ;;   # no centre form -> no auto-open
+            caf) caf=$payload ;;   # no open form -> no auto-open
             vol) vol=$payload ;;   # right-side only -> no auto-open
             clip) clip=$payload; maybe_open clip "$payload" ;;
         esac
-        draw_right
+        dirty=1
     fi
 done
