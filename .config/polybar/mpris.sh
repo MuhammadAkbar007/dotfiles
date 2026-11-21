@@ -45,15 +45,15 @@ player_icon() {
 LAST_FILE="${XDG_RUNTIME_DIR:-/tmp}/polybar-mpris-last"
 last="$(cat "$LAST_FILE" 2>/dev/null)" || last=''
 
-# Fields pulled per player, tab-separated. Order matters: the awk below treats a
-# player as "has a track" when EITHER artist or title is non-empty, so a song
-# with only one of the two tags still shows (and browser tabs with a live media
-# session but no metadata are still skipped).
+# Fields pulled per player, tab-separated. A player counts when EITHER artist or
+# title is non-empty, OR it is actively Playing (VLC playing a local video has no
+# artist/title, only a url — the caller falls back to its filename). Paused
+# browser tabs with no metadata are still skipped.
 pick_player() {
     playerctl -a metadata \
         --format '{{status}}'$'\t''{{playerName}}'$'\t''{{xesam:artist}}'$'\t''{{title}}' 2>/dev/null |
         awk -F'\t' -v last="$last" \
-            '($3 != "" || $4 != "") { if ($1 == "Playing" && !p) p = $0
+            '($3 != "" || $4 != "" || $1 == "Playing" || $2 == last) { if ($1 == "Playing" && !p) p = $0
                                       if ($2 == last && !l) l = $0
                                       if (!f) f = $0 }
              END { print (p ? p : (l ? l : f)) }'
@@ -132,8 +132,6 @@ case "$status" in
     *) exit 0 ;; # Stopped / unknown -> show nothing
 esac
 
-picon="$(player_icon "$player")"
-
 # Truncate long titles with an ellipsis (waybar did this via max-length).
 # (Done BEFORE adding colour tags so the length check counts real characters,
 # not the %{F...} markup.)
@@ -148,4 +146,5 @@ if [ "$dim" -eq 1 ]; then
     title="%{T5}%{F${COL_DIM}}${title}%{F-}%{T-}"
 fi
 
-printf '%s %s  %s\n' "$picon" "$sicon" "$title"
+# Status icon + title only (no per-player source icon).
+printf '%s  %s\n' "$sicon" "$title"

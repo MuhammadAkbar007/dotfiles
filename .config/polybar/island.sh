@@ -4,7 +4,7 @@
 # expands IN PLACE to its full form for AUTO_SECS, then collapses. One section
 # open at a time. The clock/date is a separate centre module, untouched.
 #
-# Producers are the existing bar scripts (pomodoro.sh, mpris.sh, pulseaudio.sh,
+# Producers are the existing bar scripts (prayer.sh, mpris.sh, pulseaudio.sh,
 # caffeine.sh, clip-show.sh) plus nmcli; colours come from their output / the
 # current palette, so the look is unchanged. Transparent, no rounded shape.
 set -u
@@ -12,6 +12,7 @@ set -u
 DIR="${XDG_RUNTIME_DIR:-/tmp}/polybar-island"
 BAR="$HOME/.config/polybar"
 OPEN="$DIR/open"         # "<section> <expiry-epoch>"; collapsed once now > expiry
+CLIPFIFO="$DIR/clipfifo" # copyq writes a trigger here on each copy (event-driven clip)
 AUTO_SECS=5              # how long any open (manual or state-change) stays
 
 G_PLAY=$''         # nf-fa-play_circle  (mpris.sh ICON_PLAY)
@@ -21,13 +22,12 @@ G_W0=$'\U000f092f' G_W1=$'\U000f091f' G_W2=$'\U000f0922' G_W3=$'\U000f0925' G_W4
 G_WOFF=$'\U000f092e'
 G_POWER=$'⏻'        # ⏻ IEC power (the power module's glyph)
 G_CLIP=$'\U000f014d'     # nf-md-clipboard (the clipboard module's prefix glyph)
-G_POMO=$'\U000f13ab'     # the timer glyph pomodoro.sh uses when running
 POWERMENU="$HOME/.config/rofi/powermenu/powermenu.sh"
 CLIPSHOW="$HOME/.config/i3/clipboard/clip-show.sh"
 CLIPMENU="$HOME/.config/i3/clipboard/clip-menu.sh"
 CLIPCLR="$HOME/.config/i3/clipboard/clip-clear.sh"
 NETSH="$HOME/.config/rofi/network/network.sh"
-POMOCTL="python3 /home/akbar/akbarDev/pet-projects/pomodoro/pomodoroctl.py"
+PRAYERPOP="$HOME/.config/polybar/prayer_popup.sh"
 VOLOSD="$HOME/.config/i3/osd/volume.sh"
 
 mkdir -p "$DIR"
@@ -59,9 +59,7 @@ if [ "${1-}" = do ]; then
         music:right) exec "$BAR/mpris.sh" next ;;
         music:up)    exec "$BAR/mpris.sh" cycle ;;
         music:down)  exec "$BAR/mpris.sh" cycle-prev ;;
-        pomo:left)   exec $POMOCTL toggle ;;
-        pomo:right)  exec $POMOCTL next ;;
-        pomo:mid)    exec $POMOCTL reset ;;
+        prayer:left) exec kitty -e "$PRAYERPOP" ;;   # second click -> full day popup
         wifi:left)   exec kitty -e nmtui ;;    # second click -> straight to the TUI
         wifi:right)  exec "$NETSH" ;;           # rofi applet on right-click
         clip:left)   exec "$CLIPMENU" ;;
@@ -85,11 +83,12 @@ mkfifo "$FIFO"
 exec 3<>"$FIFO"
 set -m
 pgids=()
-cleanup() { local pg; for pg in "${pgids[@]}"; do kill -- -"$pg" 2>/dev/null; done; rm -f "$FIFO"; }
+cleanup() { local pg; for pg in "${pgids[@]}"; do kill -- -"$pg" 2>/dev/null; done; rm -f "$FIFO" "$CLIPFIFO"; }
 trap cleanup EXIT
 trap 'exit 0' TERM INT
 
-{ "$BAR/pomodoro.sh" 2>/dev/null | while IFS= read -r l; do printf 'pomo\t%s\n' "$l"; done; } 3>&- >"$FIFO" &
+# prayer times: poll prayer.sh (changes slowly; the old module used 60s)
+{ while :; do printf 'prayer\t%s\n' "$("$BAR/prayer.sh" 2>/dev/null)"; sleep 60; done; } 3>&- >"$FIFO" &
 pgids+=("$!")
 # ponytail: 1s poll, same cadence the old mpris module used
 { while :; do printf 'music\t%s\n' "$("$BAR/mpris.sh" 2>/dev/null)"; sleep 1; done; } 3>&- >"$FIFO" &
@@ -119,20 +118,25 @@ pgids+=("$!")
 # volume: pulseaudio.sh is a tail script — prints "<icon> <vol>%" on each change
 { "$BAR/pulseaudio.sh" 2>/dev/null | while IFS= read -r l; do printf 'vol\t%s\n' "$l"; done; } 3>&- >"$FIFO" &
 pgids+=("$!")
-# clipboard: poll clip-show.sh (already %{..}-safe and truncated). Fast poll so a
-# copy shows near-instantly; clip-show.sh is a cheap copyq read.
-{ while :; do printf 'clip\t%s\n' "$("$CLIPSHOW" 2>/dev/null)"; sleep 0.3; done; } 3>&- >"$FIFO" &
+# clipboard: event-driven, no polling. We hold $CLIPFIFO open read-write so
+# copyq's trigger write (see copyq-setup.sh) never blocks and the read never
+# EOFs; each trigger re-reads clip-show.sh. clip-show.sh stays %{..}-safe/truncated.
+rm -f "$CLIPFIFO"; mkfifo "$CLIPFIFO"
+{
+    exec 4<>"$CLIPFIFO"
+    printf 'clip\t%s\n' "$("$CLIPSHOW" 2>/dev/null)"        # initial state
+    while IFS= read -r _ <&4; do printf 'clip\t%s\n' "$("$CLIPSHOW" 2>/dev/null)"; done
+} 3>&- >"$FIFO" &
 pgids+=("$!")
 
-pomo='' music='' wifi='' caf='' vol='' clip='' prev=''
+prayer='' music='' wifi='' caf='' vol='' clip='' prev=''
 
-# Auto-open a section for AUTO_SECS when its meaningful state changes. Some
-# payloads churn (pomodoro counts down every tick, wifi signal wiggles), so the
-# "change key" ignores that: pomodoro keys on phase colour, wifi on SSID only.
+# Auto-open a section for AUTO_SECS when its meaningful state changes. The wifi
+# payload churns (signal level wiggles), so its "change key" ignores that and
+# keys on the SSID only.
 declare -A lastkey seen
 autokey() {
     case "$1" in
-        pomo) printf '%s' "${2%%\}*}" ;;   # phase colour, not the countdown
         wifi) printf '%s' "${2#*:}" ;;      # ssid, not the signal level
         *)    printf '%s' "$2" ;;
     esac
@@ -157,12 +161,14 @@ wifi_icon() {   # coloured ramp glyph, or the disconnected glyph
     else ramp=$G_W0; fi
     printf '%%{F#8839ef}%s%%{F-}' "$ramp"
 }
-# pomodoro.sh's label varies (running = glyph+time, idle = " pomodoro "), so the
-# compact icon is a fixed timer glyph tinted with the phase colour; open = label.
-seg_pomo() {
-    [ -z "$pomo" ] && return
-    if opened pomo; then acts pomo "$pomo"
-    else acts pomo "${pomo%%\}*}}${G_POMO}%{F-}"; fi
+# prayer.sh prints "<mosque-icon>  <next prayer> | <countdown>" (no colour).
+# Compact: just the accent-tinted icon; open: the whole accent-tinted line.
+seg_prayer() {
+    [ -z "$prayer" ] && return
+    local icon="${prayer%% *}" body   # the (tall) mosque glyph; render it in font-6 (%{T7})
+    if opened prayer; then body="%{F#df8e1d}%{T7}${icon}%{T-}${prayer#"$icon"}%{F-}"
+    else body="%{F#df8e1d}%{T7}${icon}%{T-}%{F-}"; fi
+    printf '%s ' "$(acts prayer "$body")"   # trailing space -> a bit more gap before mpris
 }
 seg_music() {
     [ -z "$music" ] && return
@@ -198,7 +204,7 @@ seg_power() { printf '%%{A1:%s:}%%{F#f38ba8}%s%%{F-}%%{A}' "$POWERMENU" "$G_POWE
 
 render() {
     local out='' seg
-    for seg in "$(seg_clip)" "$(seg_pomo)" "$(seg_music)" "$(seg_wifi)" "$(seg_vol)" "$(seg_caffeine)" "$(seg_power)"; do
+    for seg in "$(seg_clip)" "$(seg_prayer)" "$(seg_music)" "$(seg_wifi)" "$(seg_vol)" "$(seg_caffeine)" "$(seg_power)"; do
         [ -n "$seg" ] || continue
         [ -n "$out" ] && out+=' '
         out+="$seg"
@@ -218,7 +224,7 @@ while :; do
     { [ "$sig" != "$prevsig" ] || [ "$dirty" = 1 ]; } && { draw; prevsig=$sig; dirty=0; }
     if IFS=$'\t' read -r -t 0.2 -u 3 kind payload; then
         case "$kind" in
-            pomo) pomo=$payload; maybe_open pomo "$payload" ;;
+            prayer) prayer=$payload ;;   # click-driven only -> no auto-open
             music) music=$payload; maybe_open music "$payload" ;;
             wifi) wifi=$payload; maybe_open wifi "$payload" ;;
             caf) caf=$payload ;;   # no open form -> no auto-open
