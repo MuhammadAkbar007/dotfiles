@@ -168,7 +168,7 @@ seg_prayer() {
     local icon="${prayer%% *}" body   # the (tall) mosque glyph; render it in font-6 (%{T7})
     if opened prayer; then body="%{F#df8e1d}%{T7}${icon}%{T-}${prayer#"$icon"}%{F-}"
     else body="%{F#df8e1d}%{T7}${icon}%{T-}%{F-}"; fi
-    printf '%s ' "$(acts prayer "$body")"   # trailing space -> a bit more gap before mpris
+    printf ' %s ' "$(acts prayer "$body")"   # extra gap on both sides of prayer
 }
 seg_music() {
     [ -z "$music" ] && return
@@ -184,8 +184,10 @@ seg_wifi() {
     else acts wifi "$ic"; fi
 }
 seg_clip() {
-    if opened clip; then acts clip "%{F#cba6f7}${G_CLIP}%{F-} %{F#6c7086}${clip}%{F-}"   # muted text
-    else acts clip "%{F#cba6f7}${G_CLIP}%{F-}"; fi
+    local body
+    if opened clip; then body="%{F#cba6f7}${G_CLIP}%{F-} %{F#6c7086}${clip}%{F-}"   # muted text
+    else body="%{F#cba6f7}${G_CLIP}%{F-}"; fi
+    printf '%s ' "$(acts clip "$body")"   # trailing space -> gap before mpris
 }
 # Volume has no open form — dunst already shows an OSD on change. It just sits on
 # the right; its actions route through the OSD script (so scroll/mute also pop
@@ -204,7 +206,7 @@ seg_power() { printf '%%{A1:%s:}%%{F#f38ba8}%s%%{F-}%%{A}' "$POWERMENU" "$G_POWE
 
 render() {
     local out='' seg
-    for seg in "$(seg_clip)" "$(seg_prayer)" "$(seg_music)" "$(seg_wifi)" "$(seg_vol)" "$(seg_caffeine)" "$(seg_power)"; do
+    for seg in "$(seg_clip)" "$(seg_music)" "$(seg_wifi)" "$(seg_prayer)" "$(seg_vol)" "$(seg_caffeine)" "$(seg_power)"; do
         [ -n "$seg" ] || continue
         [ -n "$out" ] && out+=' '
         out+="$seg"
