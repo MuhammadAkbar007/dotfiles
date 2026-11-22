@@ -5,26 +5,21 @@
 # open at a time. The clock/date is a separate centre module, untouched.
 #
 # Producers are the existing bar scripts (prayer.sh, mpris.sh, pulseaudio.sh,
-# caffeine.sh, clip-show.sh) plus nmcli; colours come from their output / the
+# caffeine.sh) plus nmcli; colours come from their output / the
 # current palette, so the look is unchanged. Transparent, no rounded shape.
 set -u
 
 DIR="${XDG_RUNTIME_DIR:-/tmp}/polybar-island"
 BAR="$HOME/.config/polybar"
 OPEN="$DIR/open"         # "<section> <expiry-epoch>"; collapsed once now > expiry
-CLIPFIFO="$DIR/clipfifo" # copyq writes a trigger here on each copy (event-driven clip)
 AUTO_SECS=5              # how long any open (manual or state-change) stays
 
 # nf-md-wifi_strength ramp, matching the network module's ramp-signal glyphs
 G_W0=$'\U000f092f' G_W1=$'\U000f091f' G_W2=$'\U000f0922' G_W3=$'\U000f0925' G_W4=$'\U000f0928'
 G_WOFF=$'\U000f092e'
 G_POWER=$'⏻'        # ⏻ IEC power (the power module's glyph)
-G_CLIP=$'\U000f014d'     # nf-md-clipboard (the clipboard module's prefix glyph)
 G_POMO=$'\U000f13ab'     # the timer glyph pomodoro.sh uses when running
 POWERMENU="$HOME/.config/rofi/powermenu/powermenu.sh"
-CLIPSHOW="$HOME/.config/i3/clipboard/clip-show.sh"
-CLIPMENU="$HOME/.config/i3/clipboard/clip-menu.sh"
-CLIPCLR="$HOME/.config/i3/clipboard/clip-clear.sh"
 NETSH="$HOME/.config/rofi/network/network.sh"
 PRAYERPOP="$HOME/.config/polybar/prayer_popup.sh"
 POMOCTL="python3 /home/akbar/akbarDev/pet-projects/pomodoro/pomodoroctl.py"
@@ -59,8 +54,6 @@ if [ "${1-}" = do ]; then
         prayer:left) exec kitty -e "$PRAYERPOP" ;;   # second click -> full day popup
         wifi:left)   exec kitty -e nmtui ;;    # second click -> straight to the TUI
         wifi:right)  exec "$NETSH" ;;           # rofi applet on right-click
-        clip:left)   exec "$CLIPMENU" ;;
-        clip:right)  exec "$CLIPCLR" ;;
     esac
     exit 0
 fi
@@ -80,7 +73,7 @@ mkfifo "$FIFO"
 exec 3<>"$FIFO"
 set -m
 pgids=()
-cleanup() { local pg; for pg in "${pgids[@]}"; do kill -- -"$pg" 2>/dev/null; done; rm -f "$FIFO" "$CLIPFIFO"; }
+cleanup() { local pg; for pg in "${pgids[@]}"; do kill -- -"$pg" 2>/dev/null; done; rm -f "$FIFO"; }
 trap cleanup EXIT
 trap 'exit 0' TERM INT
 
@@ -112,18 +105,8 @@ pgids+=("$!")
 # caffeine: caffeine.sh prints its own coloured on/off icon each tick
 { while :; do printf 'caf\t%s\n' "$("$BAR/caffeine.sh" 2>/dev/null)"; sleep 1; done; } 3>&- >"$FIFO" &
 pgids+=("$!")
-# clipboard: event-driven, no polling. We hold $CLIPFIFO open read-write so
-# copyq's trigger write (see copyq-setup.sh) never blocks and the read never
-# EOFs; each trigger re-reads clip-show.sh. clip-show.sh stays %{..}-safe/truncated.
-rm -f "$CLIPFIFO"; mkfifo "$CLIPFIFO"
-{
-    exec 4<>"$CLIPFIFO"
-    printf 'clip\t%s\n' "$("$CLIPSHOW" 2>/dev/null)"        # initial state
-    while IFS= read -r _ <&4; do printf 'clip\t%s\n' "$("$CLIPSHOW" 2>/dev/null)"; done
-} 3>&- >"$FIFO" &
-pgids+=("$!")
 
-pomo='' prayer='' wifi='' caf='' clip='' prev=''
+pomo='' prayer='' wifi='' caf='' prev=''
 
 # Auto-open a section for AUTO_SECS when its meaningful state changes. The wifi
 # payload churns (signal level wiggles), so its "change key" ignores that and
@@ -179,19 +162,13 @@ seg_wifi() {
         else acts wifi "$ic ${wifi#*:} ${wifi%%:*}%"; fi
     else acts wifi "$ic"; fi
 }
-seg_clip() {
-    local body
-    if opened clip; then body="%{F#cba6f7}${G_CLIP}%{F-} %{F#6c7086}${clip}%{F-}"   # muted text
-    else body="%{F#cba6f7}${G_CLIP}%{F-}"; fi
-    printf '%s ' "$(acts clip "$body")"   # trailing space -> gap before mpris
-}
 # caffeine toggles on click (no open form); power launches the menu.
 seg_caffeine() { [ -z "$caf" ] && return; printf '%%{A1:%s/caffeine.sh toggle:}%s%%{A}' "$BAR" "$caf"; }
 seg_power() { printf '%%{A1:%s:}%%{F#f38ba8}%s%%{F-}%%{A}' "$POWERMENU" "$G_POWER"; }
 
 render() {
     local out='' seg
-    for seg in "$(seg_clip)" "$(seg_pomo)" "$(seg_wifi)" "$(seg_prayer)" "$(seg_caffeine)" "$(seg_power)"; do
+    for seg in "$(seg_pomo)" "$(seg_wifi)" "$(seg_prayer)" "$(seg_caffeine)" "$(seg_power)"; do
         [ -n "$seg" ] || continue
         [ -n "$out" ] && out+=' '
         out+="$seg"
@@ -215,7 +192,6 @@ while :; do
             prayer) prayer=$payload ;;   # click-driven only -> no auto-open
             wifi) wifi=$payload; maybe_open wifi "$payload" ;;
             caf) caf=$payload ;;   # no open form -> no auto-open
-            clip) clip=$payload; maybe_open clip "$payload" ;;
         esac
         dirty=1
     fi

@@ -22,9 +22,8 @@ copyq config check_selection false >/dev/null 2>&1  # ignore mouse-highlight noi
 copyq config maxitems       200   >/dev/null 2>&1
 
 # 3. Install (idempotently) the "Polybar refresh" automatic command: on every
-#    new clipboard entry, poke the polybar island's clipboard FIFO so it re-reads
-#    the clipboard event-driven (no interval poll). The [ -p ] guard + timeout
-#    mean copyq never blocks when the island isn't running.
+#    new clipboard entry, push a refresh to the polybar `clipboard` module via
+#    its IPC hook. This makes the polybar label event-driven (no interval poll).
 #    NOTE: keep no in-string "\n" here — copyq's eval turns it into a real
 #    newline and breaks the string literal; real newlines between statements OK.
 copyq eval -- "$(cat <<'JS'
@@ -33,7 +32,7 @@ keep.push({
     name: "Polybar refresh",
     automatic: true,
     enable: true,
-    cmd: "copyq: execute('sh', '-c', 'f=${XDG_RUNTIME_DIR:-/tmp}/polybar-island/clipfifo; [ -p \"$f\" ] && timeout 1 sh -c \"echo > $f\"')"
+    cmd: "copyq: execute('polybar-msg', 'action', '#clipboard.hook.0')"
 });
 setCommands(keep);
 JS
