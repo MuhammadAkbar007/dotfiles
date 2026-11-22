@@ -28,7 +28,6 @@ CLIPCLR="$HOME/.config/i3/clipboard/clip-clear.sh"
 NETSH="$HOME/.config/rofi/network/network.sh"
 PRAYERPOP="$HOME/.config/polybar/prayer_popup.sh"
 POMOCTL="python3 /home/akbar/akbarDev/pet-projects/pomodoro/pomodoroctl.py"
-VOLOSD="$HOME/.config/i3/osd/volume.sh"
 
 mkdir -p "$DIR"
 
@@ -113,9 +112,6 @@ pgids+=("$!")
 # caffeine: caffeine.sh prints its own coloured on/off icon each tick
 { while :; do printf 'caf\t%s\n' "$("$BAR/caffeine.sh" 2>/dev/null)"; sleep 1; done; } 3>&- >"$FIFO" &
 pgids+=("$!")
-# volume: pulseaudio.sh is a tail script — prints "<icon> <vol>%" on each change
-{ "$BAR/pulseaudio.sh" 2>/dev/null | while IFS= read -r l; do printf 'vol\t%s\n' "$l"; done; } 3>&- >"$FIFO" &
-pgids+=("$!")
 # clipboard: event-driven, no polling. We hold $CLIPFIFO open read-write so
 # copyq's trigger write (see copyq-setup.sh) never blocks and the read never
 # EOFs; each trigger re-reads clip-show.sh. clip-show.sh stays %{..}-safe/truncated.
@@ -127,7 +123,7 @@ rm -f "$CLIPFIFO"; mkfifo "$CLIPFIFO"
 } 3>&- >"$FIFO" &
 pgids+=("$!")
 
-pomo='' prayer='' wifi='' caf='' vol='' clip='' prev=''
+pomo='' prayer='' wifi='' caf='' clip='' prev=''
 
 # Auto-open a section for AUTO_SECS when its meaningful state changes. The wifi
 # payload churns (signal level wiggles), so its "change key" ignores that and
@@ -189,24 +185,13 @@ seg_clip() {
     else body="%{F#cba6f7}${G_CLIP}%{F-}"; fi
     printf '%s ' "$(acts clip "$body")"   # trailing space -> gap before mpris
 }
-# Volume has no open form — dunst already shows an OSD on change. It just sits on
-# the right; its actions route through the OSD script (so scroll/mute also pop
-# the dunst bar), never through the open mechanism.
-seg_vol() {
-    [ -z "$vol" ] && return
-    local color rest glyph icon
-    color="${vol%%\}*}}"; rest="${vol#*\}}"; glyph="${rest%% *}"
-    icon="${color}${glyph}%{F-}"
-    printf '%%{A1:%s mute:}%%{A3:pavucontrol:}%%{A4:%s up:}%%{A5:%s down:}%s%%{A}%%{A}%%{A}%%{A}' \
-        "$VOLOSD" "$VOLOSD" "$VOLOSD" "$icon"
-}
 # caffeine toggles on click (no open form); power launches the menu.
 seg_caffeine() { [ -z "$caf" ] && return; printf '%%{A1:%s/caffeine.sh toggle:}%s%%{A}' "$BAR" "$caf"; }
 seg_power() { printf '%%{A1:%s:}%%{F#f38ba8}%s%%{F-}%%{A}' "$POWERMENU" "$G_POWER"; }
 
 render() {
     local out='' seg
-    for seg in "$(seg_clip)" "$(seg_pomo)" "$(seg_wifi)" "$(seg_prayer)" "$(seg_vol)" "$(seg_caffeine)" "$(seg_power)"; do
+    for seg in "$(seg_clip)" "$(seg_pomo)" "$(seg_wifi)" "$(seg_prayer)" "$(seg_caffeine)" "$(seg_power)"; do
         [ -n "$seg" ] || continue
         [ -n "$out" ] && out+=' '
         out+="$seg"
@@ -230,7 +215,6 @@ while :; do
             prayer) prayer=$payload ;;   # click-driven only -> no auto-open
             wifi) wifi=$payload; maybe_open wifi "$payload" ;;
             caf) caf=$payload ;;   # no open form -> no auto-open
-            vol) vol=$payload ;;   # right-side only -> no auto-open
             clip) clip=$payload; maybe_open clip "$payload" ;;
         esac
         dirty=1
